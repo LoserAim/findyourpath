@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "env_hero\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true
+}
