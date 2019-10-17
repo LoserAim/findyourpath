@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Feats.apps.FeatsConfig', #new
     'Modifiers.apps.ModifiersConfig',
+    'Requirements.apps.RequirementsConfig',
     'rest_framework',
 ]
 

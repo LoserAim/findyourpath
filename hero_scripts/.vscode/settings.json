@@ -1,5 +1,8 @@
 {
     "python.pythonPath": "env_hero\\Scripts\\python.exe",
-    "python.linting.pylintEnabled": false,
-    "python.linting.enabled": false
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"
+    ],
 }

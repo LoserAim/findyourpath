@@ -16,6 +16,6 @@ MODIFIER_CHOICES = [
 # Create your models here.
 class Modifier(models.Model):
 
-    feat = models.ForeignKey(Feat, related_name='modifiers', on_delete=models.SET_NULL, null=True)
+    feat = models.ForeignKey(Feat, related_name='modifiers', on_delete=models.CASCADE)
     mod_type = models.CharField(max_length=3, choices=MODIFIER_CHOICES, blank=False)
     mod_value = models.IntegerField(blank=False)
