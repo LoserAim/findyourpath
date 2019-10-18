@@ -7,13 +7,10 @@ from Feats.models import (
 
 
 
+
 class FeatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feat
-        fields = [
-            'id',
-            'title',
-            'description',
-            'level',
-        ]
+        fields = '__all__'
+
