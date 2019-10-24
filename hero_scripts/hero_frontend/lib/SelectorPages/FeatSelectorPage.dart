@@ -35,11 +35,36 @@ class _FeatSelectorPageState extends State<FeatSelectorPage> {
         ),
         body: ListView(
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                onChanged: (val) {
+                  featList.clear();
+                  getFeats();
+                },
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 25.0),
+                  hintText: "Search here",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: null,
+                  ),
+                ),
+                )
+              ),
+            SizedBox(
+              height: 10.0,
+            ),
             ListView.builder(
+              physics: BouncingScrollPhysics(),
               //TODO: Need to get list of feats!
-              itemCount: 1,
+              shrinkWrap: true,
+              itemCount: featList.length,
               itemBuilder: (BuildContext context, int index) {
-              return ;
+              return buildNIFeatCard(featList[index]);
              },
             )
           ],
@@ -58,8 +83,10 @@ Widget buildNIFeatCard(data) {
     child: Column(
         children: <Widget>[
           ListTile(
-              title: data['title'],
-            )
+              title: Text(data['title']),
+              subtitle: Text(data['description']),
+            ),
+            Divider(color: Colors.black,)
         ],
       ),
     );
