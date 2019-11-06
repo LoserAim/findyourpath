@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'Feats.apps.FeatsConfig', #new
     'Modifiers.apps.ModifiersConfig',
     'Requirements.apps.RequirementsConfig',
+    'Tags.apps.TagsConfig',
     'rest_framework',
+    
 ]
 
 MIDDLEWARE = [

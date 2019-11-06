@@ -14,8 +14,8 @@ class FeatSelectorPage extends StatefulWidget {
 class _FeatSelectorPageState extends State<FeatSelectorPage> {
   List<dynamic> featList = [];
 
-  getFeats() async {
-    APIservice.getFeatList().then((responseBody) {
+  getFeats(value) async {
+    APIservice.getGeneralFeatList(value).then((responseBody) {
       List<dynamic> data = jsonDecode(responseBody);
       setState(() {
        data.forEach((value) {
@@ -40,7 +40,7 @@ class _FeatSelectorPageState extends State<FeatSelectorPage> {
               child: TextField(
                 onChanged: (val) {
                   featList.clear();
-                  getFeats();
+                  getFeats(val);
                 },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(left: 25.0),

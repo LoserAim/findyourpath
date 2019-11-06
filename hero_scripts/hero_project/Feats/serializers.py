@@ -2,6 +2,7 @@ from rest_framework import serializers
 from Feats.models import (
     Feat, 
 ) 
+from Tags import models
 
 
 
@@ -9,8 +10,16 @@ from Feats.models import (
 
 
 class FeatSerializer(serializers.ModelSerializer):
-
+    tags = serializers.PrimaryKeyRelatedField(required=False, queryset=models.Tag.objects.all(), many=True)
     class Meta:
         model = Feat
-        fields = '__all__'
+        fields = [
+            'id',
+            'title',
+            'description',
+            'level',
+            'pgnum',
+            'book',
+            'tags',
+        ]
 

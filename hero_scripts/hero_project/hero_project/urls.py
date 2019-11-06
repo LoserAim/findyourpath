@@ -21,4 +21,5 @@ urlpatterns = [
     path('feats/', include('Feats.urls')),
     path('modifiers/', include('Modifiers.urls')),
     path('requirements/', include('Requirements.urls')),
+    path('tags/', include('Tags.urls')),
 ]
