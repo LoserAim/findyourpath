@@ -82,9 +82,12 @@ Widget buildNIFeatCard(data) {
     padding: const EdgeInsets.all(8.0),
     child: Column(
         children: <Widget>[
-          ListTile(
-              title: Text(data['title']),
-              subtitle: Text(data['description']),
+          ExpansionTile(
+              title: Text(data['title'] + ' ' + data['level'].toString()),
+              
+              children: <Widget>[
+                Text(data['description']),
+              ],
             ),
             Divider(color: Colors.black,)
         ],
