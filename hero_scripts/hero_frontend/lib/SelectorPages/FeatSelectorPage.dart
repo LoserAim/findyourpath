@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:hero_frontend/Models/Feat.dart';
 import '../Services/apihandler.dart';
 
 import 'dart:convert';
@@ -12,14 +13,14 @@ class FeatSelectorPage extends StatefulWidget {
 }
 
 class _FeatSelectorPageState extends State<FeatSelectorPage> {
-  List<dynamic> featList = [];
+  List<Feat> featList = [];
 
   getFeats(value) async {
     APIservice.getGeneralFeatList(value).then((responseBody) {
       List<dynamic> data = jsonDecode(responseBody);
       setState(() {
        data.forEach((value) {
-         featList.add(value);
+         featList.add(Feat.fromMappedJson(value));
        });
       });
     });
@@ -73,24 +74,42 @@ class _FeatSelectorPageState extends State<FeatSelectorPage> {
        );
 
   }
+
+
+
+
+
+    Widget buildNIFeatCard(data) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+            children: <Widget>[
+              ExpansionTile(
+                  title: Text(data.title + ' ' + data.level.toString()),
+                  leading: Checkbox(
+                      value: data.selected,
+                      onChanged: (bool val) { 
+                        setState((){
+                          data.selected = val;
+                          });},),
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(data.description),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(data.book + " Pg. "  + data.pgnum.toString()),
+                    ),
+                    
+                  ],
+                ),
+                Divider(color: Colors.black,)
+            ],
+          ),
+        );
+  }
 }
 
 
 
-Widget buildNIFeatCard(data) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Column(
-        children: <Widget>[
-          ExpansionTile(
-              title: Text(data['title'] + ' ' + data['level'].toString()),
-              
-              children: <Widget>[
-                Text(data['description']),
-              ],
-            ),
-            Divider(color: Colors.black,)
-        ],
-      ),
-    );
-}
