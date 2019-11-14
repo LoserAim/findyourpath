@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Modifiers.apps.ModifiersConfig',
     'Requirements.apps.RequirementsConfig',
     'Tags.apps.TagsConfig',
+    'Ancestries.apps.AncestriesConfig',
     'rest_framework',
     
 ]

@@ -22,4 +22,5 @@ urlpatterns = [
     path('modifiers/', include('Modifiers.urls')),
     path('requirements/', include('Requirements.urls')),
     path('tags/', include('Tags.urls')),
+    path('ancestries/', include('Ancestries.urls')),
 ]
