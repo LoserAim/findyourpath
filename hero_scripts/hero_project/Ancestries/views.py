@@ -13,15 +13,19 @@ class Ability_Boost_FlawViewSet(viewsets.ModelViewSet):
     queryset = models.Ability_Boost_Flaw.objects.all()
     serializer_class = serializers.Ability_Boost_FlawSerializer
 class LanguageViewSet(viewsets.ModelViewSet):
+    lookup_field = 'name'
     queryset = models.Language.objects.all()
     serializer_class = serializers.LanguageSerializer
 class TraitViewSet(viewsets.ModelViewSet):
+    lookup_field = 'name'
     queryset = models.Trait.objects.all()
     serializer_class = serializers.TraitSerializer
 class SpecialAbilityViewSet(viewsets.ModelViewSet):
     queryset = models.SpecialAbility.objects.all()
     serializer_class = serializers.SpecialAbilitySerializer
+    
 class HeritageViewSet(viewsets.ModelViewSet):
+    lookup_field = 'name'
     queryset = models.Heritage.objects.all()
     serializer_class = serializers.HeritageSerializer
 class AncestryViewSet(viewsets.ModelViewSet):

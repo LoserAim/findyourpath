@@ -6,12 +6,25 @@ from rest_framework import (
     decorators,
     response,
 )
-from .models import Feat
-from .serializers import FeatSerializer
+from .models import Feat, Tag, Requirement
+from .serializers import FeatSerializer, TagSerializer, RequirementSerializer
 from django.views.decorators.csrf import csrf_exempt
 
 
-class FeatViewSet(
+class TagsViewSet(
+    viewsets.ModelViewSet, 
+    ):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+
+class RequirementsViewSet(
+    viewsets.ModelViewSet):
+    queryset = Requirement.objects.all()
+    serializer_class = RequirementSerializer
+
+
+class FeatsViewSet(
     viewsets.ModelViewSet):
     queryset = Feat.objects.all()
     serializer_class = FeatSerializer
