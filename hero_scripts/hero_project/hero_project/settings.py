@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Feats.apps.FeatsConfig', #new
     'Modifiers.apps.ModifiersConfig',
     'Ancestries.apps.AncestriesConfig',
+    'Actions.apps.ActionsConfig',
     'rest_framework',
     
 ]

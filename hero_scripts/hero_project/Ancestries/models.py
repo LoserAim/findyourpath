@@ -18,15 +18,11 @@ class SpecialAbility(models.Model):
     description = models.TextField(blank=False)
     def __str__(self):
         return '%d: %s' % (self.id, self.name)
-    #TODO: Edit modifiers for different types Special Abilities may have these
-    #i.e. Ability, Skills, Strikes, etc
 class Heritage(models.Model):
     name        = models.CharField(max_length=256,unique=True)
     description = models.TextField(blank=False)
     def __str__(self):
         return '%d: %s' % (self.id, self.name)
-    # Certain conditional abilities. May have special abilities be expanded
-    # to compensate for this.
 
 
 class Ancestry(models.Model):

@@ -21,4 +21,5 @@ urlpatterns = [
     path('feats/', include('Feats.urls')),
     path('modifiers/', include('Modifiers.urls')),
     path('ancestries/', include('Ancestries.urls')),
+    path('actions/', include('Actions.urls')),
 ]
