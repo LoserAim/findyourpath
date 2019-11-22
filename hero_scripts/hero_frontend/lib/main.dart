@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import './SelectorPages/FeatSelectorPage.dart';
+import 'package:hero_frontend/Pages/Ancestry/AncestrySelectorPage.dart';
+import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
+
 
 void main(){
   runApp(new MaterialApp(
-    title: "FeatSelectorPage",
-    home: new FeatSelectorPage(),
+    title: "Select your crapp",
+   // home: new AncestrySelectorPage(),
+   home: new FeatSelectorPage(),
   ));
 }

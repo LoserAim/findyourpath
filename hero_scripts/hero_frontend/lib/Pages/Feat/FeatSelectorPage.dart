@@ -1,8 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/Models/Feat.dart';
-import '../Services/apihandler.dart';
+import 'package:hero_frontend/Pages/Feat/FeatModel.dart';
+import 'package:hero_frontend/Services/apihandler.dart';
 
 import 'dart:convert';
 
@@ -25,7 +25,13 @@ class _FeatSelectorPageState extends State<FeatSelectorPage> {
       });
     });
   }
-  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getFeats('');
+    
+  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -65,7 +71,7 @@ class _FeatSelectorPageState extends State<FeatSelectorPage> {
               shrinkWrap: true,
               itemCount: featList.length,
               itemBuilder: (BuildContext context, int index) {
-              return buildNIFeatCard(featList[index]);
+              return buildFeatCard(featList[index]);
              },
             )
           ],
@@ -79,13 +85,13 @@ class _FeatSelectorPageState extends State<FeatSelectorPage> {
 
 
 
-    Widget buildNIFeatCard(data) {
+    Widget buildFeatCard(data) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
             children: <Widget>[
               ExpansionTile(
-                  title: Text(data.title + ' ' + data.level.toString()),
+                  title: Text(data.name + ' ' + data.level.toString()),
                   leading: Checkbox(
                       value: data.selected,
                       onChanged: (bool val) { 

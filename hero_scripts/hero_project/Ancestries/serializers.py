@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from Ancestries import models
 from Feats.models import Feat
+from Feats.serializers import FeatSerializer
 
 class Ability_Boost_FlawSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,8 +30,6 @@ class AncestrySerializer(serializers.ModelSerializer):
     languages           = serializers.SlugRelatedField(slug_field='name', read_only=False, queryset=models.Language.objects.all(), many=True)
     traits              = serializers.SlugRelatedField(slug_field='name', read_only=False, queryset=models.Trait.objects.all(), many=True)
     special_abilities   = serializers.SlugRelatedField(slug_field='name', read_only=False, queryset=models.SpecialAbility.objects.all(), many=True)
-    heritages           = serializers.SlugRelatedField(slug_field='name', read_only=False, queryset=models.Heritage.objects.all(), many=True)
-    feats               = serializers.SlugRelatedField(slug_field='name', read_only=False, queryset=Feat.objects.all(), many=True)
     class Meta:
         model = models.Ancestry
         fields = [
@@ -49,5 +48,17 @@ class AncestrySerializer(serializers.ModelSerializer):
             'heritages',
             'feats'
         ]
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data['feats'] != None:
+            data['feats'] = FeatSerializer(
+                Feat.objects.filter(pk__in=data['feats']),
+                many=True).data
+        if data['heritages'] != None:
+            data['heritages'] = HeritageSerializer(
+                models.Heritage.objects.filter(pk__in=data['heritages']),
+                many=True).data
+        return data
+
 
 

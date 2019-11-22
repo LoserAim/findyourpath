@@ -30,6 +30,8 @@ class FeatSerializer(serializers.ModelSerializer):
 
 
 class RequirementSerializer(serializers.ModelSerializer):
+    
+    
     class Meta:
         model = Requirement
         fields = [

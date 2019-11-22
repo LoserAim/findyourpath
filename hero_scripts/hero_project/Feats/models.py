@@ -14,15 +14,16 @@ class Feat(models.Model):
     pgnum       = models.PositiveIntegerField(blank=True, null=True)
     book        = models.TextField(blank=True, null=True)
     tags        = models.ManyToManyField(Tag, related_name='feats', blank=True)
-
+    def __str__(self):
+        return '%d: %s %d' % (self.id, self.name, self.level)
 
 
 class Requirement(models.Model):
     PROFICIENCY_CHOICES = [
-    ('T', 'Trained'),
-    ('E', 'Expert'),
-    ('M', 'Master'),
-    ('L', 'Legend'),
+        ('T', 'Trained'),
+        ('E', 'Expert'),
+        ('M', 'Master'),
+        ('L', 'Legend'),
     ]
     ABILITY_CHOICES = [
         ('STR', 'Strength'),

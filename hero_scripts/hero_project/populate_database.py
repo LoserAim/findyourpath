@@ -4,6 +4,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hero_project.settings')
 import django
 django.setup()
 from Feats import models as fodels
+from Actions import models as Actodels
 from Ancestries import models as AncModel
 
 
@@ -27,6 +28,7 @@ def CreateLanguages():
         ]
     AncModel.Language.objects.bulk_create(data)
 
+
 def CreateAbilityBoostFlaws():
     data = [
         AncModel.Ability_Boost_Flaw(name='Strength'),
@@ -39,6 +41,7 @@ def CreateAbilityBoostFlaws():
         AncModel.Ability_Boost_Flaw(name='Free_2'),
     ]
     AncModel.Ability_Boost_Flaw.objects.bulk_create(data)
+
 
 def CreateAncestryFeats():
     book = "Player's Core Rulebook"
@@ -126,6 +129,7 @@ def CreateAncestryFeats():
     ]
     fodels.Feat.objects.bulk_create(data)
 
+
 def CreateTags():
     data = [
         fodels.Tag(name='Ancestry'),
@@ -138,6 +142,7 @@ def CreateTags():
     ]
     fodels.Tag.objects.bulk_create(data)
 
+
 def CreateAncestryDwarfRelations():
     list_feat_id = fodels.Feat.objects.all()
     list_tag_id = []
@@ -149,6 +154,75 @@ def CreateAncestryDwarfRelations():
         relations.append(fodels.Feat.tags.through(feat_id=feat.id,tag_id=list_tag_id[1].id))
     fodels.Feat.tags.through.objects.bulk_create(relations)
 
+
+def CreateHeritages():
+    data = [
+        AncModel.Heritage(
+            name='Ancient-Blooded Dwarf',
+            description="Dwarven heroes of old could shrug off their enemies' magic, and some of that resistance manifests in you. You gain the Call on Ancient Blood reaction."
+            ),
+        AncModel.Heritage(
+            name='Death Warden Dwarf',
+            description="Your ancestors have been tomb guardians for generations, and the power they cultivated to ward off necromancy has passed on to you. If you roll a success on a saving throw against a necromancy effect, you get a critical success instead."
+            ),
+        AncModel.Heritage(
+            name='Forge Dwarf',
+            description="You have a remarkable adaptation to hot environments from ancestors who inhabited blazing deserts or volcanic chambers beneath the earth. This grants you fire resistance equal to half your level (minimum 1), and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on)."
+            ),
+        AncModel.Heritage(
+            name='Rock Dwarf',
+            description="Your ancestors lived and worked among the great ancient stones of the mountains or the depths of the earth. This makes you solid as a rock when you plant your feet. You gain a +2 circumstance bonus to your Fortitude or Reflex DC against attempts to Shove or Trip you. This bonus also applies to saving throws against spells or effects that attempt to knock you prone. In addition, if any effect would force you to move 10 feet or more, you are moved only half the distance."
+            ),
+        AncModel.Heritage(
+            name='Strong-Blooded Dwarf',
+            description="Your blood runs hearty and strong, and you can shake off toxins. You gain poison resistance equal to half your level (minimum 1), and each of your successful saving throws against a poison affliction reduces its stage by 2, or by 1 for a virulent poison. Each critical success against an ongoing poison reduces its stage by 3, or by 2 for a virulent poison."
+            ),
+    ]
+    heritages = AncModel.Heritage.objects.bulk_create(data)
+    
+
+def CreateSpecialAbilities():
+    data = AncModel.SpecialAbility(
+        name="Darkvision",
+        description="You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white.",
+    )
+    data.save()
+
+
+def CreateTraits():
+    data = [
+        AncModel.Trait(
+            name="Dwarf",
+        ),
+        AncModel.Trait(
+            name="Humanoid",
+        ),
+        AncModel.Trait(
+            name="Halfling",
+        ),
+        AncModel.Trait(
+            name="Goblin",
+        ),
+        AncModel.Trait(
+            name="Gnome",
+        ),
+        AncModel.Trait(
+            name="Elf",
+        ),
+    ]
+    AncModel.Trait.objects.bulk_create(data)
+
+
+def CreateActions():
+    action = Actodels.Action(
+        action_type='Reaction',
+        name='Call on Ancient Blood',
+        trigger="You attempt a saving throw against a magical effect, but you haven't rolled yet.",
+        description="Your ancestors' innate resistance to magic surges, before slowly ebbing down. You gain a +1 circumstance bonus to the triggering saving throw and until the end of this turn.",
+        cost=1,
+        heritage_id=1,
+        )
+    action.save()
+
 if __name__ == "__main__":
 
-    
