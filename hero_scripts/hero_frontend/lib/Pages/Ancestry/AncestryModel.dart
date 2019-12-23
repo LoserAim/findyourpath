@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:hero_frontend/Pages/Feat/FeatModel.dart';
+import 'package:hero_frontend/Settings/TextFormat.dart';
 
 class Heritage {
   int id;
@@ -6,21 +8,19 @@ class Heritage {
   String description;
   bool selected;
   Heritage(this.id, this.name, this.description, {this.selected});
-  Heritage.fromMappedJson(Map<String, dynamic> json) :
-    id = json['id'],
-    name = json['name'],
-    description = json['description'],
-    selected = false;
-  Map<String, dynamic> toJson() =>
-  {
-    'id': id,
-    'name': name,
-    'description' : description,
-  };
+  Heritage.fromMappedJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        description = json['description'],
+        selected = false;
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'description': description,
+      };
 }
 
-
-class Ancestry{
+class Ancestry {
   int id;
   String name;
   int hit_points;
@@ -36,25 +36,23 @@ class Ancestry{
   String book;
   int pgnum;
   bool selected;
-  
 
   Ancestry(
-    this.id,
-    this.hit_points,
-    this.name,
-    this.size,
-    this.speed, 
-    this.ability_boosts, 
-    this.ability_flaws, 
-    this.languages,
-    this.traits,
-    this.special_abilities,
-    this.heritages,
-    this.feats,
-    this.book,
-    this.pgnum,
-    {this.selected}
-    );
+      this.id,
+      this.hit_points,
+      this.name,
+      this.size,
+      this.speed,
+      this.ability_boosts,
+      this.ability_flaws,
+      this.languages,
+      this.traits,
+      this.special_abilities,
+      this.heritages,
+      this.feats,
+      this.book,
+      this.pgnum,
+      {this.selected});
   Ancestry.fromMappedJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
@@ -66,27 +64,100 @@ class Ancestry{
         languages = json['languages'].cast<String>(),
         traits = json['traits'].cast<String>(),
         special_abilities = json['special_abilities'].cast<String>(),
-        heritages = json['heritages'].map((heritage) => Heritage.fromMappedJson(heritage)).cast<Heritage>().toList(),
-        feats = json['feats'].map((feat) => Feat.fromMappedJson(feat)).cast<Feat>().toList(),
+        heritages = json['heritages']
+            .map((heritage) => Heritage.fromMappedJson(heritage))
+            .cast<Heritage>()
+            .toList(),
+        feats = json['feats']
+            .map((feat) => Feat.fromMappedJson(feat))
+            .cast<Feat>()
+            .toList(),
         book = json['book'],
         pgnum = json['pgnum'],
         selected = false;
 
-  Map<String, dynamic> toJson() =>
-    {
-      'id': id,
-      'hit_points': hit_points,
-      'size': size,
-      'speed': speed,
-      'name': name,
-      'ability_boosts': ability_boosts,
-      'ability_flaws': ability_flaws,
-      'languages': languages,
-      'traits': traits,
-      'special_abilities': special_abilities,
-      'heritages': heritages.map((heritage) => heritage.toJson()),
-      'feats': feats.map((feat) => feat.toString()),
-      'book': book,
-      'pgnum': pgnum,
-    };
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'hit_points': hit_points,
+        'size': size,
+        'speed': speed,
+        'name': name,
+        'ability_boosts': ability_boosts,
+        'ability_flaws': ability_flaws,
+        'languages': languages,
+        'traits': traits,
+        'special_abilities': special_abilities,
+        'heritages': heritages.map((heritage) => heritage.toJson()),
+        'feats': feats.map((feat) => feat.toString()),
+        'book': book,
+        'pgnum': pgnum,
+      };
+
+  Widget toCardWidget() {
+    return StreamBuilder(
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Card(
+          child: InkWell(
+            onTap: () => print("You selected ${this.name}"),
+            child: Column(
+              //mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    "${this.name} Ancestry",
+                    style: text_format.headline,
+                  ),
+                ),
+                Align( alignment: Alignment.centerLeft,
+                                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RichText(
+                        //textAlign: TextAlign.left,
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: 'Health Points: \t', 
+                            style: text_format.body2
+                          ),
+                          TextSpan(
+                            text: this.hit_points.toString(),
+                            style: text_format.body1,
+                          )
+                      ])),
+                    ),
+                  ),
+                ),
+                Row(
+                  //mainAxisSize: MainAxisSize.min,
+                  //mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Ability Boosts: ', style: text_format.body2),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          //physics:  BouncingScrollPhysics(),
+                          itemCount: this.ability_boosts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index != this.ability_boosts.length - 1)
+                              return Text("${this.ability_boosts[index]}, ",
+                                  style: text_format.body1);
+                            else
+                              return Text("${this.ability_boosts[index]}",
+                                  style: text_format.body1);
+                          }),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

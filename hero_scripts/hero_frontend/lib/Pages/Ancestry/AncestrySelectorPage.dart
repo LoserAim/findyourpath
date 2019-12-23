@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestryModel.dart';
+import 'package:hero_frontend/Pages/Feat/FeatModel.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 
 class AncestrySelectorPage extends StatefulWidget {
@@ -29,7 +30,53 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    convertAncestryJson();
+    /*
+      this.id,
+      this.hit_points,
+      this.name,
+      this.size,
+      this.speed,
+      this.ability_boosts,
+      this.ability_flaws,
+      this.languages,
+      this.traits,
+      this.special_abilities,
+      this.heritages,
+      this.feats,
+      this.book,
+      this.pgnum,
+      {this.selected});
+    */
+    //convertAncestryJson();
+    ancestryList.add(Ancestry(
+      1,
+      10,
+      'Dwarf',
+      'Medium',
+      20,
+      ['STR', 'WIS'],
+      ['CHA'],
+      ['Dwarf', 'Common'],
+      ['Dwarf', 'Humanoid'],
+      ['Darkvision'],
+      [Heritage(
+        1,
+        'Dwarven Heritage',
+        'This is a temporary description',
+        //true,
+      )],
+      [Feat(
+        1,
+        'Temp Feat Title',
+        'Temp Feat Description',
+        1,
+        999,
+        'N/A',
+        //true
+      )],
+      'N/A',
+      999
+    ));
   }
 
   @override
@@ -37,7 +84,9 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blueAccent.shade700,
-        title: new Text("Select Your Crap"),
+        title: Align(
+          alignment: Alignment.center,
+          child: Container(child: new Text("Ancestries"))),
       ),
       body: ListView(
         children: <Widget>[
@@ -50,7 +99,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
             shrinkWrap: true,
             itemCount: ancestryList.length,
             itemBuilder: (BuildContext context, int index) {
-              return buildAncestryCard(ancestryList[index]);
+              return ancestryList[index].toCardWidget();
             },
           )
         ],
