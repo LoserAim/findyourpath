@@ -108,6 +108,7 @@ class Ancestry {
                     style: text_format.headline,
                   ),
                 ),
+
                 Align( alignment: Alignment.centerLeft,
                                   child: Container(
                     child: Padding(

@@ -5,8 +5,9 @@ class Text_Format {
   static final _color2 = Colors.lightBlue[300];
   static final _color3 = Colors.black;
   static final _color4 = Colors.black26;
+  static final _color5 = Colors.white;
 
-  final display4    = TextStyle(color: _color1, fontSize: 30.0, letterSpacing: 2.0);
+  final display4    = TextStyle(color: _color5, fontSize: 30.0, letterSpacing: 2.0);
   final display3    = TextStyle(color: _color1, fontSize: 26.0, fontWeight: FontWeight.w700);
   final display2    = TextStyle(color: _color1, fontSize: 24.0, fontWeight: FontWeight.w600);
   final display1    = TextStyle(color: _color1, fontSize: 22.0, fontWeight: FontWeight.w500);

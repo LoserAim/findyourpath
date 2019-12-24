@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestryModel.dart';
 import 'package:hero_frontend/Pages/Feat/FeatModel.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
+import 'package:hero_frontend/Settings/TextFormat.dart';
 
 class AncestrySelectorPage extends StatefulWidget {
   AncestrySelectorPage({Key key}) : super(key: key);
@@ -86,7 +87,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
         backgroundColor: Colors.blueAccent.shade700,
         title: Align(
           alignment: Alignment.center,
-          child: Container(child: new Text("Ancestries"))),
+          child: Container(child: new Text("Ancestries", style: text_format.display4,))),
       ),
       body: ListView(
         children: <Widget>[
