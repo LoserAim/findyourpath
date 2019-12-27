@@ -86,34 +86,36 @@ class _FeatSelectorPageState extends State<FeatSelectorPage> {
 
 
     Widget buildFeatCard(data) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-            children: <Widget>[
-              ExpansionTile(
-                  title: Text(data.name + ' ' + data.level.toString()),
-                  leading: Checkbox(
-                      value: data.selected,
-                      onChanged: (bool val) { 
-                        setState((){
-                          data.selected = val;
-                          });},),
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(data.description),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(data.book + " Pg. "  + data.pgnum.toString()),
-                    ),
-                    
-                  ],
-                ),
-                Divider(color: Colors.black,)
-            ],
+      return Card(
+              child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+              children: <Widget>[
+                ExpansionTile(
+                    title: Text(data.name + ' ' + data.level.toString()),
+                    leading: Checkbox(
+                        value: data.selected,
+                        onChanged: (bool val) { 
+                          setState((){
+                            data.selected = val;
+                            });},),
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(data.description),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(data.book + " Pg. "  + data.pgnum.toString()),
+                      ),
+                      
+                    ],
+                  ),
+                  Divider(color: Colors.black,)
+              ],
+            ),
           ),
-        );
+      );
   }
 }
 

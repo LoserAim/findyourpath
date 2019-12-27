@@ -55,7 +55,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
       'Dwarf',
       'Medium',
       20,
-      ['STR', 'WIS'],
+      ['STR', 'WIS', 'FREE'],
       ['CHA'],
       ['Dwarf', 'Common'],
       ['Dwarf', 'Humanoid'],
@@ -78,13 +78,42 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
       'N/A',
       999
     ));
+    ancestryList.add(Ancestry(
+      2,
+      6,
+      'Elf',
+      'Medium',
+      30,
+      ['DEX', 'INT', 'FREE'],
+      ['CON'],
+      ['Common', 'Elven'],
+      ['Elf', 'Humanoid'],
+      ['Low-Light Vision'],
+      [Heritage(
+        2,
+        'Elven Heritage',
+        'This is a temporary description',
+        //true,
+      )],
+      [Feat(
+        2,
+        'Temp Feat Title',
+        'Temp Feat Description',
+        1,
+        999,
+        'N/A',
+        //true
+      )],
+      'N/A',
+      999
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.blueAccent.shade700,
+        backgroundColor: Colors.redAccent.shade700,
         title: Align(
           alignment: Alignment.center,
           child: Container(child: new Text("Ancestries", style: text_format.display4,))),
@@ -100,7 +129,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
             shrinkWrap: true,
             itemCount: ancestryList.length,
             itemBuilder: (BuildContext context, int index) {
-              return ancestryList[index].toCardWidget();
+              return ancestryList[index].toDetailWidget();
             },
           )
         ],

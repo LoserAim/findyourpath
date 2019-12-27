@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Text_Format {
-  static final _color1 = Colors.lightBlue[200];
-  static final _color2 = Colors.lightBlue[300];
+  static final _color1 = Colors.red[200];
+  static final _color2 = Colors.red[300];
   static final _color3 = Colors.black;
   static final _color4 = Colors.black26;
   static final _color5 = Colors.white;
