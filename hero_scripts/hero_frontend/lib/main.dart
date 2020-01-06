@@ -6,7 +6,7 @@ import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
 void main(){
   runApp(new MaterialApp(
     title: "Select your crapp",
-   // home: new AncestrySelectorPage(),
-   home: new FeatSelectorPage(),
+   home: new AncestrySelectorPage(),
+   //home: new FeatSelectorPage(),
   ));
 }

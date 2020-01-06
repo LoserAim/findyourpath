@@ -45,6 +45,12 @@ def CreateAbilityBoostFlaws():
 
 def CreateAncestryFeats():
     book = "Player's Core Rulebook"
+
+    list_tag_id = []
+    list_tag_id.append(fodels.Tag.objects.filter(name__contains='Ancestry').first())
+    list_tag_id.append(fodels.Tag.objects.filter(name__contains='Dwarf').first())
+    list_tag_id.append(fodels.Tag.objects.filter(name__contains='General').first())
+    list_tag_id.append(fodels.Tag.objects.filter(name__contains='Skill').first())
     data = [
         fodels.Feat(
             name='Dwarven Lore',
@@ -59,6 +65,7 @@ def CreateAncestryFeats():
             level=1,
             pgnum=36,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         fodels.Feat(
             name='Rock Runner',
@@ -66,6 +73,7 @@ def CreateAncestryFeats():
             level=1,
             pgnum=36,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         fodels.Feat(
             name='Stone Cunning',
@@ -73,6 +81,7 @@ def CreateAncestryFeats():
             level=1,
             pgnum=36,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         fodels.Feat(
             name='Unburdened Iron',
@@ -80,6 +89,7 @@ def CreateAncestryFeats():
             level=1,
             pgnum=36,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         fodels.Feat(
             name='Vengeful Hatred',
@@ -87,6 +97,7 @@ def CreateAncestryFeats():
             level=1,
             pgnum=36,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         # Boulder Roll Requires Rock Runner and is an Action
         fodels.Feat(
@@ -95,6 +106,7 @@ def CreateAncestryFeats():
             level=5,
             pgnum=36,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         # Dwarven Weapon Cunning requires Dwarven Weapon Familiarity
         fodels.Feat(
@@ -103,6 +115,7 @@ def CreateAncestryFeats():
             level=5,
             pgnum=37,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         fodels.Feat(
             name="Mountain's Stoutness",
@@ -110,6 +123,7 @@ def CreateAncestryFeats():
             level=9,
             pgnum=37,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         fodels.Feat(
             name='Stonewalker',
@@ -117,6 +131,7 @@ def CreateAncestryFeats():
             level=9,
             pgnum=37,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
         # Dwarven Weapon Expertise requires Dwarven Weapon Familiarity    
         fodels.Feat(
@@ -125,7 +140,16 @@ def CreateAncestryFeats():
             level=13,
             pgnum=37,
             book=book,
+            tags=[list_tag_id[1].id, list_tag_id[0].id],
             ),
+        fodels.Feat(
+            name='Additional Lore',
+            description="Your knowledge has expanded to encompass a new field. Choose an additional Lore skill subcategory. You become trained in it. At 3rd, 7th, and 15th levels, you gain an additional skill increase you can apply only to the chosen Lore subcategory. Special You can select this feat more than once. Each time you must select a new subcategory of Lore and you gain the additional skill increases to that subcategory for the listed levels.",
+            level=1,
+            pgnum=258,
+            book=book,
+            tags= [list_tag_id[3].id, list_tag_id[2].id],
+        )
     ]
     fodels.Feat.objects.bulk_create(data)
 

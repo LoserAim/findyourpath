@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestryModel.dart';
+import 'package:hero_frontend/Pages/Feat/FeatModel.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
+import 'package:hero_frontend/Settings/TextFormat.dart';
 
 class AncestrySelectorPage extends StatefulWidget {
   AncestrySelectorPage({Key key}) : super(key: key);
@@ -29,15 +31,92 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    convertAncestryJson();
+    /*
+      this.id,
+      this.hit_points,
+      this.name,
+      this.size,
+      this.speed,
+      this.ability_boosts,
+      this.ability_flaws,
+      this.languages,
+      this.traits,
+      this.special_abilities,
+      this.heritages,
+      this.feats,
+      this.book,
+      this.pgnum,
+      {this.selected});
+    */
+    //convertAncestryJson();
+    ancestryList.add(Ancestry(
+      1,
+      10,
+      'Dwarf',
+      'Medium',
+      20,
+      ['STR', 'WIS', 'FREE'],
+      ['CHA'],
+      ['Dwarf', 'Common'],
+      ['Dwarf', 'Humanoid'],
+      ['Darkvision'],
+      [Heritage(
+        1,
+        'Dwarven Heritage',
+        'This is a temporary description',
+        //true,
+      )],
+      [Feat(
+        1,
+        'Temp Feat Title',
+        'Temp Feat Description',
+        1,
+        999,
+        'N/A',
+        //true
+      )],
+      'N/A',
+      999
+    ));
+    ancestryList.add(Ancestry(
+      2,
+      6,
+      'Elf',
+      'Medium',
+      30,
+      ['DEX', 'INT', 'FREE'],
+      ['CON'],
+      ['Common', 'Elven'],
+      ['Elf', 'Humanoid'],
+      ['Low-Light Vision'],
+      [Heritage(
+        2,
+        'Elven Heritage',
+        'This is a temporary description',
+        //true,
+      )],
+      [Feat(
+        2,
+        'Temp Feat Title',
+        'Temp Feat Description',
+        1,
+        999,
+        'N/A',
+        //true
+      )],
+      'N/A',
+      999
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.blueAccent.shade700,
-        title: new Text("Select Your Crap"),
+        backgroundColor: Colors.redAccent.shade700,
+        title: Align(
+          alignment: Alignment.center,
+          child: Container(child: new Text("Ancestries", style: text_format.display4,))),
       ),
       body: ListView(
         children: <Widget>[
@@ -50,7 +129,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
             shrinkWrap: true,
             itemCount: ancestryList.length,
             itemBuilder: (BuildContext context, int index) {
-              return buildAncestryCard(ancestryList[index]);
+              return ancestryList[index].toDetailWidget();
             },
           )
         ],
