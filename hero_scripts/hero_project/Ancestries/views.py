@@ -31,5 +31,9 @@ class HeritageViewSet(viewsets.ModelViewSet):
 class AncestryViewSet(viewsets.ModelViewSet):
     queryset = models.Ancestry.objects.all()
     serializer_class = serializers.AncestrySerializer
-    # @decorators.action(methods=['get'], detail=False, url_path='EntireAncestry', url_name='EntireAncestry')
-    # def getEntireAncestry(self, request):
+    @decorators.action(methods=['get'], detail=False, url_path='getIds', url_name='getIds')
+    def getAncestryIds(self, request):
+        queryset = self.queryset
+        serializer = serializers.AncestryIdsSerializer(queryset, many=True)
+        return response.Response(serializer.data)
+    

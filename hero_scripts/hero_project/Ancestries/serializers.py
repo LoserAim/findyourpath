@@ -23,6 +23,11 @@ class HeritageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Heritage
         fields = '__all__'
+
+class AncestryIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Ancestry
+        fields = ['id']
 class AncestrySerializer(serializers.ModelSerializer):
     #serializers.PrimaryKeyRelatedField(required=False, queryset=models.Tag.objects.all(), many=True)
     ability_boosts      = serializers.SlugRelatedField(slug_field='name', read_only=False, queryset=models.Ability_Boost_Flaw.objects.all(), many=True)
