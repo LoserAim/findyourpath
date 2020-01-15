@@ -12,8 +12,7 @@ class Ancestry_Provider extends InheritedWidget {
   bool updateShouldNotify(_) => true;
 
   static Ancestry_Bloc of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(Ancestry_Provider)
-            as Ancestry_Provider)
+    return (context.dependOnInheritedWidgetOfExactType<Ancestry_Provider>())
         .bloc;
   }
 }
