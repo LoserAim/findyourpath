@@ -12,15 +12,18 @@ class Ancestry_Card_Widget extends StatelessWidget {
     final bloc = Ancestry_Provider.of(context);
     return StreamBuilder(
       stream: bloc.items,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Map<int,Future<Ancestry>>> snapshot) {
+        if (!snapshot.hasData)
+          return Text("Stream is still Loading!");
         return FutureBuilder(
           future: snapshot.data[itemId],
           builder:
               (BuildContext context, AsyncSnapshot<Ancestry> itemSnapshot) {
             if (!itemSnapshot.hasData)
-              return Center(child: CircularProgressIndicator());
+              return Text("Stream is still Loading item: $itemId");
 
             return Card(
+              color: Colors.yellowAccent[50],
               child: InkWell(
                 onTap: () => print("You selected ${itemSnapshot.data.name}"),
                 child: Column(
@@ -75,11 +78,10 @@ class Ancestry_Card_Widget extends StatelessWidget {
                           child: Text('Ability Boosts: ',
                               style: text_format.body2),
                         ),
-                        SizedBox(
-                          height: 20.0,
+                        Flexible(
                           child: ListView.builder(
                               shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
+                              scrollDirection: Axis.vertical,
                               itemCount:
                                   itemSnapshot.data.ability_boosts.length,
                               itemBuilder: (BuildContext context, int index) {

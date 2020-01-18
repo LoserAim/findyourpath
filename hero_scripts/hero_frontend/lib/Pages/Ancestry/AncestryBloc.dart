@@ -14,7 +14,7 @@ class Ancestry_Bloc {
   Observable<List<int>> get topIds => _topIds.stream;
   Observable<Map<int, Future<Ancestry>>> get items => _itemsOutput.stream;
 
-  get fetchItem => _itemsFetcher.sink.add;
+  Function(int) get fetchItem => _itemsFetcher.sink.add;
 
 
   //STUB Constructor
@@ -25,12 +25,10 @@ class Ancestry_Bloc {
 
 
   Future<Ancestry> getAncestryById(int id) async {
-    var data;
-    APIservice.getAncestryById(id).then((responseBody) {
+    return APIservice.getAncestryById(id).then((responseBody) {
       var res = jsonDecode(responseBody);
-      data = Ancestry.fromMappedJson(res);
+      return Ancestry.fromMappedJson(res);
     });
-    return data;
   }
 
   fetchTopIds() async {
@@ -41,15 +39,16 @@ class Ancestry_Bloc {
         ids.add(value['id']);
 
       });
+      _topIds.sink.add(ids);
     });
-    print(ids);
-    _topIds.sink.add(ids);
+    
   }
 
   _itemsTransformer() {
     return ScanStreamTransformer(
       (Map<int, Future<Ancestry>> cache, int id, index) {
         cache[id] = getAncestryById(id);
+        print(index);
         return cache;
       },
       <int, Future<Ancestry>>{}

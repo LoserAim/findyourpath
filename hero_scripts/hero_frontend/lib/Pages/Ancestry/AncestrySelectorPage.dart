@@ -33,7 +33,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    convertAncestryJson();
+    //convertAncestryJson();
   }
 
   @override
@@ -60,9 +60,10 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
             stream: bloc.topIds,
             builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
               if(!snapshot.hasData) {
-                print(snapshot.data);
+                
                 return Center(child: CircularProgressIndicator());
               }
+              print("This is the snapshot of ids" + snapshot.data.toString());
                 
               return ListView.builder(
                 physics: BouncingScrollPhysics(),
@@ -70,6 +71,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   bloc.fetchItem(snapshot.data[index]);
+                  print("AncestrySelectorPage Printing Data contents of Bloc");
                   print(bloc.fetchItem(snapshot.data[index]));
                   return Ancestry_Card_Widget(itemId: snapshot.data[index],);
                 },
