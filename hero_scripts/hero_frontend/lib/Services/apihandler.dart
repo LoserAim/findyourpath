@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-const String djangoURL = 'http://34d4e16e.ngrok.io/';
+const String djangoURL = 'http://c822a94c.ngrok.io/';
 
 class APIservice {
   static Future<String> getGeneralFeatList(String query) async {

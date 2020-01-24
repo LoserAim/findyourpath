@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/Pages/Ancestry/AncestryBloc.dart';
-export 'package:hero_frontend/Pages/Ancestry/AncestryBloc.dart';
+import 'package:hero_frontend/BusinessLogic/Blocs/AncestryBloc.dart';
+export 'package:hero_frontend/BusinessLogic/Blocs/AncestryBloc.dart';
 
 class Ancestry_Provider extends InheritedWidget {
   final Ancestry_Bloc bloc;

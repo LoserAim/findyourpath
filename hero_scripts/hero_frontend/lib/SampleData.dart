@@ -1,5 +1,5 @@
-import 'package:hero_frontend/Pages/Ancestry/AncestryModel.dart';
-import 'package:hero_frontend/Pages/Feat/FeatModel.dart';
+import 'package:hero_frontend/Models/AncestryModel.dart';
+import 'package:hero_frontend/Models/FeatModel.dart';
 
 class Sample_Data {
   static List<Ancestry> ancestryList = [

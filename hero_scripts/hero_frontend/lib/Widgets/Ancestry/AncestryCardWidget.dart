@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/Pages/Ancestry/AncestryModel.dart';
-import 'package:hero_frontend/Pages/Ancestry/AncestryProvider.dart';
+import 'package:hero_frontend/BusinessLogic/Providers/AncestryProvider.dart';
+import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:hero_frontend/Settings/TextFormat.dart';
+import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
 
 class Ancestry_Card_Widget extends StatelessWidget {
   final int itemId;
@@ -14,18 +15,19 @@ class Ancestry_Card_Widget extends StatelessWidget {
       stream: bloc.items,
       builder: (BuildContext context, AsyncSnapshot<Map<int,Future<Ancestry>>> snapshot) {
         if (!snapshot.hasData)
-          return Text("Stream is still Loading!");
+          return Loading_Container_Widget();
         return FutureBuilder(
           future: snapshot.data[itemId],
           builder:
               (BuildContext context, AsyncSnapshot<Ancestry> itemSnapshot) {
             if (!itemSnapshot.hasData)
-              return Text("Stream is still Loading item: $itemId");
+              return Loading_Container_Widget();
 
             return Card(
-              color: Colors.yellowAccent[50],
+              
+              elevation: 5.0,
               child: InkWell(
-                onTap: () => print("You selected ${itemSnapshot.data.name}"),
+                onTap: () => Navigator.pushNamed(context, '/$itemId'),
                 child: Column(
                   //mainAxisSize: MainAxisSize.min,
                   children: <Widget>[

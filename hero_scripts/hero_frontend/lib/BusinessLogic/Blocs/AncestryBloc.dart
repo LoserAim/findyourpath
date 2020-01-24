@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:hero_frontend/Pages/Ancestry/AncestryModel.dart';
+
+import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/Pages/Feat/FeatModel.dart';
+import 'package:hero_frontend/Models/FeatModel.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 
 import 'dart:convert';
