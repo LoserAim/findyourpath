@@ -27,7 +27,7 @@ class Ancestry_Card_Widget extends StatelessWidget {
               
               elevation: 5.0,
               child: InkWell(
-                onTap: () => Navigator.pushNamed(context, '/$itemId'),
+                onTap: () => Navigator.pushNamed(context, '/id=$itemId'),
                 child: Column(
                   //mainAxisSize: MainAxisSize.min,
                   children: <Widget>[

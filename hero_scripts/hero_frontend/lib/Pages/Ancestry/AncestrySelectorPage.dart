@@ -20,7 +20,6 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
   @override
   Widget build(BuildContext context) {
     final bloc = Ancestry_Provider.of(context);
-    bloc.fetchTopIds();
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.redAccent.shade700,
