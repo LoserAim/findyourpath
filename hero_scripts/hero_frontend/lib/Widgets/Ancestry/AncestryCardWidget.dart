@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/AncestryProvider.dart';
+import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
 import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:hero_frontend/Settings/TextFormat.dart';
 import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
@@ -10,7 +10,7 @@ class Ancestry_Card_Widget extends StatelessWidget {
   Ancestry_Card_Widget({this.itemId});
   @override
   Widget build(BuildContext context) {
-    final bloc = Ancestry_Provider.of(context);
+    final bloc = Ancestry_List_Provider.of(context);
     return StreamBuilder(
       stream: bloc.items,
       builder: (BuildContext context, AsyncSnapshot<Map<int,Future<Ancestry>>> snapshot) {

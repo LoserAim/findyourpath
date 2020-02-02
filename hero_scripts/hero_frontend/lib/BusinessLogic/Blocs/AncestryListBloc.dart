@@ -5,7 +5,7 @@ import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 
-class Ancestry_Bloc {
+class Ancestry_List_Bloc {
   final _topIds = PublishSubject<List<int>>();
   final _itemsOutput = BehaviorSubject<Map<int, Future<Ancestry>>>();
   final _itemsFetcher = PublishSubject<int>();

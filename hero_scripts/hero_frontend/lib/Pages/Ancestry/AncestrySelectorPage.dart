@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/AncestryProvider.dart';
+import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
 import 'package:hero_frontend/Settings/TextFormat.dart';
 import 'package:hero_frontend/Widgets/Ancestry/AncestryCardWidget.dart';
 import 'package:hero_frontend/Widgets/Generics/RefreshWidget.dart';
@@ -19,7 +19,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Ancestry_Provider.of(context);
+    final bloc = Ancestry_List_Provider.of(context);
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.redAccent.shade700,

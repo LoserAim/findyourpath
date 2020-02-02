@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/AncestryProvider.dart';
+import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
 
 class Refresh_Widget extends StatelessWidget {
   final Widget child;
@@ -8,7 +8,7 @@ class Refresh_Widget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Ancestry_Provider.of(context);
+    final bloc = Ancestry_List_Provider.of(context);
     return RefreshIndicator(
       child: child, 
       onRefresh: () async {
