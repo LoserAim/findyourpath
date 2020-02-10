@@ -19,7 +19,7 @@ class Ancestry_List_Bloc {
 
 
   //STUB Constructor
-  Ancestry_Bloc() {
+  Ancestry_List_Bloc() {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 
@@ -49,7 +49,6 @@ class Ancestry_List_Bloc {
     return ScanStreamTransformer(
       (Map<int, Future<Ancestry>> cache, int id, index) {
         cache[id] = getAncestryById(id);
-        print(index);
         return cache;
       },
       <int, Future<Ancestry>>{}
