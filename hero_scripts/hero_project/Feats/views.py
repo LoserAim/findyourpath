@@ -7,7 +7,7 @@ from rest_framework import (
     response,
 )
 from .models import Feat, Tag, Requirement
-from .serializers import FeatSerializer, TagSerializer, RequirementSerializer
+from .serializers import FeatSerializer, TagSerializer, RequirementSerializer, FeatIdsSerializer
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -28,6 +28,11 @@ class FeatsViewSet(
     viewsets.ModelViewSet):
     queryset = Feat.objects.all()
     serializer_class = FeatSerializer
+    @decorators.action(methods=['get'], detail=False, url_path='getIds', url_name='getIds')
+    def getAncestryIds(self, request):
+        queryset = self.queryset
+        serializer = FeatIdsSerializer(queryset, many=True)
+        return response.Response(serializer.data)
     @decorators.action(methods=['get'], detail=False, url_path='filterbytag', url_name='filterbytag')
     def getFeatsByTag(self, request):
         queryset = self.queryset

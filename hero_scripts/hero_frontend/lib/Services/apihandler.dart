@@ -8,6 +8,14 @@ class APIservice {
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
+
+  static Future<String> getFeatListIds() async {
+    String url = djangoURL + 'feats/list/';
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+
+  
   static Future<String> getAncestryList() async {
     String url = djangoURL + 'ancestries/list/';
     http.Response response = await http.get(Uri.encodeFull(url));

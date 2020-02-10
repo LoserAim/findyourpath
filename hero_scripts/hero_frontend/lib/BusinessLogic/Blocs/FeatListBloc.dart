@@ -1,31 +1,31 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:hero_frontend/Models/AncestryModel.dart';
+import 'package:hero_frontend/Models/FeatModel.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 
-class Ancestry_List_Bloc {
+class Feat_List_Bloc {
   final _topIds = PublishSubject<List<int>>();
-  final _itemsOutput = BehaviorSubject<Map<int, Future<Ancestry>>>();
+  final _itemsOutput = BehaviorSubject<Map<int, Future<Feat>>>();
   final _itemsFetcher = PublishSubject<int>();
 
 
 
   Observable<List<int>> get topIds => _topIds.stream;
-  Observable<Map<int, Future<Ancestry>>> get items => _itemsOutput.stream;
+  Observable<Map<int, Future<Feat>>> get items => _itemsOutput.stream;
 
   Function(int) get fetchItem => _itemsFetcher.sink.add;
 
 
   //STUB Constructor
-  Ancestry_List_Bloc() {
+  Feat_List_Bloc() {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 
 
 
-  Future<Ancestry> getAncestryById(int id) async {
+  Future<Feat> getFeatById(int id) async {
     return APIservice.getAncestryById(id).then((responseBody) {
       var res = jsonDecode(responseBody);
       return Ancestry.fromMappedJson(res);

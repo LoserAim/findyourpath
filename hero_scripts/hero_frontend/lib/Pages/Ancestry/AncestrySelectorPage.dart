@@ -22,7 +22,6 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
     final bloc = Ancestry_List_Provider.of(context);
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.redAccent.shade700,
         title: Align(
             alignment: Alignment.center,
             child: Container(
