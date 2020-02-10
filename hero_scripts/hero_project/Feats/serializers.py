@@ -29,6 +29,12 @@ class FeatSerializer(serializers.ModelSerializer):
         ]
 
 
+class FeatIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feat
+        fields = ['id']
+
+
 class RequirementSerializer(serializers.ModelSerializer):
     
     
