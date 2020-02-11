@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestrySelectorPage.dart';
+import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
 import 'package:hero_frontend/Pages/Navigation/HomePage.dart';
 import 'package:hero_frontend/Widgets/Ancestry/AncestryDetailWidget.dart';
+
+import 'BusinessLogic/Providers/FeatListProvider.dart';
 //import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
 
 void main() {
-  runApp(Ancestry_List_Provider(
-    child: Ancestry_Detail_Provider(
-      child: new MaterialApp(
-        title: "Select your crapp",
-        onGenerateRoute: routes,
-        theme: new ThemeData(
-          primaryColor: Colors.red,
-          accentColor: Colors.redAccent,
-          cardColor: Colors.white,
-          backgroundColor: Colors.orange[100],
-          buttonColor: Colors.orange,
+  runApp(Feat_List_Provider(
+      child: Ancestry_List_Provider(
+      child: Ancestry_Detail_Provider(
+        child: new MaterialApp(
+          title: "Select your crapp",
+          onGenerateRoute: routes,
+          theme: new ThemeData(
+            primaryColor: Colors.red,
+            accentColor: Colors.redAccent,
+            cardColor: Colors.white,
+            backgroundColor: Colors.orange[100],
+            buttonColor: Colors.orange,
+          ),
         ),
       ),
     ),
@@ -42,6 +47,12 @@ Route routes(RouteSettings settings) {
             final bloc = Ancestry_List_Provider.of(context);
             bloc.fetchTopIds();
             return AncestrySelectorPage();
+          });
+        case "Feats":
+          return MaterialPageRoute(builder: (context) {
+            final bloc = Feat_List_Provider.of(context);
+            bloc.fetchTopIds();
+            return Feat_Selector_Page();
           });
         default:
           return MaterialPageRoute(builder: (context) {

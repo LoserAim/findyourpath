@@ -29,7 +29,10 @@ class Home_Page extends StatelessWidget {
               child: Card(child: new Text("Ancestries")),
               onTap: () => Navigator.pushNamed(context, '/Ancestries'),
             ),
-
+            new InkWell(
+              child: Card(child: new Text("Feat")),
+              onTap: () => Navigator.pushNamed(context, '/Feats'),
+            ),
           ],
         ),
       ),

@@ -26,15 +26,15 @@ class Feat_List_Bloc {
 
 
   Future<Feat> getFeatById(int id) async {
-    return APIservice.getAncestryById(id).then((responseBody) {
+    return APIservice.getFeatById(id).then((responseBody) {
       var res = jsonDecode(responseBody);
-      return Ancestry.fromMappedJson(res);
+      return Feat.fromMappedJson(res);
     });
   }
 
   fetchTopIds() async {
     List<int> ids = [];
-    APIservice.getAncestryListIds().then((responseBody) {
+    APIservice.getFeatListIds().then((responseBody) {
       List<dynamic> data = jsonDecode(responseBody);
       data.forEach((value) {
         ids.add(value['id']);
@@ -47,11 +47,11 @@ class Feat_List_Bloc {
 
   _itemsTransformer() {
     return ScanStreamTransformer(
-      (Map<int, Future<Ancestry>> cache, int id, index) {
-        cache[id] = getAncestryById(id);
+      (Map<int, Future<Feat>> cache, int id, index) {
+        cache[id] = getFeatById(id);
         return cache;
       },
-      <int, Future<Ancestry>>{}
+      <int, Future<Feat>>{}
     );
   }
 
