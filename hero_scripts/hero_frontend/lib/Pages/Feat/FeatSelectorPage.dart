@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/FeatListProvider.dart';
 import 'package:hero_frontend/Settings/TextFormat.dart';
-import 'package:hero_frontend/Widgets/Ancestry/AncestryCardWidget.dart';
 import 'package:hero_frontend/Widgets/Feats/FeatCardWidget.dart';
-import 'package:hero_frontend/Widgets/Generics/RefreshWidget.dart';
 
 class Feat_Selector_Page extends StatelessWidget {
    @override
