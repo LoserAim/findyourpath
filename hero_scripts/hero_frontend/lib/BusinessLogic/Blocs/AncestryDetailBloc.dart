@@ -67,15 +67,15 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     return APIservice.getTraitsNamesList().then((responseBody) {
     var res = jsonDecode(responseBody);
     List<String> temp = List();
-    res.forEach( (k, v) => temp.add(v));
+    res.forEach( (item) => temp.add(item['name']));
     return temp;
     });
   }
 
   fetchData(int id) async
   {
-    final item = await getAncestryById(id);
-    final traits = await getTraitsNamesList();
+    final Ancestry item = await getAncestryById(id);
+    final List<String> traits = await getTraitsNamesList();
     changeHitPoints(item.hit_points);
     changeSize(item.size);
     changeName(item.name);
