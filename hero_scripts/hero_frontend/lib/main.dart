@@ -11,7 +11,7 @@ import 'BusinessLogic/Providers/FeatListProvider.dart';
 
 void main() {
   runApp(Feat_List_Provider(
-      child: Ancestry_List_Provider(
+    child: Ancestry_List_Provider(
       child: Ancestry_Detail_Provider(
         child: new MaterialApp(
           title: "Select your crapp",
@@ -31,6 +31,7 @@ void main() {
 
 Route routes(RouteSettings settings) {
   final List<String> path = settings.name.split("/");
+  print(path);
   switch (path.length) {
     case 0:
       return MaterialPageRoute(builder: (context) {
@@ -59,6 +60,24 @@ Route routes(RouteSettings settings) {
             return Home_Page();
           });
       }
+      break;
+    case 3:
+      switch (path[1]) {
+        case "Ancestries":
+          return MaterialPageRoute(builder: (context) {
+            final int itemId = int.parse(path[2]);
+            final bloc = Ancestry_Detail_Provider.of(context);
+            bloc.fetchData(itemId);
+            return Ancestry_Detail_Widget(
+              itemId: itemId,
+            );
+          });
+        default:
+          return MaterialPageRoute(builder: (context) {
+            return Home_Page();
+          });
+      }
+      break;
   }
   // if (settings.name.contains("/id="))
   // {

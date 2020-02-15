@@ -29,6 +29,7 @@ class Ancestry_Card_Widget extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(color: Colors.redAccent),
                   child: ListTile(
+                      onTap: () => Navigator.pushNamed(context, '/Ancestries/${itemSnapshot.data.id.toString()}'),
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       title: Text(
@@ -64,7 +65,7 @@ class Ancestry_Card_Widget extends StatelessWidget {
                               Icon(Icons.exposure_plus_2, color: Colors.orangeAccent),
                               Expanded(
                                   child: Center(
-                                    child: Text("${itemSnapshot.data.ability_boosts}",
+                                    child: Text(itemSnapshot.data.ability_boosts.join(" , "),
                                         style: TextStyle(color: Colors.white)),
                                   ))
                             ],

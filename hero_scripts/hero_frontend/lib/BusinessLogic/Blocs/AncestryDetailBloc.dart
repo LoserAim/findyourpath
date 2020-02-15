@@ -23,13 +23,16 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   final _book               = BehaviorSubject<String>();
   final _pgnum              = BehaviorSubject<int>();
   final _ancestry           = BehaviorSubject<Ancestry>();
+  final _traitsOptions      = BehaviorSubject<List<String>>();
+
+  Function(List<String>)    get changeTraitsOptions => _traitsOptions.sink.add;
 
   Function(int)             get changeHitPoints => _hitPoints.sink.add;
   Function(int)             get changeSpeed => _speed.sink.add;
   Function(String)          get changeSize => _size.sink.add;
   Function(String)          get changeName => _name.sink.add;
   Function(List<String>)    get changeAbilityBoosts => _abilityBoosts.sink.add;
-  Function(List<String>)    get changeAbilityFlawss => _abilityFlaws.sink.add;
+  Function(List<String>)    get changeAbilityFlaws => _abilityFlaws.sink.add;
   Function(List<String>)    get changeLanguages => _languages.sink.add;
   Function(List<String>)    get changeTraits => _traits.sink.add;
   Function(List<String>)    get changeSpecialAbilities => _specialAbilities.sink.add;
@@ -50,6 +53,8 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   Stream<List<String>> get specialAbilities => _specialAbilities.stream.transform(validateSpecialAbilities);
   Stream<List<Heritage>> get heritages => _heritages.stream.transform(validateHeritages);
   Stream<List<Feat>> get feats => _feats.stream.transform(validateFeats);
+  Stream<Ancestry> get ancestry => _ancestry.stream.transform(validateAncestry);
+  Stream<List<String>> get traitsOptions => _traitsOptions.stream.transform(validateSpecialAbilities);
 
   Future<Ancestry> getAncestryById(int id) async {
     return APIservice.getAncestryById(id).then((responseBody) {
@@ -58,14 +63,24 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     });
   }
 
+  Future<List<String>> getTraitsNamesList() async {
+    return APIservice.getTraitsNamesList().then((responseBody) {
+    var res = jsonDecode(responseBody);
+    List<String> temp = List();
+    res.forEach( (k, v) => temp.add(v));
+    return temp;
+    });
+  }
+
   fetchData(int id) async
   {
     final item = await getAncestryById(id);
+    final traits = await getTraitsNamesList();
     changeHitPoints(item.hit_points);
     changeSize(item.size);
     changeName(item.name);
     changeAbilityBoosts(item.ability_boosts);
-    changeAbilityFlawss(item.ability_flaws);
+    changeAbilityFlaws(item.ability_flaws);
     changeLanguages(item.languages);
     changeTraits(item.traits);
     changeSpecialAbilities(item.special_abilities);
@@ -74,6 +89,7 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     changeAncestry(item);
     changBook(item.book);
     changePgnum(item.pgnum);
+    changeTraitsOptions(traits);
   }
 
   dispose() {
@@ -103,6 +119,16 @@ class Validators {
       }
       else{
         sink.add(hitpoints);
+      }
+    });
+  final validateAncestry = StreamTransformer<Ancestry, Ancestry>.fromHandlers(
+    handleData: (ancestry, sink) {
+      if(ancestry == null)
+      {
+        sink.addError('ancestry cannot be null!');
+      }
+      else{
+        sink.add(ancestry);
       }
     });
   final validateSize = StreamTransformer<String, String>.fromHandlers(
