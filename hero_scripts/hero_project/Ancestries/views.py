@@ -20,6 +20,11 @@ class TraitViewSet(viewsets.ModelViewSet):
     lookup_field = 'name'
     queryset = models.Trait.objects.all()
     serializer_class = serializers.TraitSerializer
+    @decorators.action(methods=['get'], detail=False, url_path='getnames', url_name='getnames')
+    def getAncestryIds(self, request):
+        queryset = self.queryset
+        serializer = serializers.TraitNameSerializer(queryset, many=True)
+        return response.Response(serializer.data)
 class SpecialAbilityViewSet(viewsets.ModelViewSet):
     queryset = models.SpecialAbility.objects.all()
     serializer_class = serializers.SpecialAbilitySerializer

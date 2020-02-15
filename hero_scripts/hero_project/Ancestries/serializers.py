@@ -15,6 +15,11 @@ class TraitSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Trait
         fields = '__all__'
+
+class TraitNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Trait
+        fields = ['name']
 class SpecialAbilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SpecialAbility
