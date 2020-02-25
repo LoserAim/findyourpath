@@ -75,7 +75,7 @@ class Ancestry_Card_Widget extends StatelessWidget {
                               Icon(Icons.exposure_neg_2, color: Colors.orangeAccent),
                               Expanded(
                                   child: Center(
-                                    child: Text("${itemSnapshot.data.ability_flaws}",
+                                    child: Text(itemSnapshot.data.ability_flaws.join(" , "),
                                         style: TextStyle(color: Colors.white)),
                                   ))
                             ],

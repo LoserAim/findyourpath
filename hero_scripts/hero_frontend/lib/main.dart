@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
+import 'package:hero_frontend/Pages/Ancestry/AncestryDetailPage.dart';
+import 'package:hero_frontend/Pages/Ancestry/AncestryHeritagePage.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestrySelectorPage.dart';
 import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
 import 'package:hero_frontend/Pages/Navigation/HomePage.dart';
@@ -68,10 +70,27 @@ Route routes(RouteSettings settings) {
             final int itemId = int.parse(path[2]);
             final bloc = Ancestry_Detail_Provider.of(context);
             bloc.fetchData(itemId);
-            return Ancestry_Detail_Widget(
+            return Ancestry_Detail_Page(
               itemId: itemId,
             );
           });
+        default:
+          return MaterialPageRoute(builder: (context) {
+            return Home_Page();
+          });
+      }
+      break;
+    case 4:
+      switch (path[1]) {
+        case "Ancestries":
+          switch (path[3])
+          {
+            case "Heritages":
+              return MaterialPageRoute(builder: (context) {
+                return Ancestry_Heritage_Page();
+              });
+          }
+          break;
         default:
           return MaterialPageRoute(builder: (context) {
             return Home_Page();
