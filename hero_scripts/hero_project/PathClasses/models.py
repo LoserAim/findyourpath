@@ -1,4 +1,5 @@
 from django.db import models
+from Feats.models import Feat
 
 MODIFIER_CHOICES = [
     ('STR', 'Strength'),
@@ -44,13 +45,27 @@ class PathClass(models.Model):
     hit_points          = models.IntegerField(null=True, blank=True)
     key_ability         = models.CharField(max_length=3, choices=MODIFIER_CHOICES, blank=False)
     proficiencies       = models.ManyToManyField(Proficiency, related_name='class_proficiencies', blank=True)
+    general_feats       = models.ManyToManyField(Feat, related_name="general_feats", blank=True)
+    skill_feats         = models.ManyToManyField(Feat, related_name="skill_feats", blank=True)
+    class_feats         = models.ManyToManyField(Feat, related_name="class_feats", blank=True)
+    pgnum               = models.PositiveIntegerField(blank=True, null=True)
+    book                = models.TextField(blank=True, null=True)
+
+
+class PathClassArchetype(models.Model):
+    name                = models.CharField(max_length=256, blank=False)
+    description         = models.TextField()
+    path_class          = models.ForeignKey(PathClass, related_name="PathClassArchetype.path_class+", on_delete=models.CASCADE, null=True)
+    pgnum               = models.PositiveIntegerField(blank=True, null=True)
+    book                = models.TextField(blank=True, null=True)
 
 class PathClassFeature(models.Model):
-    name        = models.CharField(max_length=256, unique=True, blank=False)
-    description = models.TextField()
-    level       = models.PositiveIntegerField(blank=False)
-    pgnum       = models.PositiveIntegerField(blank=True, null=True)
-    book        = models.TextField(blank=True, null=True)
+    path_class          = models.ForeignKey(PathClass, related_name="PathClassFeature.path_class+", on_delete=models.CASCADE, null=True)
+    name                = models.CharField(max_length=256, unique=True, blank=False)
+    description         = models.TextField()
+    level               = models.PositiveIntegerField(blank=False)
+    pgnum               = models.PositiveIntegerField(blank=True, null=True)
+    book                = models.TextField(blank=True, null=True)
     def __str__(self):
         return '%d: %s %d' % (self.id, self.name, self.level)
 
