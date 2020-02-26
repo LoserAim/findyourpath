@@ -20,7 +20,6 @@ class PathClassIdsSerializer(serializers.ModelSerializer):
         model = models.PathClassFeature
         fields = ['id']
 class PathClassSerializer(serializers.ModelSerializer):
-    proficiencies      = ProficiencySerializer(many=True, required=False)
     archetypes       = PathClassArchetypeSerializer(many=True, required=False)
     features           = PathClassFeatureSerializer(many=True, required=False)
     class Meta:
