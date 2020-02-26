@@ -6,6 +6,7 @@ django.setup()
 from Feats import models as fodels
 from Actions import models as Actodels
 from Ancestries import models as AncModel
+from PathClasses import models as ClassModel
 
 
 def CreateLanguages():
@@ -167,6 +168,305 @@ def CreateTags():
     fodels.Tag.objects.bulk_create(data)
 
 
+def CreateClasses():
+    book="Player's Core Rulebook"
+    data_class = ClassModel.PathClass(
+        name='Alchemist',
+        hit_points=8,
+        key_ability='INT',
+        pgnum=71,
+        book=book,
+    )
+    data_class.save()
+    data_features = [
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Ancestry and Background",
+            description="In addition to the abilities provided by your class at 1st level, you have the benefits of your selected ancestry and background, as described in Chapter 2.",
+            level=1,
+            pgnum=72,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Initial Proficiencies",
+            description="At 1st level, you gain a number of proficiencies that represent your basic training. These proficiencies are noted at the start of this class.",
+            level=1,
+            pgnum=72,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Alchemy",
+            description="You understand the complex interactions of natural and unnatural substances and can concoct alchemical items to meet your needs. You can do this using normal reagents and the Craft activity, or you can use special infused reagents that allow you to craft temporary items quickly and at no cost. Over time, you can create more and more alchemical items for free, and since each of them becomes more and more powerful, you advance in power dramatically, leaving behind those who don't understand your strange science. You gain the Alchemical Crafting feat (page 258), even if you don't meet that feat's prerequisites, and you gain the four common 1st-level alchemical formulas granted by that feat. The catalog of alchemical items begins on page 543. You can use this feat to create alchemical items as long as you have the items' formulas in your formula book.",
+            level=1,
+            pgnum=72,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Infused Reagents",
+            description="You infuse reagents with your own alchemical essence, allowing you to create alchemical items at no cost. Each day during your daily preparations, you gain a number of batches of infused reagents equal to your level + your Intelligence modifier. You can use these reagents for either advanced alchemy or Quick Alchemy, described below. Together, these infused reagents have light Bulk. As soon as you make your next daily preparations, your infused reagents from the previous day's preparations are instantly destroyed, and nonpermanent effects of your previous day's infused items immediately end. While infused reagents are physical objects, they can't be duplicated, preserved, or created in any way other than your daily preparations. Any such artificial reagents lack the infusion and are useless for advanced alchemy or Quick Alchemy.",
+            level=1,
+            pgnum=72,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Advanced Alchemy",
+            description="During your daily preparations, after producing new infused reagents, you can spend batches of those infused reagents to create infused alchemical items. You don't need to attempt a Crafting check to do this, and you ignore both the number of days typically required to create the items and any alchemical reagent requirements. Your advanced alchemy level is equal to your level. For each batch of infused reagents you spend, choose an alchemical item of your advanced alchemy level or lower that's in your formula book, and make a batch of two of that item. These items have the infused trait and remain potent for 24 hours or until your next daily preparations, whichever comes first.",
+            level=1,
+            pgnum=72,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Quick Alchemy",
+            description="If you need a specific alchemical item on the fly, you can use your infused reagents to quickly create it with the Quick Alchemy action.",
+            level=1,
+            pgnum=72,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Formula Book",
+            description="An alchemist keeps meticulous records of the formulas for every item they can create. You start with a standard formula book worth 10 sp or less (as detailed on page 290) for free. The formula book contains the formulas for two common 1st-level alchemical items of your choice, in addition to those you gained from Alchemical Crafting and your research field. The catalog of alchemical items begins on page 543. Each time you gain a level, you can add the formulas for two common alchemical items to your formula book. These new formulas can be for any level of item you can create. You learn these formulas automatically, but it's also possible to find or buy additional formulas in settlements or from other alchemists, or to invent them with the Inventor feat (page 262).",
+            level=1,
+            pgnum=73,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Research Field",
+            description="Your inquiries into the alchemical nature of the universe have led you to focus on a particular field of research. You might have a degree from an scientific institute, correspond with other researchers in your field, or work as a genius loner. Choose a field of research. The research fields presented in this book are as follows.",
+            level=1,
+            pgnum=73,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Alchemist Feats",
+            description="At 1st level and every even-numbered level thereafter, you gain an alchemist class feat. Alchemist class feats are described beginning on page 76. ",
+            level=1,
+            pgnum=73,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Skill Feats",
+            description="At 2nd level and every 2 levels thereafter, you gain a skill feat. Skill feats can be found in Chapter 5 and have the skill trait. You must be trained or better in the corresponding skill to select a skill feat.",
+            level=2,
+            pgnum=73,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="General Feats",
+            description="At 3rd level and every 4 levels thereafter, you gain a general feat. General feats are listed in Chapter 5. ",
+            level=2,
+            pgnum=73,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Skill Increases",
+            description="At 3rd level and every 2 levels thereafter, you gain a skill increase. You can use this increase either to increase your proficiency rank to trained in one skill you're untrained in, or to increase your proficiency rank in one skill in which you're already trained to expert. At 7th level, you can use skill increases to increase your proficiency rank to master in a skill in which you're already an expert, and at 15th level, you can use them to increase your proficiency rank to legendary in a skill in which you're already a master.",
+            level=3,
+            pgnum=74,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Ability Boosts",
+            description="At 5th level and every 5 levels thereafter, you boost four different ability scores. You can use these ability boosts to increase your ability scores above 18. Boosting an ability score increases it by 1 if it's already 18 or above, or by 2 if it starts out below 18.",
+            level=5,
+            pgnum=74,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Ancestry Feats",
+            description="In addition to the ancestry feat you started with, you gain an ancestry feat at 5th level and every 4 levels thereafter. The list of ancestry feats available to you can be found in your ancestry's entry in Chapter 2.",
+            level=5,
+            pgnum=74,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Field Discovery",
+            description="You learn a special discovery depending on your field.\nBomber: When using advanced alchemy to make bombs during your daily preparations, you can use a batch of reagents to create any three bombs instead of just two of the same bomb.\nChirurgeon: When using advanced alchemy to make elixirs of life during your daily preparations, you can create three elixirs with each batch of reagents instead of two.\nMutagenist: When using advanced alchemy to make mutagens during your daily preparations, you can use a batch of reagents to create any three mutagens instead of just two of the same mutagen.",
+            level=5,
+            pgnum=74,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Alchemical Weapon Expertise",
+            description="You've trained to more effectively wield the weapons you find in your lab. Your proficiency ranks for simple weapons and alchemical bombs increase to expert.",
+            level=7,
+            pgnum=74,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Iron Will",
+            description="Your mental defenses are an iron fortress. Your proficiency rank for Will saves increases to expert.",
+            level=7,
+            pgnum=74,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Perpetual Infusions",
+            description="You have learned how to create perpetual alchemical infusions that can provide a near-infinite supply of certain simple items. You gain the ability to create two 1st-level alchemical items using Quick Alchemy without spending a batch of infused reagents. The items you can select depend on your research field and must be in your formula book.\nBomber: Choose two of the following formulas: lesser acid flask, lesser alchemist's fire, lesser bottled lightning, lesser liquid ice, lesser tanglefoot bag, lesser thunderstone.\nChirurgeon: Lesser antidote and lesser antiplague.\nMutagenist: Choose two of the following formulas: lesser bestial mutagen, lesser bullheaded mutagen, lesser cognitive mutagen, lesser juggernaut mutagen, lesser quicksilver mutagen, lesser silvertongue mutagen.",
+            level=7,
+            pgnum=74,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Alchemical Expertise",
+            description="Constant practice has increased the effectiveness of your concoctions. Your proficiency rank for your alchemist class DC increases to expert.",
+            level=9,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Alertness",
+            description="You remain alert to threats around you. Your proficiency rank for Perception increases to expert.",
+            level=9,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Double Brew",
+            description="You know your formulas so well that you can concoct two items at once. When using the Quick Alchemy action, instead of spending one batch of infused reagents to create a single item, you can spend up to two batches of infused reagents to make up to two alchemical items as described in that action. These items do not have to be the same.",
+            level=9,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Juggernaut",
+            description="Your body has become accustomed to physical hazards and resistant to pathogens and ailments. Your proficiency rank for Fortitude saves increases to master. When you roll a success on a Fortitude save, you get a critical success instead.",
+            level=11,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Perpetual Potency",
+            description="Your perpetual infusions improve, allowing you to use Quick Alchemy to create more powerful items with no cost. The items you can select depend on your research field and must be in your formula book.\nBomber: The moderate versions of the bombs you chose for perpetual infusions. \nChirurgeon: Moderate antidote and antiplague. \nMutagenist: The moderate versions of the mutagens you chose for perpetual infusions. ",
+            level=11,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Greater Field Discovery",
+            description="You learn an incredible discovery that advances your understanding of your field.\nBomber: You can increase the splash on your bombs to damage creatures within 10 feet, or 15 feet if you have Expanded Splash.\nChirurgeon: When you use Quick Alchemy to create any type of elixir of life, the creature drinking the elixir gains the maximum Hit Points possible for that elixir, instead of rolling to determine the number of Hit Points regained.\nMutagenist: If you imbibe another mutagen while you are under the effects of a mutagen that you created, you can gain the benefits and the drawbacks of both mutagens at once, despite the fact that they both have the polymorph trait and would not normally function together. If you come under the effects of any further mutagens while benefiting from two mutagens, you lose the benefit of one of the former mutagens of your choice, while retaining the drawbacks of all the mutagens. If you are under the effects of two mutagens and you come under the effect of a non-mutagen polymorph effect, you lose the benefits of the mutagens while retaining the drawbacks of both.",
+            level=13,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Light Armor Expertise",
+            description="You've learned how to dodge while wearing light or no armor. Your proficiency ranks for light armor and unarmored defense increase to expert.",
+            level=13,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Weapon Specialization",
+            description="You've learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you're a master, and to 4 if you're legendary.",
+            level=13,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Alchemical Alacrity",
+            description="Your comfort in concocting items is such that you can create three at a time. When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same.",
+            level=15,
+            pgnum=75,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Evasion",
+            description="You've learned to move quickly to avoid explosions, dragon's breath, and worse. Your proficiency rank for Reflex saves increases to master. When you roll a success on a Reflex save, you get a critical success instead.",
+            level=15,
+            pgnum=76,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Alchemical Mastery",
+            description="Your alchemical concoctions are incredibly effective. Your proficiency rank for your alchemist class DC increases to master.",
+            level=17,
+            pgnum=76,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Perpetual Perfection",
+            description="You have perfected your perpetual infusions, allowing you to use Quick Alchemy to create even more powerful items at no cost. The items you can select depend on your research field and must be in your formula book.\nBomber: The greater versions of the bombs you chose for perpetual infusions.\nChirurgeon: Greater antidote and antiplague.\nMutagenist: The greater versions of the mutagens you chose for perpetual infusions.",
+            level=17,
+            pgnum=76,
+            book=book,
+        ),
+        ClassModel.PathClassFeature(
+            path_class=data_class,
+            name="Light Armor Mastery",
+            description="Your skill with light armor improves, increasing your ability to dodge blows. Your proficiency ranks for light armor and unarmored defense increase to master.",
+            level=19,
+            pgnum=76,
+            book=book,
+        ),
+
+    ]
+
+    data_tag = fodels.Tag.objects.all().filter(id__exact=6).first()
+    data_class_feat = fodels.Feat(
+        name='Alchemical Familiar',
+        description="Your knowledge has expanded to encompass a new field. Choose an additional Lore skill subcategory. You become trained in it. At 3rd, 7th, and 15th levels, you gain an additional skill increase you can apply only to the chosen Lore subcategory. Special You can select this feat more than once. Each time you must select a new subcategory of Lore and you gain the additional skill increases to that subcategory for the listed levels.",
+        level=1,
+        pgnum=258,
+        book=book,
+    )
+    data_class_feat.save()
+    relationship = fodels.Feat.tags.through(feat_id=data_class_feat.id, tag_id=data_tag.id)
+    relationship.save()
+    data_archetypes = [
+        ClassModel.PathClassArchetype(
+            name="Bomber",
+            description="You specialize in explosions and other violent alchemical reactions. You start with the formulas for two 1st-level alchemical bombs in your formula book, in addition to your other formulas. When throwing an alchemical bomb with the splash trait, you can deal splash damage to only your primary target instead of the usual splash area.",
+            path_class=data_class,
+            pgnum=73,
+            book=book,
+        ),
+        ClassModel.PathClassArchetype(
+            name="Chirurgeon",
+            description="You concentrate on healing others with alchemy. You start with the formulas for two of the following in your formula book, in addition to your other formulas: lesser antidote, lesser antiplague, or lesser elixir of life. As long as your proficiency rank in Medicine is trained or better, you can attempt a Crafting check instead of a Medicine check for any of Medicine's untrained and trained uses.",
+            path_class=data_class,
+            pgnum=73,
+            book=book,
+        ),
+        ClassModel.PathClassArchetype(
+            name="Mutagenist",
+            description="You focus on bizarre mutagenic transformations that sacrifice one aspect of a creature's physical or psychological being in order to strengthen another. You start with the formulas for two 1st-level mutagens in your formula book, in addition to your other formulas. You can gain the benefit of any mutagen, even if it wasn't specifically brewed for you. Whenever your proficiency rank for simple weapons increases, your proficiency rank for unarmed attacks increases to the same rank unless it's already better. ",
+            path_class=data_class,
+            pgnum=73,
+            book=book,
+        ),
+    ]
+    ClassModel.PathClassArchetype.objects.bulk_create(data_archetypes)
+    ClassModel.PathClassFeature.objects.bulk_create(data_features)
+
 def CreateAncestryDwarfRelations():
     list_feat_id = fodels.Feat.objects.all()
     list_tag_id = []
@@ -249,4 +549,4 @@ def CreateActions():
     action.save()
 
 if __name__ == "__main__":
-
+    CreateClasses()

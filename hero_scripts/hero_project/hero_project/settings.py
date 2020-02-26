@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Modifiers.apps.ModifiersConfig',
     'Ancestries.apps.AncestriesConfig',
     'Actions.apps.ActionsConfig',
+    'PathClasses.apps.PathclassesConfig',
     'rest_framework',
     
 ]

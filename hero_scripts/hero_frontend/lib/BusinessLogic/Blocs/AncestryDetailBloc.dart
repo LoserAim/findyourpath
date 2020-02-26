@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+
 import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:hero_frontend/Models/FeatModel.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
@@ -19,14 +20,16 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   final _traits             = BehaviorSubject<List<String>>();
   final _specialAbilities   = BehaviorSubject<List<String>>();
   final _heritages          = BehaviorSubject<List<Heritage>>();
+  final _chosenHeritages    = BehaviorSubject<List<Heritage>>();
   final _feats              = BehaviorSubject<List<Feat>>();
   final _book               = BehaviorSubject<String>();
   final _pgnum              = BehaviorSubject<int>();
   final _ancestry           = BehaviorSubject<Ancestry>();
   final _traitsOptions      = BehaviorSubject<List<String>>();
+  final _specialAbilitiesOptions = BehaviorSubject<List<String>>();
 
   Function(List<String>)    get changeTraitsOptions => _traitsOptions.sink.add;
-
+  Function(List<String>)    get changeSpecialAbilitiesOptions => _specialAbilitiesOptions.sink.add;
   Function(int)             get changeHitPoints => _hitPoints.sink.add;
   Function(int)             get changeSpeed => _speed.sink.add;
   Function(String)          get changeSize => _size.sink.add;
@@ -37,6 +40,7 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   Function(List<String>)    get changeTraits => _traits.sink.add;
   Function(List<String>)    get changeSpecialAbilities => _specialAbilities.sink.add;
   Function(List<Heritage>)  get changeHeritages => _heritages.sink.add;
+  Function(List<Heritage>)  get changeChosenHeritages => _chosenHeritages.sink.add;
   Function(List<Feat>)      get changeFeats => _feats.sink.add;
   Function(Ancestry)        get changeAncestry => _ancestry.sink.add;
   Function(String)          get changBook => _book.sink.add;
@@ -52,10 +56,12 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   Stream<List<String>> get traits => _traits.stream.transform(validateTraits);
   Stream<List<String>> get specialAbilities => _specialAbilities.stream.transform(validateSpecialAbilities);
   Stream<List<Heritage>> get heritages => _heritages.stream.transform(validateHeritages);
+  Stream<List<Heritage>> get chosenHeritages => _chosenHeritages.stream.transform(validateHeritages);
   Stream<List<Feat>> get feats => _feats.stream.transform(validateFeats);
   Stream<Ancestry> get ancestry => _ancestry.stream.transform(validateAncestry);
   Stream<List<String>> get traitsOptions => _traitsOptions.stream.transform(validateSpecialAbilities);
-
+  Stream<List<String>> get specialAbilitiesOptions => _specialAbilitiesOptions.stream.transform(validateSpecialAbilities);
+  
   Future<Ancestry> getAncestryById(int id) async {
     return APIservice.getAncestryById(id).then((responseBody) {
       var res = jsonDecode(responseBody);
@@ -67,15 +73,26 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     return APIservice.getTraitsNamesList().then((responseBody) {
     var res = jsonDecode(responseBody);
     List<String> temp = List();
-    res.forEach( (k, v) => temp.add(v));
+    res.forEach( (item) => temp.add(item['name']));
+    return temp;
+    });
+  }
+
+  Future<List<String>> getSpecialAbilitiesOptionsList() async {
+    return APIservice.getSpecialAbilitiesList().then((responseBody) {
+    var res = jsonDecode(responseBody);
+    List<String> temp = List();
+    res.forEach( (item) => temp.add(item['name']));
     return temp;
     });
   }
 
   fetchData(int id) async
   {
-    final item = await getAncestryById(id);
-    final traits = await getTraitsNamesList();
+    final Ancestry item = await getAncestryById(id);
+    final List<String> traits = await getTraitsNamesList();
+    final List<String> specials = await getSpecialAbilitiesOptionsList();
+    final List<Heritage> heritagChoices = List();
     changeHitPoints(item.hit_points);
     changeSize(item.size);
     changeName(item.name);
@@ -90,6 +107,8 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     changBook(item.book);
     changePgnum(item.pgnum);
     changeTraitsOptions(traits);
+    changeSpecialAbilitiesOptions(specials);
+    changeChosenHeritages(heritagChoices);
   }
 
   dispose() {
@@ -103,10 +122,15 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     _traits.close();
     _specialAbilities.close();
     _heritages.close();
+    _chosenHeritages.close();
     _feats.close();
     _book.close();
     _pgnum.close();
     _ancestry.close();
+    _specialAbilitiesOptions.close();
+    _traitsOptions.close();
+    _chosenHeritages.close();
+    _speed.close();
   }
 }
 
@@ -208,13 +232,7 @@ class Validators {
   );
   final validateHeritages = StreamTransformer<List<Heritage>, List<Heritage>>.fromHandlers(
     handleData: (heritages, sink) {
-      if(heritages.length <= 0)
-      {
-        sink.addError("Heritages cannot be blank!");
-      }
-      else {
-        sink.add(heritages);
-      }
+      sink.add(heritages);
     }
   );
   final validateFeats = StreamTransformer<List<Feat>, List<Feat>>.fromHandlers(

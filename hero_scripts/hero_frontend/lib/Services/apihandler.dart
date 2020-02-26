@@ -1,10 +1,16 @@
 import 'package:http/http.dart' as http;
 
-const String djangoURL = 'http://906116a7.ngrok.io/';
+const String djangoURL = 'http://21d2c087.ngrok.io/';
 
 class APIservice {
   static Future<String> getTraitsNamesList() async {
     String url = djangoURL + 'ancestries/traits/getnames/';
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+
+  static Future<String> getSpecialAbilitiesList() async {
+    String url = djangoURL + 'ancestries/specialabilities/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
