@@ -127,6 +127,10 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     _book.close();
     _pgnum.close();
     _ancestry.close();
+    _specialAbilitiesOptions.close();
+    _traitsOptions.close();
+    _chosenHeritages.close();
+    _speed.close();
   }
 }
 

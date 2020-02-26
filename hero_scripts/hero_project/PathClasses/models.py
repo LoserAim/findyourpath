@@ -45,8 +45,6 @@ class PathClass(models.Model):
     hit_points          = models.IntegerField(null=True, blank=True)
     key_ability         = models.CharField(max_length=3, choices=MODIFIER_CHOICES, blank=False)
     proficiencies       = models.ManyToManyField(Proficiency, related_name='class_proficiencies', blank=True)
-    general_feats       = models.ManyToManyField(Feat, related_name="general_feats", blank=True)
-    skill_feats         = models.ManyToManyField(Feat, related_name="skill_feats", blank=True)
     class_feats         = models.ManyToManyField(Feat, related_name="class_feats", blank=True)
     pgnum               = models.PositiveIntegerField(blank=True, null=True)
     book                = models.TextField(blank=True, null=True)
