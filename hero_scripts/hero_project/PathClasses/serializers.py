@@ -15,13 +15,24 @@ class PathClassFeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PathClassFeature
         fields = '__all__'
+
+class PathClassArchetypeIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PathClassArchetype
+        fields = ['id']
+
+class PathClassFeatureIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PathClassFeature
+        fields = ['id']
+
 class PathClassIdsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PathClassFeature
         fields = ['id']
 class PathClassSerializer(serializers.ModelSerializer):
-    archetypes       = PathClassArchetypeSerializer(many=True, required=False)
-    features           = PathClassFeatureSerializer(many=True, required=False)
+    archetypes       = PathClassArchetypeIdsSerializer(many=True, required=False)
+    features           = PathClassFeatureIdsSerializer(many=True, required=False)
     class Meta:
         model = models.PathClass
         fields = [
