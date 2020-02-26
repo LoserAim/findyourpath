@@ -27,7 +27,6 @@ class PathClassSerializer(serializers.ModelSerializer):
         model = models.PathClass
         fields = [
             'name',
-            'hit_points',
             'key_ability',
             'proficiencies',
             'archetypes',
