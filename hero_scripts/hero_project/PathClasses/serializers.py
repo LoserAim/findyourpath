@@ -25,10 +25,12 @@ class PathClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PathClass
         fields = [
+            'id',
             'name',
             'key_ability',
             'proficiencies',
             'archetypes',
+            'additional_skills',
             'features',
             'class_feats',
             'pgnum',

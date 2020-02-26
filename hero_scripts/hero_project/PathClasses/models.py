@@ -36,6 +36,8 @@ class Proficiency(models.Model):
     proficiency_type    = models.CharField(max_length=3, choices=PROFICIENCY_TYPE, blank=False)
     rank                = models.CharField(max_length=1, choices=PROFICIENCY_RANK, blank=False)
     key_ability         = models.CharField(max_length=3, choices=MODIFIER_CHOICES, blank=False)
+    def __str__(self):
+        return '%d: %s' % (self.id, self.name)
 
 
 
@@ -43,6 +45,7 @@ class Proficiency(models.Model):
 class PathClass(models.Model):
     name                = models.CharField(max_length=256, blank=False)
     hit_points          = models.IntegerField(null=True, blank=True)
+    additional_skills   = models.IntegerField(null=True, blank=True)
     key_ability         = models.CharField(max_length=3, choices=MODIFIER_CHOICES, blank=False)
     proficiencies       = models.ManyToManyField(Proficiency, related_name='class_proficiencies', blank=True)
     class_feats         = models.ManyToManyField(Feat, related_name="class_feats", blank=True)
