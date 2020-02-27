@@ -3,6 +3,17 @@ import 'package:http/http.dart' as http;
 const String djangoURL = 'http://21d2c087.ngrok.io/';
 
 class APIservice {
+  static Future<String> getClassListIds() async {
+    String url = djangoURL + 'classes/list/getIds';
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> getClassById(int id) async {
+    String url = djangoURL + 'classes/list/' + id.toString();
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+
   static Future<String> getTraitsNamesList() async {
     String url = djangoURL + 'ancestries/traits/getnames/';
     http.Response response = await http.get(Uri.encodeFull(url));

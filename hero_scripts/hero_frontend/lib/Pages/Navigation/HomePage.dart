@@ -55,6 +55,32 @@ class Home_Page extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(color: Colors.redAccent),
                   child: ListTile(
+                      onTap: () => Navigator.pushNamed(context, '/Classes'),
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      title: Text(
+                        "Classes",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Row(
+                        children: <Widget>[
+                          Icon(Icons.description, color: Colors.orangeAccent),
+                          Expanded(
+                              child: Text("Showing list of Classes",
+                                  style: TextStyle(color: Colors.white)))
+                        ],
+                      ),
+                      trailing: Icon(Icons.keyboard_arrow_right,
+                          color: Colors.white, size: 30.0)),
+                )),
+            Card(
+                elevation: 8.0,
+                margin:
+                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.redAccent),
+                  child: ListTile(
                       onTap: () => Navigator.pushNamed(context, '/Feats'),
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
