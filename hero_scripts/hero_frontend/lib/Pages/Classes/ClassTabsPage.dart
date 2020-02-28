@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/ClassProvider.dart';
 import 'package:hero_frontend/Pages/Classes/ClassArchetypesPage.dart';
+import 'package:hero_frontend/Pages/Classes/ClassFeaturePage.dart';
 import 'package:hero_frontend/Pages/Classes/ClassSelectorPage.dart';
 import 'package:hero_frontend/Widgets/Class/ClassDetailWidget.dart';
 
@@ -13,14 +14,14 @@ class Class_Tabs_Page extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(!snapshot.hasData) return Center(child: CircularProgressIndicator());
         return DefaultTabController(
-            length: 2,
+            length: 3,
             child: Scaffold(
               appBar: AppBar(
                 bottom: TabBar(
                   tabs: [
                     Tab(icon: Icon(Icons.assignment_ind)),
                     Tab(icon: Icon(Icons.assignment)),
-                    //Tab(icon: Icon(Icons.dns)),
+                    Tab(icon: Icon(Icons.dns)),
                   ],
                 ),
                 title: Text(snapshot.data.name),
@@ -29,6 +30,7 @@ class Class_Tabs_Page extends StatelessWidget {
                 children: [
                   Class_Detail_Widget(),
                   Class_Archetypes_Page(),
+                  Class_Feature_Page(),
                 ],
               ),
             ));

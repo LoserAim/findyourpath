@@ -70,44 +70,41 @@ class Class_Detail_Widget extends StatelessWidget {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Proficiency>> snapshot) {
                     if (snapshot.hasData && snapshot.data.length > 0) {
-                    List<Widget> profs = List();
-                    List<List<Proficiency>> test = List();
-                    List<Proficiency> items = snapshot.data;
-                    items.sort((a, b) =>
-                        a.proficiency_type.compareTo(b.proficiency_type));
-                    _proficiency_type.forEach((k, v) {
-                      test.add(
-                          items.where((p) => p.proficiency_type == k).toList());
-                    });
-                    if (test.any((item) => item.length != 0))
-                      test.forEach((itemList) {
-                        if (itemList.length != 0) {
-                          List<String> temps = List();
-
-                          itemList.forEach((p) 
-                          {
-                            temps.add("${_proficiency_rank[p.rank]} in ${p.name}");
-                          });
-                          profs.add(CardSettingsField(
-                          label:
-                              _proficiency_type[itemList[0].proficiency_type],
-                          contentOnNewLine: false,
-                          content: Text(temps.join("\n"))
-                          
-                        ));
-                        }
-                        
+                      List<Widget> profs = List();
+                      List<List<Proficiency>> test = List();
+                      List<Proficiency> items = snapshot.data;
+                      items.sort((a, b) =>
+                          a.proficiency_type.compareTo(b.proficiency_type));
+                      _proficiency_type.forEach((k, v) {
+                        test.add(items
+                            .where((p) => p.proficiency_type == k)
+                            .toList());
                       });
+                      if (test.any((item) => item.length != 0))
+                        test.forEach((itemList) {
+                          if (itemList.length != 0) {
+                            List<String> temps = List();
 
-                    profs.insert(
-                      0,
-                      CardSettingsHeader(label: "Initial Proficiencies"),
-                    );
-                    return Wrap(
-                      children: profs,
-                    );
-                    }
-                    else 
+                            itemList.forEach((p) {
+                              temps.add(
+                                  "${_proficiency_rank[p.rank]} in ${p.name}");
+                            });
+                            profs.add(CardSettingsField(
+                                label: _proficiency_type[
+                                    itemList[0].proficiency_type],
+                                contentOnNewLine: false,
+                                content: Text(temps.join("\n"))));
+                          }
+                        });
+
+                      profs.insert(
+                        0,
+                        CardSettingsHeader(label: "Initial Proficiencies"),
+                      );
+                      return Wrap(
+                        children: profs,
+                      );
+                    } else
                       return CircularProgressIndicator();
                   },
                 ),

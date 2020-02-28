@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:hero_frontend/Models/FeatModel.dart';
 import 'package:hero_frontend/Models/PathClassModel.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,8 +13,10 @@ class Class_Bloc extends Object with Validators {
   final _pathClass = BehaviorSubject<Path_Class>();
   final _archetypes = BehaviorSubject<List<Archetype>>();
   final _chosenArchetype = BehaviorSubject<Archetype>();
+  final _classFeatures = BehaviorSubject<List<Feat>>();
   final _proficiencies = BehaviorSubject<List<Proficiency>>();
 
+  Function(List<Feat>) get changeClassFeatures => _classFeatures.sink.add;
   Function(List<Proficiency>) get changeProficiencies => _proficiencies.sink.add;
   Function(Archetype) get changeChosenArchetypes => _chosenArchetype.sink.add;
   Function(List<Archetype>) get changeArchetypes => _archetypes.sink.add;
@@ -22,6 +25,8 @@ class Class_Bloc extends Object with Validators {
   Observable<Map<int, Future<Path_Class>>> get items => _itemsOutput.stream;
 
   Function(int) get fetchItem => _itemsFetcher.sink.add;
+  Stream<List<Feat>> get classFeatures =>
+      _classFeatures.stream.transform(validateClassFeatures);
   Stream<Path_Class> get pathClass =>
       _pathClass.stream.transform(validatePathClass);
   Stream<Archetype> get chosenArchetypes =>
@@ -48,11 +53,17 @@ class Class_Bloc extends Object with Validators {
       return Archetype.fromMappedJson(res);
     });
   }
-  
+
   Future<Proficiency> getProficiencyById(int id) async {
     return APIservice.getProficiencyById(id).then((responseBody) {
       var res = jsonDecode(responseBody);
       return Proficiency.fromMappedJson(res);
+    });
+  }
+  Future<Feat> getClassFeatureById(int id) async {
+    return APIservice.getClassFeatureById(id).then((responseBody) {
+      var res = jsonDecode(responseBody);
+      return Feat.fromMappedJson(res);
     });
   }
 
@@ -63,6 +74,14 @@ class Class_Bloc extends Object with Validators {
       temp.add(arch);
     });
     changeArchetypes(temp);
+  }
+  fetchClassFeatures(List<int> id_list) async {
+    List<Feat> temp = List();
+    id_list.forEach((item) async {
+      Feat arch = await getClassFeatureById(item);
+      temp.add(arch);
+    });
+    changeClassFeatures(temp);
   }
 
   fetchProficiencies(List<int> id_list) async {
@@ -78,6 +97,7 @@ class Class_Bloc extends Object with Validators {
     final Path_Class item = await getClassById(id);
     fetchArchetypes(item.archetypes);
     fetchProficiencies(item.proficiencies);
+    fetchClassFeatures(item.features);
     changePathClass(item);
   }
 
@@ -107,12 +127,23 @@ class Class_Bloc extends Object with Validators {
     _pathClass.close();
     _archetypes.close();
     _chosenArchetype.close();
+    _proficiencies.close();
+    _classFeatures.close();
   }
 }
 
 class Validators {
   final validatePathClass =
       StreamTransformer<Path_Class, Path_Class>.fromHandlers(
+          handleData: (item, sink) {
+    if (item == null) {
+      sink.addError('item cannot be null!');
+    } else {
+      sink.add(item);
+    }
+  });
+  final validateClassFeatures =
+      StreamTransformer<List<Feat>, List<Feat>>.fromHandlers(
           handleData: (item, sink) {
     if (item == null) {
       sink.addError('item cannot be null!');

@@ -5,7 +5,7 @@ import 'package:hero_frontend/Models/PathClassModel.dart';
 class Archetypes_Card_Widget extends StatelessWidget {
   final item;
   Archetypes_Card_Widget({this.item});
-
+//
   @override
   Widget build(BuildContext context) {
     final bloc = Class_Provider.of(context);
@@ -15,8 +15,6 @@ class Archetypes_Card_Widget extends StatelessWidget {
         child: StreamBuilder(
             stream: bloc.chosenArchetypes,
             builder: (context, AsyncSnapshot<Archetype> snapshot) {
-              if (!snapshot.hasData)
-                return Text("Loading...");
               BoxDecoration decoration = BoxDecoration();
               if(snapshot.data == item)
                 decoration = BoxDecoration(color:Colors.redAccent);
