@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('feats/', include('Feats.urls')),
     path('modifiers/', include('Modifiers.urls')),
-    path('requirements/', include('Requirements.urls')),
-    path('tags/', include('Tags.urls')),
+    path('ancestries/', include('Ancestries.urls')),
+    path('actions/', include('Actions.urls')),
+    path('classes/', include('PathClasses.urls')),
 ]

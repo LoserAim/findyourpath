@@ -17,6 +17,8 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  rxdart: ^0.20.0
+  card_settings: ^1.5.3
   flutter:
     sdk: flutter
 

@@ -25,7 +25,7 @@ SECRET_KEY = 't2(ni#fr=*w45rj*3fxk+0q*8b7b%g&(th(5t1cssc%j%dcf&x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.73', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.0.73', 'localhost', '127.0.0.1', '*']
 
 
 # Application definition
@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Feats.apps.FeatsConfig', #new
     'Modifiers.apps.ModifiersConfig',
-    'Requirements.apps.RequirementsConfig',
-    'Tags.apps.TagsConfig',
+    'Ancestries.apps.AncestriesConfig',
+    'Actions.apps.ActionsConfig',
+    'PathClasses.apps.PathclassesConfig',
     'rest_framework',
     
 ]

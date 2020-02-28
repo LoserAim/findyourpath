@@ -1,25 +1,58 @@
 from rest_framework import serializers
 from Feats.models import (
     Feat, 
+    Tag,
+    Requirement
 ) 
-from Tags import models
 
 
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
 
 
 
 class FeatSerializer(serializers.ModelSerializer):
-    tags = serializers.PrimaryKeyRelatedField(required=False, queryset=models.Tag.objects.all(), many=True)
+    tags = serializers.SlugRelatedField(read_only=False, slug_field='name', many=True, queryset=Tag.objects.all())
     class Meta:
         model = Feat
         fields = [
             'id',
-            'title',
+            'name',
             'description',
             'level',
             'pgnum',
             'book',
             'tags',
         ]
+
+
+class FeatIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feat
+        fields = ['id']
+
+
+class RequirementSerializer(serializers.ModelSerializer):
+    
+    
+    class Meta:
+        model = Requirement
+        fields = [
+            'id',
+            'level',
+            'skill_name',
+            'proficiency',
+            'ability_name',
+            'ability_score',
+            'feat',
+        ]
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['feat'] = FeatSerializer(
+            Feat.objects.get(pk=data['feat'])).data
+        return data
+
 
