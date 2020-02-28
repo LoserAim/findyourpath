@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/ClassProvider.dart';
+import 'package:hero_frontend/Models/PathClassModel.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestryDetailPage.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestryHeritagePage.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestrySelectorPage.dart';
@@ -12,6 +13,7 @@ import 'package:hero_frontend/Widgets/Ancestry/AncestryDetailWidget.dart';
 import 'package:hero_frontend/Widgets/Class/ClassDetailWidget.dart';
 
 import 'BusinessLogic/Providers/FeatListProvider.dart';
+import 'Pages/Classes/ClassTabsPage.dart';
 //import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
 
 void main() {
@@ -90,7 +92,7 @@ Route routes(RouteSettings settings) {
             final int itemId = int.parse(path[2]);
             final bloc = Class_Provider.of(context);
             bloc.fetchData(itemId);
-            return Class_Detail_Widget();
+            return Class_Tabs_Page();
           });
         default:
           return MaterialPageRoute(builder: (context) {

@@ -13,7 +13,16 @@ class APIservice {
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
-
+  static Future<String> getArchetypeById(int id) async {
+    String url = djangoURL + 'classes/archetypes/' + id.toString();
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> getProficiencyById(int id) async {
+    String url = djangoURL + 'classes/proficiencies/' + id.toString();
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
   static Future<String> getTraitsNamesList() async {
     String url = djangoURL + 'ancestries/traits/getnames/';
     http.Response response = await http.get(Uri.encodeFull(url));

@@ -1,3 +1,61 @@
+class Archetype {
+  int id;
+  String name;
+  String description;
+  int pgnum;
+  String book;
+  int path_class;
+  
+  Archetype(this.id, this.name, this.description, this.pgnum, this.book, this.path_class);
+  Archetype.fromMappedJson(Map<String, dynamic> json)
+    : id = json['id'],
+      name = json['name'],
+      description = json['description'],
+      path_class = json['path_class'],
+      pgnum = json['pgnum'],
+      book = json['book'];
+
+  Map<String, dynamic> toJson() =>
+    {
+      'id' : id,
+      'name' : name,
+      'description' : description,
+      'path_class' : path_class,
+      'pgnum' : pgnum,
+      'book' : book,
+    };
+
+
+}
+
+class Proficiency {
+  int id;
+  String name;
+  String proficiency_type;
+  String key_ability;
+  String rank;
+  
+  Proficiency(this.id, this.name, this.proficiency_type, this.key_ability, this.rank);
+  Proficiency.fromMappedJson(Map<String, dynamic> json)
+    : id = json['id'],
+      name = json['name'],
+      proficiency_type = json['proficiency_type'],
+      key_ability = json['key_ability'],
+      rank = json['rank'];
+
+  Map<String, dynamic> toJson() =>
+    {
+      'id' : id,
+      'name' : name,
+      'proficiency_type' : proficiency_type,
+      'key_ability' : key_ability,
+      'rank ' : rank,
+    };
+
+
+}
+
+
 class Path_Class {
   int id;
   int hit_points;

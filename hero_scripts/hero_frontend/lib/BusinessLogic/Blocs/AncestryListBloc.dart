@@ -31,7 +31,7 @@ class Ancestry_List_Bloc {
       return Ancestry.fromMappedJson(res);
     });
   }
-
+  
   fetchTopIds() async {
     List<int> ids = [];
     APIservice.getAncestryListIds().then((responseBody) {

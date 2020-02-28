@@ -29,7 +29,7 @@ class Class_Card_Widget extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(color: Colors.redAccent),
                   child: ListTile(
-                    onTap: () => Navigator.pushNamed(context, '/Classes/${itemSnapshot.data.id}'),
+                      onTap: () => Navigator.pushNamed(context, '/Classes/${itemSnapshot.data.id}'),
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       title: Text(
@@ -37,7 +37,6 @@ class Class_Card_Widget extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
-                    
                       trailing: Icon(Icons.keyboard_arrow_right,
                           color: Colors.white, size: 30.0)),
                 ));

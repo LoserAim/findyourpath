@@ -44,7 +44,7 @@ class Heritage_Card_Widget extends StatelessWidget {
                 );
               else {
                 return Container(
-                  decoration: BoxDecoration(border: Border.all(color:Colors.redAccent, width: 5.0 ),),
+                  decoration: BoxDecoration(border: Border.all(color:Colors.redAccent, width: 1.0 ),),
                   child: ListTile(
                       onTap: () {
                         if (!snapshot.data.contains(item))
