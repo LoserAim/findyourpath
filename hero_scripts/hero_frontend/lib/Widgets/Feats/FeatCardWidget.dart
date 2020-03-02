@@ -1,3 +1,4 @@
+
 import 'package:card_settings/card_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/FeatListProvider.dart';
@@ -24,9 +25,52 @@ class Feat_Card_Widget extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<Feat> itemSnapshot) {
             if (!itemSnapshot.hasData) return Loading_Container_Widget();
 
-            return Generic_Card_Widget(
-              item: itemSnapshot.data);
-            
+            return StreamBuilder(
+                stream: bloc.chosenFeats,
+                builder:
+                    (context, AsyncSnapshot<List<Feat>> chosenFeatSnapshot) {
+                  BoxDecoration decoration = BoxDecoration();
+                  Color color = Colors.orangeAccent;
+
+                  if (chosenFeatSnapshot.data.contains(itemSnapshot.data)) {
+                    decoration = BoxDecoration(color: Theme.of(context).primaryColor);
+                    color = Theme.of(context).textTheme.display1.color;
+                  } else {
+                    color = Theme.of(context).textTheme.display2.color;
+                    decoration = BoxDecoration(
+                      border:
+                          Border.all(color: Theme.of(context).primaryColor, width: 1.0),
+                    );
+                  }
+
+                  return Container(
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    decoration: decoration,
+                    child: ListTile(
+                      onTap: () {
+                        chosenFeatSnapshot.data.contains(itemSnapshot.data)
+                            ? chosenFeatSnapshot.data.remove(itemSnapshot.data)
+                            : chosenFeatSnapshot.data.add(itemSnapshot.data);
+                        bloc.changeChosenFeats(chosenFeatSnapshot.data);
+                      },
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      title: Text(
+                        "${itemSnapshot.data.level} ${itemSnapshot.data.name}",
+                        style: TextStyle(
+                            color: color, fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: Text("${itemSnapshot.data.description}",
+                                  style: TextStyle(color: color)))
+                        ],
+                      ),
+                    ),
+                  );
+                });
           },
         );
       },

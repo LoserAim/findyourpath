@@ -5,18 +5,21 @@ import 'package:hero_frontend/Models/FeatModel.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 
-class Feat_List_Bloc {
+class Feat_List_Bloc extends Object with Validators {
   final _topIds = PublishSubject<List<int>>();
   final _itemsOutput = BehaviorSubject<Map<int, Future<Feat>>>();
   final _itemsFetcher = PublishSubject<int>();
+  final _chosenFeats  = BehaviorSubject<List<Feat>>();
 
 
 
   Observable<List<int>> get topIds => _topIds.stream;
   Observable<Map<int, Future<Feat>>> get items => _itemsOutput.stream;
 
+  Function(List<Feat>) get changeChosenFeats => _chosenFeats.sink.add;
   Function(int) get fetchItem => _itemsFetcher.sink.add;
 
+  Stream<List<Feat>> get chosenFeats => _chosenFeats.stream.transform(validateFeats);
 
   //STUB Constructor
   Feat_List_Bloc() {
@@ -33,6 +36,7 @@ class Feat_List_Bloc {
   }
 
   fetchTopIds() async {
+    changeChosenFeats(List<Feat>());
     List<int> ids = [];
     APIservice.getFeatListIds().then((responseBody) {
       List<dynamic> data = jsonDecode(responseBody);
@@ -43,6 +47,11 @@ class Feat_List_Bloc {
       _topIds.sink.add(ids);
     });
     
+  }
+
+  fetchGivenIds(List<int> itemList) async {
+    changeChosenFeats(List<Feat>());
+    _topIds.sink.add(itemList);
   }
 
   _itemsTransformer() {
@@ -59,6 +68,18 @@ class Feat_List_Bloc {
     _topIds.close();
     _itemsFetcher.close();
     _itemsOutput.close();
+    _chosenFeats.close();
   }
 }
 
+class Validators {
+  final validateFeats =
+      StreamTransformer<List<Feat>, List<Feat>>.fromHandlers(
+          handleData: (item, sink) {
+    if (item == null) {
+      sink.addError('item cannot be null!');
+    } else {
+      sink.add(item);
+    }
+  });
+}

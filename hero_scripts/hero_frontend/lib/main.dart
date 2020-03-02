@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
@@ -25,11 +27,17 @@ void main() {
             title: "Select your crapp",
             onGenerateRoute: routes,
             theme: new ThemeData(
-              primaryColor: Colors.red,
-              accentColor: Colors.redAccent,
+              iconTheme: IconThemeData(color: Colors.orangeAccent,),
+              primaryColor: Colors.brown,
+              accentColor: Colors.brown,
               cardColor: Colors.white,
-              backgroundColor: Colors.orange[100],
+              textSelectionColor: Colors.black,
+              backgroundColor: Colors.brown[50],
               buttonColor: Colors.orange,
+              textTheme: TextTheme(
+                display1: TextStyle(color: Colors.white),
+                display2: TextStyle(color: Colors.black),
+              )
             ),
           ),
         ),
@@ -90,8 +98,10 @@ Route routes(RouteSettings settings) {
         case "Classes":
           return MaterialPageRoute(builder: (context) {
             final int itemId = int.parse(path[2]);
-            final bloc = Class_Provider.of(context);
-            bloc.fetchData(itemId);
+            final classbloc = Class_Provider.of(context);
+            final featbloc = Feat_List_Provider.of(context);
+            classbloc.fetchData(itemId);
+            featbloc.fetchGivenIds(classbloc.giveFeatList());
             return Class_Tabs_Page();
           });
         default:

@@ -6,6 +6,8 @@ from rest_framework import (
     decorators,
     response,
 )
+from Feats import serializers as Ferial
+from Feats import models as Fodels
 from PathClasses import models, serializers
 # Create your views here.
 class ProficiencyViewSet(viewsets.ModelViewSet):
@@ -24,4 +26,12 @@ class PathClassViewSet(viewsets.ModelViewSet):
     def getAncestryIds(self, request):
         queryset = self.queryset
         serializer = serializers.PathClassIdsSerializer(queryset, many=True)
+        return response.Response(serializer.data)
+
+    @decorators.action(methods=['get'], detail=True, url_path='getFeats', url_name='getFeats')
+    def getFeats(self, request, pk=None):
+        instance = self.get_object()
+        qs = Fodels.Feat.objects.filter(id__in=instance.class_feats.all())
+        print(dir(qs))
+        serializer = Ferial.FeatSerializer(qs, many=True)
         return response.Response(serializer.data)

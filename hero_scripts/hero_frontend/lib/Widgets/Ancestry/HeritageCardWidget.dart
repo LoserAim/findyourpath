@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/Models/AncestryModel.dart';
@@ -13,65 +14,47 @@ class Heritage_Card_Widget extends StatelessWidget {
         elevation: 8.0,
         margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
         child: StreamBuilder(
-            stream: bloc.chosenHeritages,
-            builder: (context, AsyncSnapshot<List<Heritage>> snapshot) {
-              if (!snapshot.hasData)
-                return Text("Loading...");
-              if (snapshot.data.contains(item))
-                return Container(
-                  decoration: BoxDecoration(color:Colors.redAccent),
-                  child: ListTile(
+            stream: bloc.chosenHeritage,
+            builder: (context, AsyncSnapshot<Heritage> snapshot) {
+              BoxDecoration decoration = BoxDecoration();
+                  Color color = Colors.orangeAccent;
+
+                  if (item == snapshot.data) {
+                    decoration = BoxDecoration(color: Theme.of(context).cardColor);
+                    color = Theme.of(context).accentColor;
+                  } else {
+                    color = Theme.of(context).textSelectionColor;
+                    decoration = BoxDecoration(
+                      border:
+                          Border.all(color: Theme.of(context).cardColor, width: 1.0),
+                    );
+                  }
+
+                  return Container(
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    decoration: decoration,
+                    child: ListTile(
                       onTap: () {
-                        List<Heritage> temp = [item];
-                        bloc.changeChosenHeritages(temp);
+                        bloc.changeChosenHeritage(item);
                       },
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       title: Text(
-                        "${item.name}",
+                        "${item.level} ${item.name}",
                         style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                            color: color, fontWeight: FontWeight.bold),
                       ),
                       subtitle: Row(
                         children: <Widget>[
-                          
                           Expanded(
                               child: Text("${item.description}",
-                                  style: TextStyle(color: Colors.black)))
+                                  style: TextStyle(color: color)))
                         ],
                       ),
-                      ),
-                );
-              else {
-                return Container(
-                  decoration: BoxDecoration(border: Border.all(color:Colors.redAccent, width: 1.0 ),),
-                  child: ListTile(
-                      onTap: () {
-                        if (!snapshot.data.contains(item))
-                        {
-                          List<Heritage> temp = [item];
-                          bloc.changeChosenHeritages(temp);
-                        }
-                        
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      title: Text(
-                        "${item.name}",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Row(
-                        children: <Widget>[
-                          
-                          Expanded(
-                              child: Text("${item.description}",
-                                  style: TextStyle(color: Colors.black)))
-                        ],
-                      ),
-                  )  
-                );
+                    ),
+                  );
               }
-            }));
+            ));
   }
 }

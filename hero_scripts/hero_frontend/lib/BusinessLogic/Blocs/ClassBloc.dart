@@ -67,6 +67,11 @@ class Class_Bloc extends Object with Validators {
     });
   }
 
+  List<int> giveFeatList() {
+    final Path_Class item = _pathClass.stream.value;
+    return item.class_feats;
+  }
+
   fetchArchetypes(List<int> id_list) async {
     List<Archetype> temp = List();
     id_list.forEach((item) async {
