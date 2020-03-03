@@ -16,9 +16,9 @@ class Sample_Data {
         ['Darkvision'],
         [
           Heritage(
-            1,
-            'Dwarven Heritage',
-            'This is a temporary description',
+            id:1,
+            name:'Dwarven Heritage',
+            description:'This is a temporary description',
             //true,
           )
         ],
@@ -48,9 +48,9 @@ class Sample_Data {
         ['Low-Light Vision'],
         [
           Heritage(
-            2,
-            'Elven Heritage',
-            'This is a temporary description',
+            id: 2,
+            name: 'Elven Heritage',
+            description: 'This is a temporary description',
             //true,
           )
         ],

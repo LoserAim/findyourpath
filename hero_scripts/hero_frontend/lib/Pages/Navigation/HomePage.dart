@@ -27,7 +27,7 @@ class Home_Page extends StatelessWidget {
                 margin:
                     new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.redAccent),
+                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                   child: ListTile(
                       onTap: () => Navigator.pushNamed(context, '/Ancestries'),
                       contentPadding: EdgeInsets.symmetric(
@@ -53,7 +53,7 @@ class Home_Page extends StatelessWidget {
                 margin:
                     new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.redAccent),
+                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                   child: ListTile(
                       onTap: () => Navigator.pushNamed(context, '/Classes'),
                       contentPadding: EdgeInsets.symmetric(
@@ -79,7 +79,7 @@ class Home_Page extends StatelessWidget {
                 margin:
                     new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.redAccent),
+                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                   child: ListTile(
                       onTap: () => Navigator.pushNamed(context, '/Feats'),
                       contentPadding: EdgeInsets.symmetric(
@@ -104,10 +104,11 @@ class Home_Page extends StatelessWidget {
         ),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: () => debugPrint("Floating Button Tapped!"),
+        onPressed: () => Navigator.pushNamed(context, '/Characters'),
         backgroundColor: Colors.brown,
+
         tooltip: 'Going up',
-        child: new Icon(Icons.add),
+        child: new Icon(Icons.add, color: Theme.of(context).textTheme.display1.color,),
       ),
       bottomNavigationBar: new BottomNavigationBar(
         items: [

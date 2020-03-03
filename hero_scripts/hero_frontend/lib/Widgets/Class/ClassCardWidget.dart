@@ -27,7 +27,7 @@ class Class_Card_Widget extends StatelessWidget {
                 margin:
                     new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.redAccent),
+                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                   child: ListTile(
                       onTap: () => Navigator.pushNamed(context, '/Classes/${itemSnapshot.data.id}'),
                       contentPadding: EdgeInsets.symmetric(
@@ -35,10 +35,10 @@ class Class_Card_Widget extends StatelessWidget {
                       title: Text(
                         "${itemSnapshot.data.name}",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                            color: Theme.of(context).textTheme.display1.color, fontWeight: FontWeight.bold),
                       ),
                       trailing: Icon(Icons.keyboard_arrow_right,
-                          color: Colors.white, size: 30.0)),
+                          color: Theme.of(context).cardColor, size: 30.0)),
                 ));
           },
         );

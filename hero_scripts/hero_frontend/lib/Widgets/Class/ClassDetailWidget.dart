@@ -65,6 +65,7 @@ class Class_Detail_Widget extends StatelessWidget {
                 ),
               ]),
               CardSettingsSection(children: <Widget>[
+                CardSettingsHeader(label: "Initial Proficiencies"),
                 StreamBuilder(
                   stream: bloc.proficiencies,
                   builder: (BuildContext context,
@@ -96,16 +97,13 @@ class Class_Detail_Widget extends StatelessWidget {
                                 content: Text(temps.join("\n"))));
                           }
                         });
-
-                      profs.insert(
-                        0,
-                        CardSettingsHeader(label: "Initial Proficiencies"),
-                      );
                       return Wrap(
                         children: profs,
                       );
-                    } else
+                    } else {
                       return CircularProgressIndicator();
+                    }
+                      
                   },
                 ),
               ]),

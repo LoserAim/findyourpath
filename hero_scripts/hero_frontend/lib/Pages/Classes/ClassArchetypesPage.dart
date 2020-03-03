@@ -16,16 +16,21 @@ class Class_Archetypes_Page extends StatelessWidget {
             label: "Available Archetypes",
             contentOnNewLine: true,
             content: StreamBuilder(
-              stream: bloc.archetypes,
+              stream: bloc.archetypesIds,
               builder: (BuildContext context,
-                  AsyncSnapshot<List<Archetype>> snapshot) {
-                if (!snapshot.hasData) return CircularProgressIndicator();
+                  AsyncSnapshot<List<int>> snapshot) {
+                if (!snapshot.hasData){
+                  bloc.reloadArchetypesIds(bloc.returnPathClass.archetypes);
+                  return CircularProgressIndicator();
+                } 
                 List<Widget> choices = List();
 
-                snapshot.data.forEach((item) {
+                snapshot.data.forEach((id) {
+                  bloc.fetchArchetype(id);
                   choices.add(
+                    
                     Archetypes_Card_Widget(
-                      item: item,
+                      id: id,
                     ),
                   );
                 });

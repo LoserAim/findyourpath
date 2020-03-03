@@ -13,65 +13,49 @@ class Heritage_Card_Widget extends StatelessWidget {
         elevation: 8.0,
         margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
         child: StreamBuilder(
-            stream: bloc.chosenHeritages,
-            builder: (context, AsyncSnapshot<List<Heritage>> snapshot) {
-              if (!snapshot.hasData)
-                return Text("Loading...");
-              if (snapshot.data.contains(item))
-                return Container(
-                  decoration: BoxDecoration(color:Colors.redAccent),
-                  child: ListTile(
-                      onTap: () {
-                        List<Heritage> temp = [item];
-                        bloc.changeChosenHeritages(temp);
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      title: Text(
-                        "${item.name}",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Row(
-                        children: <Widget>[
-                          
-                          Expanded(
-                              child: Text("${item.description}",
-                                  style: TextStyle(color: Colors.black)))
-                        ],
-                      ),
-                      ),
+            stream: bloc.chosenHeritage,
+            builder: (context, AsyncSnapshot<Heritage> snapshot) {
+              BoxDecoration decoration = BoxDecoration();
+              Color color = Colors.orangeAccent;
+              if (!snapshot.hasData) {
+                color = Theme.of(context).textTheme.display2.color;
+                decoration = BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).primaryColor, width: 1.0),
                 );
-              else {
-                return Container(
-                  decoration: BoxDecoration(border: Border.all(color:Colors.redAccent, width: 1.0 ),),
-                  child: ListTile(
-                      onTap: () {
-                        if (!snapshot.data.contains(item))
-                        {
-                          List<Heritage> temp = [item];
-                          bloc.changeChosenHeritages(temp);
-                        }
-                        
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      title: Text(
-                        "${item.name}",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Row(
-                        children: <Widget>[
-                          
-                          Expanded(
-                              child: Text("${item.description}",
-                                  style: TextStyle(color: Colors.black)))
-                        ],
-                      ),
-                  )  
+              } else if (item == snapshot.data) {
+                decoration =
+                    BoxDecoration(color: Theme.of(context).primaryColor);
+                color = Theme.of(context).textTheme.display1.color;
+              } else {
+                color = Theme.of(context).textTheme.display2.color;
+                decoration = BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).primaryColor, width: 1.0),
                 );
               }
+
+              return Container(
+                decoration: decoration,
+                child: ListTile(
+                  onTap: () {
+                    bloc.changeChosenHeritage(item);
+                  },
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  title: Text(
+                    "${item.name}",
+                    style: TextStyle(color: color, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: Text("${item.description}",
+                              style: TextStyle(color: color)))
+                    ],
+                  ),
+                ),
+              );
             }));
   }
 }

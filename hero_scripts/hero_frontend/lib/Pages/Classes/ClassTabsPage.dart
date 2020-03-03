@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/ClassProvider.dart';
 import 'package:hero_frontend/Pages/Classes/ClassArchetypesPage.dart';
+import 'package:hero_frontend/Pages/Classes/ClassFeatsPage.dart';
 import 'package:hero_frontend/Pages/Classes/ClassFeaturePage.dart';
 import 'package:hero_frontend/Pages/Classes/ClassSelectorPage.dart';
+import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
 import 'package:hero_frontend/Widgets/Class/ClassDetailWidget.dart';
 
 class Class_Tabs_Page extends StatelessWidget {
@@ -14,14 +16,15 @@ class Class_Tabs_Page extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(!snapshot.hasData) return Center(child: CircularProgressIndicator());
         return DefaultTabController(
-            length: 3,
+            length: 4,
             child: Scaffold(
               appBar: AppBar(
                 bottom: TabBar(
                   tabs: [
-                    Tab(icon: Icon(Icons.assignment_ind)),
-                    Tab(icon: Icon(Icons.assignment)),
-                    Tab(icon: Icon(Icons.dns)),
+                    Tab(icon: Icon(Icons.assignment_ind), text: "General",),
+                    Tab(icon: Icon(Icons.assignment), text: "Archetypes"),
+                    Tab(icon: Icon(Icons.dns), text: "Features",),
+                    Tab(icon: Icon(Icons.book), text: "Feats",),
                   ],
                 ),
                 title: Text(snapshot.data.name),
@@ -31,6 +34,7 @@ class Class_Tabs_Page extends StatelessWidget {
                   Class_Detail_Widget(),
                   Class_Archetypes_Page(),
                   Class_Feature_Page(),
+                  Class_Feats_Page(),
                 ],
               ),
             ));
