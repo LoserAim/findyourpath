@@ -10,26 +10,7 @@ class Ancestry_Heritage_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Ancestry_Detail_Provider.of(context);
-    return Scaffold(
-      appBar: new AppBar(
-        title: Align(
-            alignment: Alignment.center,
-            child: Container(
-                child: new Text(
-              "Heritages",
-              style: text_format.display4,
-            ))),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.chevron_right,
-              size: 40.0,
-            ),
-            onPressed: () => null,
-          )
-        ],
-      ),
-      body: CardSettings(
+    return CardSettings(
         children: <Widget>[
           CardSettingsField(
             label: "Available Heritages",
@@ -57,7 +38,7 @@ class Ancestry_Heritage_Page extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      
     );
   }
 }

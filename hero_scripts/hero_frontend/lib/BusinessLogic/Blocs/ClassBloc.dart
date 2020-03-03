@@ -12,6 +12,9 @@ class Class_Bloc extends Object with Validators {
   final _itemsFetcher = PublishSubject<int>();
   final _pathClass = BehaviorSubject<Path_Class>();
   final _archetypes = BehaviorSubject<List<Archetype>>();
+  final _archetypesIds = PublishSubject<List<int>>();
+  final _archetypesOutput = BehaviorSubject<Map<int, Future<Archetype>>>();
+  final _archetypesFetcher = PublishSubject<int>();
   final _chosenArchetype = BehaviorSubject<Archetype>();
   final _classFeatures = BehaviorSubject<List<Feat>>();
   final _proficiencies = BehaviorSubject<List<Proficiency>>();
@@ -21,23 +24,31 @@ class Class_Bloc extends Object with Validators {
   Function(Archetype) get changeChosenArchetypes => _chosenArchetype.sink.add;
   Function(List<Archetype>) get changeArchetypes => _archetypes.sink.add;
   Function(Path_Class) get changePathClass => _pathClass.sink.add;
+  // SECTION Id stream
   Observable<List<int>> get topIds => _topIds.stream;
   Observable<Map<int, Future<Path_Class>>> get items => _itemsOutput.stream;
-
   Function(int) get fetchItem => _itemsFetcher.sink.add;
+
+  Observable<List<int>> get archetypesIds => _archetypesIds.stream;
+  Function(List<int>) get reloadArchetypesIds => _archetypesIds.sink.add;
+  Observable<Map<int, Future<Archetype>>> get archetypes => _archetypesOutput.stream;
+  Function(int) get fetchArchetype => _archetypesFetcher.sink.add;
+
   Stream<List<Feat>> get classFeatures =>
       _classFeatures.stream.transform(validateClassFeatures);
+  Path_Class get returnPathClass => _pathClass.stream.value;
   Stream<Path_Class> get pathClass =>
       _pathClass.stream.transform(validatePathClass);
   Stream<Archetype> get chosenArchetypes =>
       _chosenArchetype.stream.transform(validateChosenArchetypes);
-  Stream<List<Archetype>> get archetypes =>
-      _archetypes.stream.transform(validateArchetypes);
+  // Stream<List<Archetype>> get archetypes =>
+  //     _archetypes.stream.transform(validateArchetypes);
   Stream<List<Proficiency>> get proficiencies =>
       _proficiencies.stream.transform(validateProficiencies);
   //STUB Constructor
   Class_Bloc() {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
+    _archetypesFetcher.stream.transform(_archetypesTransformer()).pipe(_archetypesOutput);
   }
 
   Future<Path_Class> getClassById(int id) async {
@@ -67,19 +78,8 @@ class Class_Bloc extends Object with Validators {
     });
   }
 
-  List<int> giveFeatList() {
-    final Path_Class item = _pathClass.stream.value;
-    return item.class_feats;
-  }
 
-  fetchArchetypes(List<int> id_list) async {
-    List<Archetype> temp = List();
-    id_list.forEach((item) async {
-      Archetype arch = await getArchetypeById(item);
-      temp.add(arch);
-    });
-    changeArchetypes(temp);
-  }
+
   fetchClassFeatures(List<int> id_list) async {
     List<Feat> temp = List();
     id_list.forEach((item) async {
@@ -91,6 +91,7 @@ class Class_Bloc extends Object with Validators {
 
   fetchProficiencies(List<int> id_list) async {
     List<Proficiency> temp = List();
+    print("called Fetcher");
     id_list.forEach((item) async {
       Proficiency arch = await getProficiencyById(item);
       temp.add(arch);
@@ -100,9 +101,9 @@ class Class_Bloc extends Object with Validators {
 
   fetchData(int id) async {
     final Path_Class item = await getClassById(id);
-    fetchArchetypes(item.archetypes);
-    fetchProficiencies(item.proficiencies);
-    fetchClassFeatures(item.features);
+    _archetypesIds.sink.add(item.archetypes);
+    await fetchProficiencies(item.proficiencies);
+    await fetchClassFeatures(item.features);
     changePathClass(item);
   }
 
@@ -125,6 +126,14 @@ class Class_Bloc extends Object with Validators {
     }, <int, Future<Path_Class>>{});
   }
 
+  _archetypesTransformer() {
+    return ScanStreamTransformer(
+        (Map<int, Future<Archetype>> cache, int id, index) {
+      cache[id] = getArchetypeById(id);
+      return cache;
+    }, <int, Future<Archetype>>{});
+  }
+
   dispose() {
     _topIds.close();
     _itemsFetcher.close();
@@ -134,6 +143,9 @@ class Class_Bloc extends Object with Validators {
     _chosenArchetype.close();
     _proficiencies.close();
     _classFeatures.close();
+    _archetypesIds.close();
+    _archetypesOutput.close();
+    _archetypesFetcher.close();
   }
 }
 

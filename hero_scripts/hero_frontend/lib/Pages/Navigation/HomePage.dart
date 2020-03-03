@@ -104,7 +104,7 @@ class Home_Page extends StatelessWidget {
         ),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: () => debugPrint("Floating Button Tapped!"),
+        onPressed: () => Navigator.pushNamed(context, '/Characters'),
         backgroundColor: Colors.brown,
 
         tooltip: 'Going up',

@@ -11,7 +11,6 @@ import 'package:hero_frontend/Widgets/Generics/GenericCardWidget.dart';
 import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
 
 class Ancestry_Detail_Widget extends StatelessWidget {
-  final int itemId;
   final Map<String, String> _sizeDict = {
     "T": "Tiny",
     "S": "Small",
@@ -52,24 +51,10 @@ class Ancestry_Detail_Widget extends StatelessWidget {
     "Charisma",
     "Free"
   ];
-
-  Ancestry_Detail_Widget({this.itemId});
   @override
   Widget build(BuildContext context) {
     final bloc = Ancestry_Detail_Provider.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: StreamBuilder(
-          stream: bloc.name,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) return Text("loading...");
-            return Container(
-              child: Text(snapshot.data.toString()),
-            );
-          },
-        ),
-      ),
-      body: StreamBuilder(
+    return StreamBuilder(
           stream: bloc.ancestry,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return Loading_Container_Widget();
@@ -117,12 +102,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                               ChoiceChip(
                                 label: Text(item),
                                 selected: current.contains(item),
-                                onSelected: (selected) {
-                                  current.contains(item)
-                                      ? current.remove(item)
-                                      : current.add(item);
-                                  bloc.changeAbilityBoosts(current);
-                                },
+                                onSelected: (selected) => null,
                               ),
                             );
                           });
@@ -150,12 +130,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                               ChoiceChip(
                                 label: Text(item),
                                 selected: current.contains(item),
-                                onSelected: (selected) {
-                                  current.contains(item)
-                                      ? current.remove(item)
-                                      : current.add(item);
-                                  bloc.changeAbilityFlaws(current);
-                                },
+                                onSelected: (selected) => null,
                               ),
                             );
                           });
@@ -190,12 +165,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                               ChoiceChip(
                                 label: Text(item),
                                 selected: current.contains(item),
-                                onSelected: (selected) {
-                                  current.contains(item)
-                                      ? current.remove(item)
-                                      : current.add(item);
-                                  bloc.changeLanguages(current);
-                                },
+                                onSelected: (selected) => null,
                               ),
                             );
                           });
@@ -230,12 +200,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                                   ChoiceChip(
                                     label: Text(item),
                                     selected: current.contains(item),
-                                    onSelected: (selected) {
-                                      current.contains(item)
-                                          ? current.remove(item)
-                                          : current.add(item);
-                                      bloc.changeTraits(current);
-                                    },
+                                    onSelected: (selected) => null,
                                   ),
                                 );
                               });
@@ -249,7 +214,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                       ),
                     ),
                     CardSettingsField(
-                      icon: Icon(Icons.title),
+                      icon: Icon(Icons.vpn_key),
                       contentOnNewLine: true,
                       label: "Special Abilities",
                       content: StreamBuilder(
@@ -272,12 +237,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                                   ChoiceChip(
                                     label: Text(item),
                                     selected: current.contains(item),
-                                    onSelected: (selected) {
-                                      current.contains(item)
-                                          ? current.remove(item)
-                                          : current.add(item);
-                                      bloc.changeTraits(current);
-                                    },
+                                    onSelected: (selected) => null,
                                   ),
                                 );
                               });
@@ -291,9 +251,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                       ),
                       
                     ),
-                    CardSettingsButton(label: "Pick Your Heritages",
-                      onPressed: () => Navigator.pushNamed(context, '/Ancestries/${snapshot.data.id.toString()}/Heritages'),
-                    ),
+                    
 
                   ],
                 ),
@@ -302,7 +260,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                 
               ],
             );
-          }),
+          }
     );
   }
 }

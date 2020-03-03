@@ -21,10 +21,10 @@ class Class_Tabs_Page extends StatelessWidget {
               appBar: AppBar(
                 bottom: TabBar(
                   tabs: [
-                    Tab(icon: Icon(Icons.assignment_ind)),
-                    Tab(icon: Icon(Icons.assignment)),
-                    Tab(icon: Icon(Icons.dns)),
-                    Tab(icon: Icon(Icons.book)),
+                    Tab(icon: Icon(Icons.assignment_ind), text: "General",),
+                    Tab(icon: Icon(Icons.assignment), text: "Archetypes"),
+                    Tab(icon: Icon(Icons.dns), text: "Features",),
+                    Tab(icon: Icon(Icons.book), text: "Feats",),
                   ],
                 ),
                 title: Text(snapshot.data.name),

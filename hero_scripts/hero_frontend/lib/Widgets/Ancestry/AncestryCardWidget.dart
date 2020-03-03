@@ -1,6 +1,8 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
+import 'package:hero_frontend/BusinessLogic/Providers/CharacterProvider.dart';
 import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:hero_frontend/Settings/TextFormat.dart';
 import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
@@ -11,6 +13,7 @@ class Ancestry_Card_Widget extends StatelessWidget {
   Ancestry_Card_Widget({this.itemId});
   @override
   Widget build(BuildContext context) {
+    final charater_bloc = Character_Provider.of(context);
     final bloc = Ancestry_List_Provider.of(context);
     return StreamBuilder(
       stream: bloc.items,
@@ -30,7 +33,10 @@ class Ancestry_Card_Widget extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                   child: ListTile(
-                      onTap: () => Navigator.pushNamed(context, '/Ancestries/${itemSnapshot.data.id.toString()}'),
+                      onTap: () {
+                        charater_bloc.changeChosenAncestry(itemSnapshot.data);
+                        Navigator.pushNamed(context, '/Ancestries/${itemSnapshot.data.id.toString()}');
+                        },
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       title: Text(

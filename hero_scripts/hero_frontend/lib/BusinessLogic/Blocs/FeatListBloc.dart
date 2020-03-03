@@ -15,7 +15,7 @@ class Feat_List_Bloc extends Object with Validators {
 
   Observable<List<int>> get topIds => _topIds.stream;
   Observable<Map<int, Future<Feat>>> get items => _itemsOutput.stream;
-
+  List<Feat> get returnCurrentChosenFeats => _chosenFeats.stream.value;
   Function(List<Feat>) get changeChosenFeats => _chosenFeats.sink.add;
   Function(int) get fetchItem => _itemsFetcher.sink.add;
 
@@ -24,6 +24,7 @@ class Feat_List_Bloc extends Object with Validators {
   //STUB Constructor
   Feat_List_Bloc() {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
+    changeChosenFeats(List<Feat>());
   }
 
 
@@ -35,8 +36,8 @@ class Feat_List_Bloc extends Object with Validators {
     });
   }
 
+
   fetchTopIds() async {
-    changeChosenFeats(List<Feat>());
     List<int> ids = [];
     APIservice.getFeatListIds().then((responseBody) {
       List<dynamic> data = jsonDecode(responseBody);
@@ -49,9 +50,29 @@ class Feat_List_Bloc extends Object with Validators {
     
   }
 
-  fetchGivenIds(List<int> itemList) async {
-    changeChosenFeats(List<Feat>());
-    _topIds.sink.add(itemList);
+  fetchClassFeatIds(int id) async {
+    List<int> ids = [];
+    APIservice.getClassFeatIds(id).then((responseBody) {
+      List<dynamic> data = jsonDecode(responseBody);
+      data.forEach((value) {
+        ids.add(value['id']);
+
+      });
+      _topIds.sink.add(ids);
+    });
+    
+  }
+  fetchAncestryFeatIds(int id) async {
+    List<int> ids = [];
+    APIservice.getAncestryFeatIds(id).then((responseBody) {
+      List<dynamic> data = jsonDecode(responseBody);
+      data.forEach((value) {
+        ids.add(value['id']);
+
+      });
+      _topIds.sink.add(ids);
+    });
+    
   }
 
   _itemsTransformer() {

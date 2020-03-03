@@ -6,18 +6,15 @@ class Heritage {
   int id;
   String name;
   String description;
-  int level;
 
   Heritage({this.id, this.name, this.description});
   Heritage.fromMappedJson(Map<String, dynamic> json)
       : id = json['id'],
-        level = json['level'],
         name = json['name'],
         description = json['description'];
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'level': level,
         'description': description,
       };
 }
