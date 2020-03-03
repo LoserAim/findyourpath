@@ -1,6 +1,7 @@
+import 'package:hero_frontend/Services/ngroklink.dart';
 import 'package:http/http.dart' as http;
 
-const String djangoURL = 'http://21d2c087.ngrok.io/';
+final String djangoURL = Ngrok.link;
 
 class APIservice {
   static Future<String> getClassListIds() async {
