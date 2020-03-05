@@ -1,5 +1,11 @@
+
+
 import 'package:flutter/material.dart';
+import 'package:hero_frontend/BusinessLogic/Providers/CharacterProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/ClassProvider.dart';
+import 'package:hero_frontend/BusinessLogic/Providers/FeatListProvider.dart';
+import 'package:hero_frontend/Models/FeatModel.dart';
+import 'package:hero_frontend/Models/PathClassModel.dart';
 import 'package:hero_frontend/Pages/Classes/ClassArchetypesPage.dart';
 import 'package:hero_frontend/Pages/Classes/ClassFeatsPage.dart';
 import 'package:hero_frontend/Pages/Classes/ClassFeaturePage.dart';
@@ -10,9 +16,11 @@ import 'package:hero_frontend/Widgets/Class/ClassDetailWidget.dart';
 class Class_Tabs_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = Class_Provider.of(context);
+    final featBloc = Feat_List_Provider.of(context);
+    final classBloc = Class_Provider.of(context);
+    final characterBloc = Character_Provider.of(context);
     return StreamBuilder(
-      stream: bloc.pathClass,
+      stream: classBloc.pathClass,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(!snapshot.hasData) return Center(child: CircularProgressIndicator());
         return DefaultTabController(
@@ -21,10 +29,10 @@ class Class_Tabs_Page extends StatelessWidget {
               appBar: AppBar(
                 bottom: TabBar(
                   tabs: [
-                    Tab(icon: Icon(Icons.assignment_ind)),
-                    Tab(icon: Icon(Icons.assignment)),
-                    Tab(icon: Icon(Icons.dns)),
-                    Tab(icon: Icon(Icons.book)),
+                    Tab(icon: Icon(Icons.assignment_ind), text: "General",),
+                    Tab(icon: Icon(Icons.assignment), text: "Archetypes"),
+                    Tab(icon: Icon(Icons.dns), text: "Features",),
+                    Tab(icon: Icon(Icons.book), text: "Feats",),
                   ],
                 ),
                 title: Text(snapshot.data.name),
@@ -36,6 +44,55 @@ class Class_Tabs_Page extends StatelessWidget {
                   Class_Feature_Page(),
                   Class_Feats_Page(),
                 ],
+              ),
+              floatingActionButton: new FloatingActionButton(
+                onPressed: () async {
+                  final Path_Class itemClass = classBloc.returnPathClass;
+                  final List<Feat> itemFeats =
+                      featBloc.returnCurrentChosenFeats;
+                  final Archetype itemArchetype =  classBloc.returnChosenArchetype;
+                  final List<String> itemCboosts = (itemClass.key_ability != null)
+                      ? [itemClass.key_ability]
+                      : null;
+                  List<String> alert = List();
+                  if (itemArchetype == null || itemArchetype.id == null)
+                    alert.add("Please pick an archetype!");
+                  if (itemFeats == null || itemFeats.length <= 0)
+                    alert.add("Please pick at least one feat!");
+                  if (alert.length > 0)
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Error While Saving Data"),
+                            content: Text(alert.join('\n')),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  else {
+                    await characterBloc.changeChosenCBoosts(itemCboosts);
+                    await characterBloc.changeChosenArchetype(itemArchetype);
+                    await characterBloc.changeChosenClass(itemClass);
+                    await characterBloc.changeChosenClassFeats(itemFeats);
+                    Future.delayed(Duration.zero, () {
+                      Navigator.popUntil(
+                          context, ModalRoute.withName('/Characters'));
+                    });
+                  }
+                },
+                backgroundColor: Theme.of(context).primaryColor,
+                tooltip: 'Good To Go',
+                child: new Icon(
+                  Icons.check,
+                  color: Theme.of(context).textTheme.display1.color,
+                ),
               ),
             ));
       },

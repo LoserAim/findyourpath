@@ -1,6 +1,7 @@
+import 'package:hero_frontend/Services/ngroklink.dart';
 import 'package:http/http.dart' as http;
 
-const String djangoURL = 'http://21d2c087.ngrok.io/';
+final String djangoURL = Ngrok.link;
 
 class APIservice {
   static Future<String> getClassListIds() async {
@@ -10,6 +11,16 @@ class APIservice {
   }
   static Future<String> getClassFeatureById(int id) async {
     String url = djangoURL + 'classes/features/' + id.toString();
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> getClassFeatIds(int id) async {
+    String url = djangoURL + 'classes/list/' + id.toString() + '/getFeats/';
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> getAncestryFeatIds(int id) async {
+    String url = djangoURL + 'ancestries/list/' + id.toString() + '/getFeats/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }

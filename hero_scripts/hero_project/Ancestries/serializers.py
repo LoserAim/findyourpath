@@ -28,6 +28,10 @@ class HeritageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Heritage
         fields = '__all__'
+class HeritageIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Heritage
+        fields = ['id']
 
 class AncestryIdsSerializer(serializers.ModelSerializer):
     class Meta:

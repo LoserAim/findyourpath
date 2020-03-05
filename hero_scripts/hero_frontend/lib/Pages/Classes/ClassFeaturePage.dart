@@ -8,26 +8,33 @@ class Class_Feature_Page extends StatelessWidget {
     final bloc = Class_Provider.of(context);
     return CardSettings(
       children: <Widget>[
-        CardSettingsHeader(label: "Class Features",),
+        CardSettingsHeader(
+          label: "Class Features",
+        ),
         StreamBuilder(
-          stream: bloc.classFeatures ,
-          builder: (BuildContext context, AsyncSnapshot snapshot){
+          stream: bloc.classFeatures,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData)
               return CircularProgressIndicator();
             else {
               List<Widget> features = List();
 
               snapshot.data.forEach((item) {
-                features.add(CardSettingsField(label: item.name,
-                contentOnNewLine: true,
-                content: Text(item.description),));
+                if (item.level == 1) {
+                  features.add(CardSettingsField(
+                    label: item.name,
+                    contentOnNewLine: true,
+                    content: Text(item.description),
+                  ));
+                }
               });
-              return Wrap(children: features,);
+              return Wrap(
+                children: features,
+              );
             }
           },
         ),
       ],
-      
     );
   }
 }

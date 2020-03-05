@@ -28,6 +28,9 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   final _traitsOptions      = BehaviorSubject<List<String>>();
   final _specialAbilitiesOptions = BehaviorSubject<List<String>>();
 
+  
+  Heritage get returnCurrentHeritage => _chosenHeritage.stream.value;
+  Ancestry get returnCurrentAncestry => _ancestry.stream.value;
   Function(List<String>)    get changeTraitsOptions => _traitsOptions.sink.add;
   Function(List<String>)    get changeSpecialAbilitiesOptions => _specialAbilitiesOptions.sink.add;
   Function(int)             get changeHitPoints => _hitPoints.sink.add;
