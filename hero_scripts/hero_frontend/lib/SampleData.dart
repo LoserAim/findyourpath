@@ -4,17 +4,17 @@ import 'package:hero_frontend/Models/FeatModel.dart';
 class Sample_Data {
   static List<Ancestry> ancestryList = [
     Ancestry(
-        1,
-        10,
-        'Dwarf',
-        'Medium',
-        20,
-        ['STR', 'WIS', 'FREE'],
-        ['CHA'],
-        ['Dwarf', 'Common'],
-        ['Dwarf', 'Humanoid'],
-        ['Darkvision'],
-        [
+        id: 1,
+        hit_points: 10,
+        name : 'Dwarf',
+        size: 'Medium',
+        speed: 20,
+        ability_boosts: ['STR', 'WIS', 'FREE'],
+        ability_flaws: ['CHA'],
+        languages: ['Dwarf', 'Common'],
+        traits: ['Dwarf', 'Humanoid'],
+        special_abilities: ['Darkvision'],
+        heritages: [
           Heritage(
             id:1,
             name:'Dwarven Heritage',
@@ -22,31 +22,31 @@ class Sample_Data {
             //true,
           )
         ],
-        [
+        feats: [
           Feat(
-            1,
-            'Temp Feat Title',
-            'Temp Feat Description',
-            1,
-            999,
-            'N/A',
+            id: 1,
+            name:'Temp Feat Title',
+            description:'Temp Feat Description',
+            level: 1,
+            pgnum:999,
+            book:'N/A',
             //true
           )
         ],
-        'N/A',
-        999),
+        book: 'N/A',
+        pgnum: 999),
     Ancestry(
-        2,
-        6,
-        'Elf',
-        'Medium',
-        30,
-        ['DEX', 'INT', 'FREE'],
-        ['CON'],
-        ['Common', 'Elven'],
-        ['Elf', 'Humanoid'],
-        ['Low-Light Vision'],
-        [
+        id: 2,
+        hit_points: 6,
+        name: 'Elf',
+        size: 'Medium',
+        speed: 30,
+        ability_boosts: ['DEX', 'INT', 'FREE'],
+        ability_flaws: ['CON'],
+        languages: ['Common', 'Elven'],
+        traits: ['Elf', 'Humanoid'],
+        special_abilities: ['Low-Light Vision'],
+        heritages: [
           Heritage(
             id: 2,
             name: 'Elven Heritage',
@@ -54,18 +54,18 @@ class Sample_Data {
             //true,
           )
         ],
-        [
+        feats: [
           Feat(
-            2,
-            'Temp Feat Title',
-            'Temp Feat Description',
-            1,
-            999,
-            'N/A',
+            id: 1,
+            name:'Temp Feat Title',
+            description:'Temp Feat Description',
+            level: 1,
+            pgnum:999,
+            book:'N/A',
             //true
           )
         ],
-        'N/A',
-        999)
+        book:'N/A',
+        pgnum:999)
   ];
 }

@@ -37,6 +37,7 @@ class Class_Bloc extends Object with Validators {
   Stream<List<Feat>> get classFeatures =>
       _classFeatures.stream.transform(validateClassFeatures);
   Path_Class get returnPathClass => _pathClass.stream.value;
+  Archetype get returnChosenArchetype => _chosenArchetype.stream.value;
   Stream<Path_Class> get pathClass =>
       _pathClass.stream.transform(validatePathClass);
   Stream<Archetype> get chosenArchetypes =>

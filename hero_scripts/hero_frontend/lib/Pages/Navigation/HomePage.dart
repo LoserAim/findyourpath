@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hero_frontend/BusinessLogic/Providers/CharacterProvider.dart';
 
 class Home_Page extends StatelessWidget {
   @override
@@ -104,7 +105,11 @@ class Home_Page extends StatelessWidget {
         ),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/Characters'),
+        onPressed: () {
+          final bloc = Character_Provider.of(context);
+          bloc.wipeCurrentData();
+          Navigator.pushNamed(context, '/Characters');
+        },
         backgroundColor: Colors.brown,
 
         tooltip: 'Going up',

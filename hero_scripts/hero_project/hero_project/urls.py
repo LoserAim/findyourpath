@@ -23,4 +23,5 @@ urlpatterns = [
     path('ancestries/', include('Ancestries.urls')),
     path('actions/', include('Actions.urls')),
     path('classes/', include('PathClasses.urls')),
+    path('characters/', include('Characters.urls')),
 ]

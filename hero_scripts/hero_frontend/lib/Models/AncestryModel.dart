@@ -34,10 +34,10 @@ class Ancestry {
   List<Feat> feats;
   String book;
   int pgnum;
-  bool selected;
+
 
   Ancestry(
-      this.id,
+      {this.id,
       this.hit_points,
       this.name,
       this.size,
@@ -50,8 +50,7 @@ class Ancestry {
       this.heritages,
       this.feats,
       this.book,
-      this.pgnum,
-      {this.selected});
+      this.pgnum});
 
 
   Ancestry.fromMappedJson(Map<String, dynamic> json)
@@ -74,8 +73,7 @@ class Ancestry {
             .cast<Feat>()
             .toList(),
         book = json['book'],
-        pgnum = json['pgnum'],
-        selected = false;
+        pgnum = json['pgnum'];
 
   Map<String, dynamic> toJson() => {
         'id': id,

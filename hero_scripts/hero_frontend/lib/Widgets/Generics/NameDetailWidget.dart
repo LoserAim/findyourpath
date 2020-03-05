@@ -13,7 +13,7 @@ class NameDetail_Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         elevation: 8.0,
-        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        margin: new EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Container(
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
           child: ListTile(

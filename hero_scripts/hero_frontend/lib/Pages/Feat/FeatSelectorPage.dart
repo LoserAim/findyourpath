@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/FeatListProvider.dart';
+import 'package:hero_frontend/Models/FeatModel.dart';
 import 'package:hero_frontend/Settings/TextFormat.dart';
 import 'package:hero_frontend/Widgets/Feats/FeatCardWidget.dart';
 
@@ -25,6 +26,7 @@ class Feat_Selector_Page extends StatelessWidget {
           StreamBuilder(
             stream: bloc.topIds,
             builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
+              
               if (!snapshot.hasData)
                 return Center(child: CircularProgressIndicator());
               return ListView.builder(
