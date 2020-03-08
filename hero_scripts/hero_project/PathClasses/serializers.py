@@ -31,17 +31,18 @@ class PathClassIdsSerializer(serializers.ModelSerializer):
         model = models.PathClassFeature
         fields = ['id']
 class PathClassSerializer(serializers.ModelSerializer):
-    archetypes       = PathClassArchetypeIdsSerializer(many=True, required=False)
-    features           = PathClassFeatureIdsSerializer(many=True, required=False)
+    archetypes       = serializers.SlugRelatedField(many=True, slug_field='id', queryset=models.PathClassArchetype.objects.all())
+    features           = serializers.SlugRelatedField(many=True, slug_field='id', queryset=models.PathClassFeature.objects.all())
     class Meta:
         model = models.PathClass
         fields = [
             'id',
             'name',
             'key_ability',
+            'additional_skills',
+            'hit_points',
             'proficiencies',
             'archetypes',
-            'additional_skills',
             'features',
             'class_feats',
             'pgnum',

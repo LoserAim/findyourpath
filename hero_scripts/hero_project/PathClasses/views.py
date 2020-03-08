@@ -32,6 +32,5 @@ class PathClassViewSet(viewsets.ModelViewSet):
     def getFeats(self, request, pk=None):
         instance = self.get_object()
         qs = Fodels.Feat.objects.filter(id__in=instance.class_feats.all())
-        print(dir(qs))
-        serializer = Ferial.FeatSerializer(qs, many=True)
+        serializer = Ferial.FeatIdsSerializer(qs, many=True)
         return response.Response(serializer.data)

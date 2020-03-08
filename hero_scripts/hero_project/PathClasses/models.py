@@ -62,7 +62,7 @@ class PathClassArchetype(models.Model):
 
 class PathClassFeature(models.Model):
     path_class          = models.ForeignKey(PathClass, related_name="features", on_delete=models.CASCADE, null=True)
-    name                = models.CharField(max_length=256, unique=True, blank=False)
+    name                = models.CharField(max_length=256, unique=False, blank=False)
     description         = models.TextField()
     level               = models.PositiveIntegerField(blank=False)
     pgnum               = models.PositiveIntegerField(blank=True, null=True)
