@@ -37,6 +37,7 @@ void main() {
                   textTheme: TextTheme(
                     display1: TextStyle(color: Colors.white),
                     display2: TextStyle(color: Colors.black),
+                    display3: TextStyle(color: Colors.red),
                   )),
             ),
           ),

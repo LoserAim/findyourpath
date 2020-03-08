@@ -1,11 +1,11 @@
 class Ability {
   int score;
-  int modifer;
+  int modifier;
 
   Ability({int tempScore})
   {
     this.score = tempScore;
-    this.modifer = ((tempScore-10) / 2).floor();
+    this.modifier = ((tempScore-10) / 2).floor();
   }
 
 
