@@ -6,7 +6,7 @@ class Archetype {
   String book;
   int path_class;
   
-  Archetype(this.id, this.name, this.description, this.pgnum, this.book, this.path_class);
+  Archetype({this.id, this.name, this.description, this.pgnum, this.book, this.path_class});
   Archetype.fromMappedJson(Map<String, dynamic> json)
     : id = json['id'],
       name = json['name'],
@@ -35,7 +35,7 @@ class Proficiency {
   String key_ability;
   String rank;
   
-  Proficiency(this.id, this.name, this.proficiency_type, this.key_ability, this.rank);
+  Proficiency({this.id, this.name, this.proficiency_type, this.key_ability, this.rank});
   Proficiency.fromMappedJson(Map<String, dynamic> json)
     : id = json['id'],
       name = json['name'],
@@ -68,7 +68,7 @@ class Path_Class {
   List<int> class_feats;
   int pgnum;
   String book;
-  Path_Class(this.id, this.name, this.key_ability, this.proficiencies, this.archetypes, this.features, this.additional_skills, this.class_feats, this.pgnum, this.book);
+  Path_Class({this.id, this.name, this.key_ability, this.proficiencies, this.archetypes, this.features, this.additional_skills, this.class_feats, this.pgnum, this.book});
 
   Path_Class.fromMappedJson(Map<String, dynamic> json)
       : id = json['id'],

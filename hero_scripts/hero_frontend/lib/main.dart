@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
@@ -19,26 +17,28 @@ import 'Pages/Classes/ClassTabsPage.dart';
 
 void main() {
   runApp(Character_Provider(
-      child: Class_Provider(
-        child: Feat_List_Provider(
+    child: Class_Provider(
+      child: Feat_List_Provider(
         child: Ancestry_List_Provider(
           child: Ancestry_Detail_Provider(
             child: new MaterialApp(
               title: "Select your crapp",
               onGenerateRoute: routes,
               theme: new ThemeData(
-                iconTheme: IconThemeData(color: Colors.orangeAccent,),
-                primaryColor: Colors.brown,
-                accentColor: Colors.brown,
-                cardColor: Colors.white,
-                textSelectionColor: Colors.black,
-                backgroundColor: Colors.brown[50],
-                buttonColor: Colors.orange,
-                textTheme: TextTheme(
-                  display1: TextStyle(color: Colors.white),
-                  display2: TextStyle(color: Colors.black),
-                )
-              ),
+                  iconTheme: IconThemeData(
+                    color: Colors.orangeAccent,
+                  ),
+                  primaryColor: Colors.brown,
+                  accentColor: Colors.brown,
+                  cardColor: Colors.white,
+                  textSelectionColor: Colors.black,
+                  backgroundColor: Colors.brown[50],
+                  buttonColor: Colors.orange,
+                  textTheme: TextTheme(
+                    display1: TextStyle(color: Colors.white),
+                    display2: TextStyle(color: Colors.black),
+                    display3: TextStyle(color: Colors.red),
+                  )),
             ),
           ),
         ),
@@ -62,11 +62,11 @@ Route routes(RouteSettings settings) {
     case 2:
       switch (path[1]) {
         case "Characters":
-          return MaterialPageRoute(builder: (context) {
-              final bloc = Ancestry_List_Provider.of(context);
-              bloc.fetchTopIds();
-              return Character_Creator_Page();
-            });
+          return MaterialPageRoute(
+              settings: RouteSettings(name: '/Characters'),
+              builder: (context) {
+                return Character_Creator_Page();
+              });
         case "Ancestries":
           return MaterialPageRoute(builder: (context) {
             final bloc = Ancestry_List_Provider.of(context);
@@ -118,8 +118,7 @@ Route routes(RouteSettings settings) {
     case 4:
       switch (path[1]) {
         case "Ancestries":
-          switch (path[3])
-          {
+          switch (path[3]) {
             case "Heritages":
               return MaterialPageRoute(builder: (context) {
                 return Ancestry_Heritage_Page();
@@ -132,6 +131,9 @@ Route routes(RouteSettings settings) {
           });
       }
       break;
+    default:
+      return MaterialPageRoute(builder: (context) {
+        return Home_Page();
+      });
   }
- 
 }

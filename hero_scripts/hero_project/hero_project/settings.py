@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Ancestries.apps.AncestriesConfig',
     'Actions.apps.ActionsConfig',
     'PathClasses.apps.PathclassesConfig',
+    'Characters.apps.CharactersConfig',
     'rest_framework',
     
 ]

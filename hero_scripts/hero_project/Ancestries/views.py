@@ -6,6 +6,8 @@ from rest_framework import (
     decorators,
     response,
 )
+from Feats import serializers as Ferial
+from Feats import models as Fodels
 from Ancestries import models, serializers
 
 
@@ -40,5 +42,11 @@ class AncestryViewSet(viewsets.ModelViewSet):
     def getAncestryIds(self, request):
         queryset = self.queryset
         serializer = serializers.AncestryIdsSerializer(queryset, many=True)
+        return response.Response(serializer.data)
+    @decorators.action(methods=['get'], detail=True, url_path='getFeats', url_name='getFeats')
+    def getFeats(self, request, pk=None):
+        instance = self.get_object()
+        qs = Fodels.Feat.objects.filter(id__in=instance.feats.all())
+        serializer = Ferial.FeatIdsSerializer(qs, many=True)
         return response.Response(serializer.data)
     

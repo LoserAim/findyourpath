@@ -49,51 +49,29 @@ class Ancestry_Detail_Page extends StatelessWidget {
                 ],
               ),
               floatingActionButton: new FloatingActionButton(
-                onPressed: () {
+                onPressed: () async {
                   final Ancestry itemAncestry = bloc.returnCurrentAncestry;
                   final List<Feat> itemFeats =
                       feat_bloc.returnCurrentChosenFeats;
                   final Heritage itemHeritage = bloc.returnCurrentHeritage;
-                  List<String> currentAboosts =
-                      (character_bloc.returnCurrentAbilityBoosts != null)
-                          ? character_bloc.returnCurrentAbilityBoosts
-                          : null;
-                  List<String> currentAflaws =
-                      (character_bloc.returnCurrentAbilityFlaws != null)
-                          ? character_bloc.returnCurrentAbilityFlaws
-                          : null;
-                  List<String> itemAboosts = (itemAncestry != null)
+                  final List<String> itemAboosts = (itemAncestry != null)
                       ? itemAncestry.ability_boosts
                       : null;
-                  if (currentAboosts != null && itemAboosts != null)
-                    itemAboosts.addAll(currentAboosts);
                   final List<String> itemAFlaws = (itemAncestry != null)
                       ? itemAncestry.ability_flaws
                       : null;
-                  String alert = "";
-                  if (currentAflaws != null && itemAFlaws != null)
-                    itemAFlaws.addAll(currentAflaws);
-                  if (itemAboosts != null)
-                    character_bloc.changeChosenAbilityBoosts(itemAboosts);
-                  if (itemAFlaws != null)
-                    character_bloc.changeChosenAbilityFlaws(itemAFlaws);
-                  if (itemAncestry != null)
-                    character_bloc.changeChosenAncestry(itemAncestry);
-                  if (itemHeritage != null && itemHeritage.id != null)
-                    character_bloc.changeChosenHeritage(itemHeritage);
-                  else
-                    alert += "Please pick a heritage!";
-                  if (itemFeats != null && itemFeats.length > 0)
-                    character_bloc.changeChosenAncestryFeats(itemFeats);
-                  else
-                    alert += "\nPlease pick at least one feat!";
+                  List<String> alert = List();
+                  if (itemHeritage == null || itemHeritage.id == null)
+                    alert.add("Please pick a heritage!");
+                  if (itemFeats == null || itemFeats.length <= 0)
+                    alert.add("Please pick at least one feat!");
                   if (alert.length > 0)
-                    showDialog(
+                    await showDialog(
                         context: context,
                         builder: (context) {
                           return AlertDialog(
                             title: Text("Error While Saving Data"),
-                            content: Text(alert),
+                            content: Text(alert.join('\n')),
                             actions: <Widget>[
                               FlatButton(
                                 child: Text('OK'),
@@ -104,10 +82,19 @@ class Ancestry_Detail_Page extends StatelessWidget {
                             ],
                           );
                         });
-                  else
-                    Navigator.popUntil(context, ModalRoute.withName('/Characters'));
+                  else {
+                    await character_bloc.changeChosenABoosts(itemAboosts);
+                    await character_bloc.changeChosenAFlaws(itemAFlaws);
+                    await character_bloc.changeChosenAncestry(itemAncestry);
+                    await character_bloc.changeChosenHeritage(itemHeritage);
+                    await character_bloc.changeChosenAncestryFeats(itemFeats);
+                    Future.delayed(Duration.zero, () {
+                      Navigator.popUntil(
+                          context, ModalRoute.withName('/Characters'));
+                    });
+                  }
                 },
-                backgroundColor: Colors.brown,
+                backgroundColor: Theme.of(context).primaryColor,
                 tooltip: 'Good To Go',
                 child: new Icon(
                   Icons.check,
