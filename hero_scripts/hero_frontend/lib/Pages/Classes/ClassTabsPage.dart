@@ -14,6 +14,16 @@ import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
 import 'package:hero_frontend/Widgets/Class/ClassDetailWidget.dart';
 
 class Class_Tabs_Page extends StatelessWidget {
+  final Map<String, String> _modifierChoices = {
+    'STR': 'Strength',
+    'DEX': 'Dexterity',
+    'CON': 'Constitution',
+    'INT': 'Intelligence',
+    'WIS': 'Wisdom',
+    'CHA': 'Charisma',
+    'N/A': 'NULL',
+  };
+
   @override
   Widget build(BuildContext context) {
     final featBloc = Feat_List_Provider.of(context);
@@ -52,7 +62,7 @@ class Class_Tabs_Page extends StatelessWidget {
                       featBloc.returnCurrentChosenFeats;
                   final Archetype itemArchetype =  classBloc.returnChosenArchetype;
                   final List<String> itemCboosts = (itemClass.key_ability != null)
-                      ? [itemClass.key_ability]
+                      ? [_modifierChoices[itemClass.key_ability]]
                       : null;
                   List<String> alert = List();
                   if (itemArchetype == null || itemArchetype.id == null)

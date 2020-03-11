@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:hero_frontend/Services/apihandler.dart';
 
 class Feat{
   int id;
@@ -27,7 +30,12 @@ class Feat{
       'book' :book,
     };
    
-
+  Feat.getFeat(int id){
+    APIservice.getFeatById(id).then((responseBody) {
+      var res = jsonDecode(responseBody);
+      return Feat.fromMappedJson(res);
+    });
+  }
 
 
 }

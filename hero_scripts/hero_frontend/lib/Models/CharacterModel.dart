@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:hero_frontend/Models/AbilityModel.dart';
 import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:hero_frontend/Models/PathClassModel.dart';
+import 'package:hero_frontend/PDF/CharacterToPDF.dart';
 import 'package:hero_frontend/PDF/pdfExample.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 import 'package:pdf/pdf.dart';
@@ -27,6 +28,8 @@ class Character {
   Ability charisma;
   String name;
   String playerName;
+  String deity;
+  String alignment;
   Path_Class path_class;
   Ancestry ancestry;
   Heritage heritage;
@@ -36,9 +39,17 @@ class Character {
   List<Feat> skillFeats;
   List<Feat> generalFeats;
   int level;
-  int hit_poits;
+  int hit_points;
   int experience;
   int classDC;
+  int path_classId;
+  int ancestryId;
+  int heritageId;
+  int archetypeId;
+  List<int> classFeatIds;
+  List<int> ancestryFeatIds;
+  List<int> skillFeatIds;
+  List<int> generalFeatIds;
 
   Character({
     this.strength,
@@ -50,6 +61,8 @@ class Character {
     this.name,
     this.playerName,
     this.path_class,
+    this.deity,
+    this.alignment,    
     this.ancestry,
     this.heritage,
     this.archetype,
@@ -58,9 +71,78 @@ class Character {
     this.skillFeats,
     this.generalFeats,
     this.level = 1,
-    this.hit_poits,
+    this.hit_points,
     this.experience,
   });
+
+  Character.getCharacter(int id) {
+    APIservice.getCharacterById(id).then((responseBody) {
+      var res = jsonDecode(responseBody);
+      return Character.fromMappedJson(res);
+    });
+  }
+  Character.fromMappedJson(Map<String, dynamic> json)
+      : strength=Ability(tempScore:json['strength']) ?? Ability(),
+      dexterity=Ability(tempScore:json['dexterity']) ?? Ability(),
+      constitution=Ability(tempScore:json['constitution']) ?? Ability(),
+      intelligence=Ability(tempScore:json['intelligence']) ?? Ability(),
+      wisdom=Ability(tempScore:json['wisdom']) ?? Ability(),
+      charisma=Ability(tempScore:json['charisma']) ?? Ability(),
+      name=json['name'] ?? '',
+      playerName=json['playerName'] ?? '',
+      deity=json['deity'] ?? '',
+      alignment=json['alignment'] ?? '',      
+      path_classId=json['path_class'][0] ?? 0,
+      ancestryId=json['ancestry'] ?? 0,
+      heritageId=json['heritage'] ?? 0,
+      archetypeId=json['archetype'] ?? 0,
+      classFeatIds=json['classFeats'].cast<int>() ?? List<int>(),
+      ancestryFeatIds=json['ancestryFeats'].cast<int>() ?? List<int>(),
+      skillFeatIds=json['skillFeats'].cast<int>() ?? List<int>(),
+      generalFeatIds=json['generalFeats'].cast<int>() ?? List<int>(),
+      level = json['level'] ?? 1,
+      hit_points=json['hit_points'] ?? 0,
+      experience=json['experience'] ?? 0;
+
+  Map<String, dynamic> toJson() => {
+        'strength': strength.score,
+        'dexterity': dexterity.score,
+        'constitution': constitution.score,
+        'intelligence': intelligence.score,
+        'wisdom': wisdom.score,
+        'charisma': charisma.score,
+        'name': name,
+        'playerName': playerName,
+        'deity': deity,
+        'alignment': alignment,        
+        'path_class': [path_class.id],
+        'ancestry': ancestry.id,
+        'heritage': heritage.id,
+        'archetype': archetype.id,
+        'classFeats': _getIdsFromFeats(classFeats),
+        'ancestryFeats': _getIdsFromFeats(ancestryFeats),
+        'skillFeats': _getIdsFromFeats(skillFeats),
+        'generalFeats': _getIdsFromFeats(generalFeats),
+        'level': level,
+        'hit_points': hit_points,
+        'experience': experience,
+      };
+  List<Feat> getFeatsfromIds(List<int> ids){
+    List<Feat> itemList = List();
+    ids.forEach((itemId){
+      itemList.add(Feat.getFeat(itemId));
+    });
+    return itemList;
+  }
+  static _getIdsFromFeats(List<Feat> feats){
+    if(feats == null)
+      return List<Feat>();
+    List<int> itemList = List();
+    feats.forEach((item){
+      itemList.add(item.id);
+    });
+    return itemList;
+  }
 
   Proficiency getClassDCProficiency() {
     List<Proficiency> proficiencies = List();
@@ -79,7 +161,32 @@ class Character {
     return null;
   }
 
-  File generatePDF() {
+  List<Proficiency> getProficiencies() {
+    List<Proficiency> proficiencies = List();
+    this.path_class.proficiencies.forEach((itemId) {
+      APIservice.getProficiencyById(itemId).then((responseBody) {
+        var res = jsonDecode(responseBody);
+        proficiencies.add(Proficiency.fromMappedJson(res));
+      });
+    });
+    return proficiencies;
+  }
+  
+  List<Feat> getClassFeatures() {
+    List<Feat> itemList = List();
+    this.path_class.features.forEach((itemId) {
+
+        itemList.add(Feat.getFeat(itemId));
+
+    });
+    return itemList;
+  }
+
+
+
+
+
+  List<int> generatePDF() {
     final Document pdf = Document();
     pdf.addPage(MultiPage(
         pageFormat: PdfPageFormat.letter.copyWith(
@@ -98,44 +205,20 @@ class Character {
                       .copyWith(color: PdfColors.grey)));
         },
         build: (Context context) => <Widget>[
-              buildGenericInformationRow(),
+              generateGenericInfo(this),
               Container(height: 2.0),
               Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                         padding: EdgeInsets.only(right: 5.0),
-                        child: buildAbilityScoresColumn(
-                          strmod: '+5',
-                          strsco: '20',
-                          dexmod: '+2',
-                          dexsco: '15',
-                          conmod: '+2',
-                          consco: '14',
-                          intmod: '-2',
-                          intsco: '8',
-                          wismod: '0',
-                          wissco: '11',
-                          chamod: '-3',
-                          chasco: '4',
-                          classNum: '10',
-                          key: '-2',
-                          profNum: '2',
-                          prof: 1,
-                          item: '0',
+                        child: generateAbilityScores(this
                         )),
                     Padding(
                         padding: EdgeInsets.only(right: 5.0),
-                        child: buildArmorSaves(
-                          armorTotal: '14',
-                          armorDex: '+2',
-                          armorCap: '0',
-                          armorNumProf: '+2',
-                          unarmorProf: 1,
-                          armorProf: 1,
-                          lightProf: 1,
+                        child: generateArmorSaves(this
                         )),
-                    buildHPPerception()
+                    generateHPPerception(this)
                   ]),
               Container(height: 2.0),
               Row(
@@ -163,7 +246,8 @@ class Character {
                       .copyWith(color: PdfColors.grey)));
         },
         build: (Context context) => <Widget>[
-              buildFeatsAndFeatures(),
+              generateFeatsAndFeatures(this),
             ]));
+    return pdf.save();
   }
 }

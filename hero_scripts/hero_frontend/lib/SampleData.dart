@@ -1,7 +1,15 @@
 import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:hero_frontend/Models/FeatModel.dart';
+import 'package:pdf/widgets.dart';
 
 class Sample_Data {
+
+  _test() {
+    final Document pdf = Document();
+    pdf.addPage(MultiPage(build: (Context context) => <Widget>[
+      Header()
+    ]));
+  }
   static List<Ancestry> ancestryList = [
     Ancestry(
         id: 1,

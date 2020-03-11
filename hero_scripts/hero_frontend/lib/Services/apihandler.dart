@@ -1,12 +1,30 @@
+import 'package:hero_frontend/Models/CharacterModel.dart';
 import 'package:hero_frontend/Services/ngroklink.dart';
 import 'package:http/http.dart' as http;
-
+import 'dart:convert';
 final String djangoURL = Ngrok.link;
 
 class APIservice {
   static Future<String> getClassListIds() async {
     String url = djangoURL + 'classes/list/getIds';
     http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> getCharacterListIds() async {
+    String url = djangoURL + 'characters/list/getIds';
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> getCharacterById(int id) async {
+    String url = djangoURL + 'characters/list/' + id.toString();
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> postCharacter(Character character) async {
+    String url = djangoURL + 'characters/list/';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = jsonEncode(character.toJson());
+    http.Response response = await http.post(Uri.encodeFull(url), headers:headers, body:json);
     return response.body;
   }
   static Future<String> getClassFeatureById(int id) async {

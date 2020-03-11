@@ -27,8 +27,11 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   final _ancestry           = BehaviorSubject<Ancestry>();
   final _traitsOptions      = BehaviorSubject<List<String>>();
   final _specialAbilitiesOptions = BehaviorSubject<List<String>>();
+  final _freeBoosts = BehaviorSubject<int>();
+  final _chosenFreeBoosts      = BehaviorSubject<List<String>>();
 
-  
+  List<String> get returnChosenAbilityBoosts => _chosenFreeBoosts.stream.value;
+  List<String> get returnCurrentAbilityBoosts => _abilityBoosts.stream.value;
   Heritage get returnCurrentHeritage => _chosenHeritage.stream.value;
   Ancestry get returnCurrentAncestry => _ancestry.stream.value;
   Function(List<String>)    get changeTraitsOptions => _traitsOptions.sink.add;
@@ -48,6 +51,9 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   Function(Ancestry)        get changeAncestry => _ancestry.sink.add;
   Function(String)          get changBook => _book.sink.add;
   Function(int)             get changePgnum => _pgnum.sink.add;
+  Function(int)             get changeFreeBoosts => _freeBoosts.sink.add;
+  Function(List<String>)    get changeChosenFreeBoosts => _chosenFreeBoosts.sink.add;
+  
 
 
   Stream<int> get hitPoints => _hitPoints.stream.transform(validateHitPoints);
@@ -64,6 +70,8 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   Stream<Ancestry> get ancestry => _ancestry.stream.transform(validateAncestry);
   Stream<List<String>> get traitsOptions => _traitsOptions.stream.transform(validateSpecialAbilities);
   Stream<List<String>> get specialAbilitiesOptions => _specialAbilitiesOptions.stream.transform(validateSpecialAbilities);
+  Stream<int> get freeBoosts => _freeBoosts.stream.transform(validateHitPoints);
+  Stream<List<String>> get chosenFreeBoosts => _chosenFreeBoosts.stream.transform(validateAbilityBoosts);
   
   Future<Ancestry> getAncestryById(int id) async {
     return APIservice.getAncestryById(id).then((responseBody) {
@@ -112,6 +120,8 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     changeTraitsOptions(traits);
     changeSpecialAbilitiesOptions(specials);
     changeChosenHeritage(heritagChoice);
+    changeFreeBoosts(item.free_boosts);
+    changeChosenFreeBoosts(List<String>());
   }
 
   dispose() {
@@ -133,6 +143,8 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     _specialAbilitiesOptions.close();
     _traitsOptions.close();
     _speed.close();
+    _chosenFreeBoosts.close();
+    _freeBoosts.close();
   }
 }
 
@@ -141,7 +153,7 @@ class Validators {
     handleData: (hitpoints, sink) {
       if(hitpoints == 0 || hitpoints == null)
       {
-        sink.addError('Hitpoints cannot be zero!');
+        sink.add(0);
       }
       else{
         sink.add(hitpoints);

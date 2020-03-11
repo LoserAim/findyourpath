@@ -55,12 +55,14 @@ class Ancestry_Detail_Page extends StatelessWidget {
                       feat_bloc.returnCurrentChosenFeats;
                   final Heritage itemHeritage = bloc.returnCurrentHeritage;
                   final List<String> itemAboosts = (itemAncestry != null)
-                      ? itemAncestry.ability_boosts
+                      ? bloc.returnChosenAbilityBoosts
                       : null;
                   final List<String> itemAFlaws = (itemAncestry != null)
                       ? itemAncestry.ability_flaws
                       : null;
                   List<String> alert = List();
+                  if(itemAboosts == null || itemAboosts.length == 0)
+                    alert.add("Please pick an ability boost");
                   if (itemHeritage == null || itemHeritage.id == null)
                     alert.add("Please pick a heritage!");
                   if (itemFeats == null || itemFeats.length <= 0)

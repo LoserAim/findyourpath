@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/CharacterProvider.dart';
+import 'package:hero_frontend/Widgets/Character/CharacterCardWidget.dart';
 
 class Home_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bloc = Character_Provider.of(context);
+           // bloc.fetchTopIds();
     return Scaffold(
       appBar: new AppBar(
         title: new Text("Character Creation"),
@@ -18,91 +21,28 @@ class Home_Page extends StatelessWidget {
           ),
         ],
       ),
-      body: new Container(
-        alignment: Alignment.center,
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Card(
-                elevation: 8.0,
-                margin:
-                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                child: Container(
-                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-                  child: ListTile(
-                      onTap: () => Navigator.pushNamed(context, '/Ancestries'),
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      title: Text(
-                        "Ancestries",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Row(
-                        children: <Widget>[
-                          Icon(Icons.description, color: Colors.orangeAccent),
-                          Expanded(
-                              child: Text("Finish Feat Selection",
-                                  style: TextStyle(color: Colors.white)))
-                        ],
-                      ),
-                      trailing: Icon(Icons.keyboard_arrow_right,
-                          color: Colors.white, size: 30.0)),
-                )),
-            Card(
-                elevation: 8.0,
-                margin:
-                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                child: Container(
-                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-                  child: ListTile(
-                      onTap: () => Navigator.pushNamed(context, '/Classes'),
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      title: Text(
-                        "Classes",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Row(
-                        children: <Widget>[
-                          Icon(Icons.description, color: Colors.orangeAccent),
-                          Expanded(
-                              child: Text("Showing list of Classes",
-                                  style: TextStyle(color: Colors.white)))
-                        ],
-                      ),
-                      trailing: Icon(Icons.keyboard_arrow_right,
-                          color: Colors.white, size: 30.0)),
-                )),
-            Card(
-                elevation: 8.0,
-                margin:
-                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                child: Container(
-                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-                  child: ListTile(
-                      onTap: () => Navigator.pushNamed(context, '/Feats'),
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      title: Text(
-                        "Feats",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Row(
-                        children: <Widget>[
-                          Icon(Icons.description, color: Colors.orangeAccent),
-                          Expanded(
-                              child: Text("All done",
-                                  style: TextStyle(color: Colors.white)))
-                        ],
-                      ),
-                      trailing: Icon(Icons.keyboard_arrow_right,
-                          color: Colors.white, size: 30.0)),
-                )),
-          ],
-        ),
+      body: ListView(
+        children: <Widget>[
+          SizedBox(
+            height: 10.0,
+          ),
+          StreamBuilder(
+            stream: bloc.topIds,
+            builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  bloc.fetchItem(snapshot.data[index]);
+                  return Character_Card_Widget(itemId: snapshot.data[index],);
+                },
+              );
+            },
+          ),
+        ],
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {

@@ -7,6 +7,7 @@ import 'package:hero_frontend/Pages/Ancestry/AncestryDetailPage.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestryHeritagePage.dart';
 import 'package:hero_frontend/Pages/Ancestry/AncestrySelectorPage.dart';
 import 'package:hero_frontend/Pages/Character/CharacterCreatorPage.dart';
+import 'package:hero_frontend/Pages/Character/CharacterDetailPage.dart';
 import 'package:hero_frontend/Pages/Classes/ClassSelectorPage.dart';
 import 'package:hero_frontend/Pages/Feat/FeatSelectorPage.dart';
 import 'package:hero_frontend/Pages/Navigation/HomePage.dart';
@@ -49,7 +50,7 @@ void main() {
 
 Route routes(RouteSettings settings) {
   final List<String> path = settings.name.split("/");
-  print(path);
+  
   switch (path.length) {
     case 0:
       return MaterialPageRoute(builder: (context) {
@@ -87,6 +88,7 @@ Route routes(RouteSettings settings) {
           });
         default:
           return MaterialPageRoute(builder: (context) {
+            
             return Home_Page();
           });
       }
@@ -109,6 +111,14 @@ Route routes(RouteSettings settings) {
             featbloc.fetchClassFeatIds(itemId);
             return Class_Tabs_Page();
           });
+        case "Characters":
+          switch(path[2]) {
+            case 'Info':
+              return MaterialPageRoute(builder: (context) {
+              return Character_Detail_Page();
+          });
+          }
+          break;
         default:
           return MaterialPageRoute(builder: (context) {
             return Home_Page();
