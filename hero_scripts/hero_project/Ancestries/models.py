@@ -38,6 +38,7 @@ class Ancestry(models.Model):
     hit_points          = models.IntegerField(null=True, blank=True)
     size                = models.CharField(max_length=1,choices=SIZE_CHOICES, blank=False, null=True)
     speed               = models.PositiveIntegerField(null=True, blank=True)
+    free_boosts         = models.PositiveIntegerField(null=True, blank=True)
     ability_boosts      = models.ManyToManyField(Ability_Boost_Flaw,    related_name='Ancestries_Ability_Boosts', blank=True)
     ability_flaws       = models.ManyToManyField(Ability_Boost_Flaw,    related_name='Ancestries_Ability_Flaws', blank=True)
     languages           = models.ManyToManyField(Language,              related_name='Ancestries', blank=True)

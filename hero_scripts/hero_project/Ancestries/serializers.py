@@ -48,6 +48,7 @@ class AncestrySerializer(serializers.ModelSerializer):
         model = models.Ancestry
         fields = [
             'id',
+            'free_boosts',
             'hit_points',
             'size',
             'speed',
