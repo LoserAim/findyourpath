@@ -47,7 +47,8 @@ class Ancestry {
 
 
   Ancestry(
-      {this.id,
+      {
+      this.id,
       this.hit_points,
       this.name,
       this.size,
@@ -108,7 +109,22 @@ class Ancestry {
 Ancestry.getAncestry(int id) {
     APIservice.getAncestryById(id).then((responseBody) {
       var res = jsonDecode(responseBody);
-      return Ancestry.fromMappedJson(res);
+      Ancestry temp = Ancestry.fromMappedJson(res);
+      this.id = temp.id;
+      this.hit_points = temp.hit_points;
+      this.name = temp.name;
+      this.size = temp.size;
+      this.free_boosts = temp.free_boosts;
+      this.speed = temp.speed;
+      this.ability_boosts = temp.ability_boosts;
+      this.ability_flaws = temp.ability_flaws;
+      this.languages = temp.languages;
+      this.traits = temp.traits;
+      this.special_abilities = temp.special_abilities;
+      this.heritages = temp.heritages;
+      this.feats = temp.feats;
+      this.book = temp.book;
+      this.pgnum = temp.pgnum;
     });
 
   }

@@ -13,8 +13,9 @@ Map<String, int> rank = {
   'L' : 8,
 };
 
-Widget generateAbilityScores(Character character){
-  character.path_class = Path_Class.getClass(character.path_classId);
+
+
+Widget generateAbilityScores(Character character) {
   Map<String, int> abilitymodifiers = {
     'STR': character.strength.modifier,
     'DEX': character.dexterity.modifier,
@@ -22,12 +23,13 @@ Widget generateAbilityScores(Character character){
     'INT': character.intelligence.modifier,
     'WIS': character.wisdom.modifier,
     'CHA': character.charisma.modifier,
+    'N/A': 0
   };
   Proficiency classDC = character.getClassDCProficiency();
-  int keyability = abilitymodifiers[classDC.key_ability];
-  int prof = rank[classDC.rank];
+  int keyability = abilitymodifiers[classDC.key_ability ?? 'N/A'];
+  int prof = rank[classDC.rank ?? 0];
   int profrank = (prof/2).floor();
-  int totalCDC = keyability + prof;
+  int totalCDC = keyability + prof + 10;
   
 return buildAbilityScoresColumn(
   strmod: character.strength.modifier > 0 ? "+" + character.strength.modifier.toString() : character.strength.modifier.toString(),
@@ -51,9 +53,6 @@ return buildAbilityScoresColumn(
 }
 
 Widget generateGenericInfo(Character character){
-  character.ancestry = Ancestry.getAncestry(character.ancestryId);
-  character.heritage = Heritage.getHeritage(character.heritageId);
-  character.path_class = Path_Class.getClass(character.path_classId);
   return buildGenericInformationRow(
     nameCharacter: character.name ?? '',
     namePlayer: character.playerName ?? '',
@@ -168,12 +167,7 @@ Widget generateHPPerception(Character character) {
 }
 
 Widget generateFeatsAndFeatures(Character character){
-  character.path_class = Path_Class.getClass(character.path_classId);
-  character.ancestry = Ancestry.getAncestry(character.ancestryId);
-  character.classFeats = character.getFeatsfromIds(character.classFeatIds);
-  character.ancestryFeats = character.getFeatsfromIds(character.ancestryFeatIds);
-  character.skillFeats = character.getFeatsfromIds(character.skillFeatIds);
-  character.generalFeats = character.getFeatsfromIds(character.generalFeatIds);
+
   //Strings should only have the max length of 48
   const int _maxStringLength = 48;
   List<Feat> classFeatures = character.getClassFeatures().where((item) => item.level <= character.level && (item.name != 'Ancestry and Background' || item.name != 'Initial Proficiencies'));

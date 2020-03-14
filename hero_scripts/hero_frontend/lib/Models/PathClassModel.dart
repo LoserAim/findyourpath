@@ -117,11 +117,7 @@ class Path_Class {
         'pgnum': pgnum,
         'book': book,
       };
-  Path_Class.getClass(int id) {
-    APIservice.getClassById(id).then((responseBody) {
-      var res = jsonDecode(responseBody);
-      return Path_Class.fromMappedJson(res);
-    });
 
-  }
+
+  
 }

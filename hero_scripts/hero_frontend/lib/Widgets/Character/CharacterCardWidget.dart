@@ -23,7 +23,8 @@ class Character_Card_Widget extends StatelessWidget {
           future: snapshot.data[itemId],
           builder:
               (BuildContext context, AsyncSnapshot<Character> itemSnapshot) {
-            if (!itemSnapshot.hasData) return Loading_Container_Widget();
+            if (!itemSnapshot.hasData) {
+              return Loading_Container_Widget();}
 
             return Card(
                 elevation: 8.0,
@@ -47,8 +48,8 @@ class Character_Card_Widget extends StatelessWidget {
                       trailing: IconButton(
                         icon: Icon(Icons.file_download,
                           color: Theme.of(context).cardColor, size: 30.0),
-                          onPressed: () {
-                            writePdf(itemSnapshot.data.generatePDF(), itemSnapshot.data.name);
+                          onPressed: () async {
+                            writePdf(await itemSnapshot.data.generatePDF(), itemSnapshot.data.name);
                           },
                           ),
                 )));

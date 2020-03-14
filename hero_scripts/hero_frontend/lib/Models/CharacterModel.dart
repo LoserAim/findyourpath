@@ -92,14 +92,26 @@ class Character {
       playerName=json['playerName'] ?? '',
       deity=json['deity'] ?? '',
       alignment=json['alignment'] ?? '',      
-      path_classId=json['path_class'][0] ?? 0,
-      ancestryId=json['ancestry'] ?? 0,
-      heritageId=json['heritage'] ?? 0,
-      archetypeId=json['archetype'] ?? 0,
-      classFeatIds=json['classFeats'].cast<int>() ?? List<int>(),
-      ancestryFeatIds=json['ancestryFeats'].cast<int>() ?? List<int>(),
-      skillFeatIds=json['skillFeats'].cast<int>() ?? List<int>(),
-      generalFeatIds=json['generalFeats'].cast<int>() ?? List<int>(),
+      path_class=Path_Class.fromMappedJson(json['path_class'][0]) ?? Path_Class(),
+      ancestry=Ancestry.fromMappedJson(json['ancestry']) ?? Ancestry(),
+      heritage= Heritage.fromMappedJson(json['heritage']) ?? Heritage(),
+      archetype=Archetype.fromMappedJson(json['archetype']) ?? Archetype(),
+      classFeats=json['classFeats']
+            .map((feat) => Feat.fromMappedJson(feat))
+            .cast<Feat>()
+            .toList(),
+      ancestryFeats=json['ancestryFeats']
+            .map((feat) => Feat.fromMappedJson(feat))
+            .cast<Feat>()
+            .toList(),
+      skillFeats=json['skillFeats']
+            .map((feat) => Feat.fromMappedJson(feat))
+            .cast<Feat>()
+            .toList(),
+      generalFeats=json['generalFeats']
+            .map((feat) => Feat.fromMappedJson(feat))
+            .cast<Feat>()
+            .toList(),
       level = json['level'] ?? 1,
       hit_points=json['hit_points'] ?? 0,
       experience=json['experience'] ?? 0;
@@ -127,13 +139,7 @@ class Character {
         'hit_points': hit_points,
         'experience': experience,
       };
-  List<Feat> getFeatsfromIds(List<int> ids){
-    List<Feat> itemList = List();
-    ids.forEach((itemId){
-      itemList.add(Feat.getFeat(itemId));
-    });
-    return itemList;
-  }
+
   static _getIdsFromFeats(List<Feat> feats){
     if(feats == null)
       return List<Feat>();
@@ -143,22 +149,22 @@ class Character {
     });
     return itemList;
   }
-
+ 
   Proficiency getClassDCProficiency() {
-    List<Proficiency> proficiencies = List();
-    this.path_class.proficiencies.forEach((itemId) {
-      APIservice.getProficiencyById(itemId).then((responseBody) {
+    List<Proficiency> itemList =List();
+    Future.wait(this.path_class.proficiencies.map((itemId) async {
+      itemList.add(await APIservice.getProficiencyById(itemId).then((responseBody) {
         var res = jsonDecode(responseBody);
-        proficiencies.add(Proficiency.fromMappedJson(res));
-      });
-    });
-
-    proficiencies.forEach((item) {
-      if (item.name == this.path_class.name && item.proficiency_type == 'CDC') {
+        return Proficiency.fromMappedJson(res);
+      }));
+      print(itemList);
+    }))
+    ;
+    itemList.forEach((item) {
+      if (item.key_ability == this.path_class.key_ability && item.proficiency_type == 'CDC')
         return item;
-      }
+      return null;
     });
-    return null;
   }
 
   List<Proficiency> getProficiencies() {
@@ -186,7 +192,7 @@ class Character {
 
 
 
-  List<int> generatePDF() {
+  Future<List<int>> generatePDF() async {
     final Document pdf = Document();
     pdf.addPage(MultiPage(
         pageFormat: PdfPageFormat.letter.copyWith(

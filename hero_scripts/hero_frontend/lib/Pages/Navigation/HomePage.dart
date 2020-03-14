@@ -29,8 +29,9 @@ class Home_Page extends StatelessWidget {
           StreamBuilder(
             stream: bloc.topIds,
             builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
-              if (!snapshot.hasData)
-                return Center(child: CircularProgressIndicator());
+              if (!snapshot.hasData){
+                bloc.fetchTopIds();
+                return Center(child: CircularProgressIndicator());}
               return ListView.builder(
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,

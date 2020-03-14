@@ -1,4 +1,5 @@
 import 'package:hero_frontend/Models/CharacterModel.dart';
+import 'package:hero_frontend/Models/PathClassModel.dart';
 import 'package:hero_frontend/Services/ngroklink.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -6,17 +7,22 @@ final String djangoURL = Ngrok.link;
 
 class APIservice {
   static Future<String> getClassListIds() async {
-    String url = djangoURL + 'classes/list/getIds';
+    String url = djangoURL + 'classes/list/getIds/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
   static Future<String> getCharacterListIds() async {
-    String url = djangoURL + 'characters/list/getIds';
+    String url = djangoURL + 'characters/list/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
   static Future<String> getCharacterById(int id) async {
-    String url = djangoURL + 'characters/list/' + id.toString();
+    String url = djangoURL + 'characters/list/' + id.toString()+'/';
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> getCharacterByIdFull(int id) async {
+    String url = djangoURL + 'characters/list/' + id.toString() +'/getFull/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
@@ -28,7 +34,7 @@ class APIservice {
     return response.body;
   }
   static Future<String> getClassFeatureById(int id) async {
-    String url = djangoURL + 'classes/features/' + id.toString();
+    String url = djangoURL + 'classes/features/' + id.toString()+'/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
@@ -43,20 +49,21 @@ class APIservice {
     return response.body;
   }
   static Future<String> getClassById(int id) async {
-    String url = djangoURL + 'classes/list/' + id.toString();
+    String url = djangoURL + 'classes/list/' + id.toString() +'/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
   static Future<String> getArchetypeById(int id) async {
-    String url = djangoURL + 'classes/archetypes/' + id.toString();
+    String url = djangoURL + 'classes/archetypes/' + id.toString()+'/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
   static Future<String> getProficiencyById(int id) async {
-    String url = djangoURL + 'classes/proficiencies/' + id.toString();
+    String url = djangoURL + 'classes/proficiencies/' + id.toString()+'/';
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }
+
   static Future<String> getTraitsNamesList() async {
     String url = djangoURL + 'ancestries/traits/getnames/';
     http.Response response = await http.get(Uri.encodeFull(url));
@@ -98,6 +105,11 @@ class APIservice {
   }
   static Future<String> getAncestryById(int id) async {
     String url = djangoURL + 'ancestries/list/' + id.toString();
+    http.Response response = await http.get(Uri.encodeFull(url));
+    return response.body;
+  }
+  static Future<String> getHeritageById(int id) async {
+    String url = djangoURL + 'ancestries/heritages/' + id.toString();
     http.Response response = await http.get(Uri.encodeFull(url));
     return response.body;
   }

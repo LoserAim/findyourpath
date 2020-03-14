@@ -38,8 +38,8 @@ class Character_Bloc extends Object with Validators {
     });
     
   }
-  Future<Character> getCharacterById(int id) async {
-    return APIservice.getCharacterById(id).then((responseBody) {
+  Future<Character> getCharacterByIdFull(int id) async {
+    return APIservice.getCharacterByIdFull(id).then((responseBody) {
       var res = jsonDecode(responseBody);
       return Character.fromMappedJson(res);
     });
@@ -48,7 +48,7 @@ class Character_Bloc extends Object with Validators {
   _itemsTransformer() {
     return ScanStreamTransformer(
       (Map<int, Future<Character>> cache, int id, index) {
-        cache[id] = getCharacterById(id);
+        cache[id] = getCharacterByIdFull(id);
         return cache;
       },
       <int, Future<Character>>{}

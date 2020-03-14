@@ -33,7 +33,14 @@ class Feat{
   Feat.getFeat(int id){
     APIservice.getFeatById(id).then((responseBody) {
       var res = jsonDecode(responseBody);
-      return Feat.fromMappedJson(res);
+      Feat temp = Feat.fromMappedJson(res);
+      this.id = temp.id;
+      this.name = temp.name;
+      this.description = temp.description;
+      this.level = temp.level;
+      this.pgnum = temp.pgnum;
+      this.book = temp.book;
+
     });
   }
 
