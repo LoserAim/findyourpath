@@ -56,7 +56,7 @@ class Character_Bloc extends Object with Validators {
   }
 
   //SECTION Start of Data collection
-
+  final _folderPath = BehaviorSubject<String>();
   final _chosenABoosts = BehaviorSubject<List<String>>();
   final _chosenAFlaws = BehaviorSubject<List<String>>();
   final _chosenBBoosts = BehaviorSubject<List<String>>();
@@ -73,7 +73,7 @@ class Character_Bloc extends Object with Validators {
   final _alignment = BehaviorSubject<String>();
   final _playerName = BehaviorSubject<String>();
 
-  
+  String get returnFolderPath => _folderPath.stream.value;
   String get returnName => _name.stream.value;
   String get returnDeity => _deity.stream.value;
   String get returnPlayerName => _playerName.stream.value;
@@ -106,6 +106,7 @@ class Character_Bloc extends Object with Validators {
   Function(String) get changeDeity => _deity.sink.add;
   Function(String) get changePlayerName => _playerName.sink.add;
   Function(String) get changeAlignment => _alignment.sink.add;
+  Function(String) get changeFolderPath => _folderPath.sink.add;
 
   Stream<List<String>> get chosenAFlaws =>
       _chosenAFlaws.stream.transform(validateGenericStrings);
@@ -137,7 +138,8 @@ class Character_Bloc extends Object with Validators {
       _playerName.stream.transform(validateGenericString);
   Stream<String> get alignment =>
       _alignment.stream.transform(validateGenericString);
-
+  Stream<String> get folderPath =>
+        _folderPath.stream.transform(validateGenericString);
 
   wipeCurrentData() {
     changeChosenABoosts(List<String>());

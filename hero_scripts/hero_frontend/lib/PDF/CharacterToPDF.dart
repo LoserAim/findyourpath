@@ -4,6 +4,7 @@ import 'package:hero_frontend/Models/CharacterModel.dart';
 import 'package:hero_frontend/Models/FeatModel.dart';
 import 'package:hero_frontend/Models/PathClassModel.dart';
 import 'package:hero_frontend/PDF/pdfExample.dart';
+import 'package:hero_frontend/Services/apihandler.dart';
 import 'package:pdf/widgets.dart';
 Map<String, int> rank = {
   '0' : 0,
@@ -15,7 +16,7 @@ Map<String, int> rank = {
 
 
 
-Widget generateAbilityScores(Character character) {
+Future<Widget> generateAbilityScores(Character character) async {
   Map<String, int> abilitymodifiers = {
     'STR': character.strength.modifier,
     'DEX': character.dexterity.modifier,
@@ -25,7 +26,9 @@ Widget generateAbilityScores(Character character) {
     'CHA': character.charisma.modifier,
     'N/A': 0
   };
-  Proficiency classDC = character.getClassDCProficiency();
+
+  
+  Proficiency classDC = await Proficiency.getClassDCProficiency(character.path_class.proficiencies);
   int keyability = abilitymodifiers[classDC.key_ability ?? 'N/A'];
   int prof = rank[classDC.rank ?? 0];
   int profrank = (prof/2).floor();
@@ -45,7 +48,7 @@ return buildAbilityScoresColumn(
   chamod: character.charisma.modifier > 0 ? "+" + character.charisma.modifier.toString() : character.charisma.modifier.toString(),
   chasco: character.charisma.score.toString(),
   classNum: totalCDC.toString(),
-  key: keyability > 0 ? "+" + keyability.toString() : keyability.toString(),
+  key: keyability.toString(),
   profNum: prof.toString(),
   prof: profrank,
   item: '0',
@@ -61,13 +64,14 @@ Widget generateGenericInfo(Character character){
     background: '',
     nameClass: character.path_class.name ?? '',
     size: character.ancestry.size ?? '',
-    alignment: '',
+    alignment: character.alignment ?? '',
     traits: (character.ancestry.traits ?? List<String>()).join(', '),
-    deity: '',
+    deity: character.deity ?? '',
     level: character.level.toString(),
 
   );
 }
+
 
 Widget generateSkillsAndLanguages(Character character) {
   return buildSkillsAndLanguages(
@@ -147,8 +151,9 @@ Widget generateSkillsAndLanguages(Character character) {
   );
 }
 
-Widget generateHPPerception(Character character) {
-  Proficiency perception = character.getProficiencies().singleWhere( (item) => item.proficiency_type == 'PER' && item.key_ability == 'WIS');
+Future<Widget> generateHPPerception(Character character) async {
+  List<Proficiency> proficiencies = await Proficiency.getProficiencies(character.path_class.proficiencies);
+  Proficiency perception = proficiencies.singleWhere((item) => item.proficiency_type == 'PER' && item.key_ability == 'WIS');
   return buildHPPerception(
     hpMax: (character.ancestry.hit_points + character.path_class.hit_points + character.constitution.modifier).toString(),
     hpTemp: '',
@@ -166,15 +171,17 @@ Widget generateHPPerception(Character character) {
   );
 }
 
-Widget generateFeatsAndFeatures(Character character){
+Future<Widget> generateFeatsAndFeatures(Character character) async{
 
   //Strings should only have the max length of 48
   const int _maxStringLength = 48;
-  List<Feat> classFeatures = character.getClassFeatures().where((item) => item.level <= character.level && (item.name != 'Ancestry and Background' || item.name != 'Initial Proficiencies'));
-  List<String> classinfo = List(20);
-  List<String> skillfeats = List(20);
-  List<String> generalfeats = List(20);
-  List<String> ancestryfeats = List(20);
+  List<Feat> itemlist = await Feat.getClassFeatures(character.path_class.features);
+
+  List<Feat> classFeatures = itemlist.where((item) => item.level <= character.level && (item.name != 'Ancestry and Background' || item.name != 'Initial Proficiencies')).toList();
+  List<String> classinfo = new List<String>.generate(20, (int index) => '');
+  List<String> skillfeats = new List<String>.generate(20, (int index) => '');
+  List<String> generalfeats = new List<String>.generate(20, (int index) => '');
+  List<String> ancestryfeats = new List<String>.generate(20, (int index) => '');
   String firstFeatureA = '';
   String firstFeatureB = '';
   String ancestryHeritage = character.heritage.name;
@@ -182,18 +189,18 @@ Widget generateFeatsAndFeatures(Character character){
   character.ancestry.special_abilities.forEach((item) {
     if(ancestrySpecial.length == 0)
       ancestrySpecial += item;
-    else if((ancestrySpecial.length + item.length + 2) < 48)
+    else if((ancestrySpecial.length + item.length + 2) < _maxStringLength)
       ancestrySpecial += ", " + item;
   });
   classFeatures.forEach((item) {
     if(item.level == 1) {
       if(firstFeatureA.length == 0)
         firstFeatureA += item.name;
-      else if((firstFeatureA.length + item.name.length + 2) < 48)
+      else if((firstFeatureA.length + item.name.length + 2) < _maxStringLength)
         firstFeatureA += ", " + item.name;
       else if(firstFeatureB.length == 0)
         firstFeatureB += item.name;
-      else if((firstFeatureB.length + item.name.length + 2) < 48)
+      else if((firstFeatureB.length + item.name.length + 2) < _maxStringLength)
         firstFeatureB += ", " + item.name;
     }
     
@@ -201,9 +208,9 @@ Widget generateFeatsAndFeatures(Character character){
   classFeatures.forEach((item) {
     for(int templevel = 2; templevel < 20; templevel += 2) {
       if(item.level == (templevel+1)) {
-      if(classinfo[templevel].length == 0)
+      if((classinfo[templevel] ?? '').length == 0)
         classinfo[templevel] += item.name;
-      else if((classinfo[templevel].length + item.name.length + 2) < 48)
+      else if((classinfo[templevel].length + item.name.length + 2) < _maxStringLength)
         classinfo[templevel] += ", " + item.name;
       }
     }
@@ -212,9 +219,9 @@ Widget generateFeatsAndFeatures(Character character){
   character.classFeats.forEach((item) {
     for(int templevel = 1; templevel < 20; templevel += 2) {
       if(item.level == (templevel+1)) {
-      if(classinfo[templevel].length == 0)
+      if((classinfo[templevel] ?? '').length == 0)
         classinfo[templevel] += item.name;
-      else if((classinfo[templevel].length + item.name.length + 2) < 48)
+      else if((classinfo[templevel].length + item.name.length + 2) < _maxStringLength)
         classinfo[templevel] += ", " + item.name;
       }
     }
@@ -223,9 +230,9 @@ Widget generateFeatsAndFeatures(Character character){
   character.skillFeats.forEach((item) {
     for(int templevel = 1; templevel < 20; templevel += 2) {
       if(item.level == (templevel+1)) {
-      if(skillfeats[templevel].length == 0)
+      if((skillfeats[templevel] ?? '').length == 0)
         skillfeats[templevel] += item.name;
-      else if((skillfeats[templevel].length + item.name.length + 2) < 48)
+      else if((skillfeats[templevel].length + item.name.length + 2) < _maxStringLength)
         skillfeats[templevel] += ", " + item.name;
       }
     }
@@ -233,9 +240,9 @@ Widget generateFeatsAndFeatures(Character character){
   character.generalFeats.forEach((item) {
     for(int templevel = 2; templevel < 20; templevel += 4) {
       if(item.level == (templevel+1)) {
-      if(generalfeats[templevel].length == 0)
+      if((generalfeats[templevel] ?? '').length == 0)
         generalfeats[templevel] += item.name;
-      else if((generalfeats[templevel].length + item.name.length + 2) < 48)
+      else if((generalfeats[templevel].length + item.name.length + 2) < _maxStringLength)
         generalfeats[templevel] += ", " + item.name;
       }
     }
@@ -243,9 +250,9 @@ Widget generateFeatsAndFeatures(Character character){
   character.ancestryFeats.forEach((item) {
     for(int templevel = 0; templevel < 20; templevel += 4) {
       if(item.level == (templevel+1)) {
-      if(ancestryfeats[templevel].length == 0)
+      if((ancestryfeats[templevel] ?? '').length == 0)
         ancestryfeats[templevel] += item.name;
-      else if((ancestryfeats[templevel].length + item.name.length + 2) < 48)
+      else if((ancestryfeats[templevel].length + item.name.length + 2) < _maxStringLength)
         ancestryfeats[templevel] += ", " + item.name;
       }
     }
@@ -276,7 +283,7 @@ Widget generateFeatsAndFeatures(Character character){
     general11th: generalfeats[10] ?? '',
     general15th: generalfeats[14] ?? '',
     general19th: generalfeats[18] ?? '',
-    classFEATUREA1st: firstFeatureB ?? '',
+    classFEATUREA1st: firstFeatureA ?? '',
     classFEATUREB1st: firstFeatureB ?? '',
     classFEAT1st: classinfo[0] ?? '',
     classFEAT2nd: classinfo[1] ?? '',
@@ -302,15 +309,15 @@ Widget generateFeatsAndFeatures(Character character){
   );
 }
 
-Widget generateArmorSaves(Character character) {
-  List<Proficiency> proficiencies = character.getProficiencies();
-  Proficiency lightArmor = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Light Armor');
-  Proficiency unarmored = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Unarmored Defense');
-  Proficiency heavyArmor = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Heavy Armor');
-  Proficiency mediumArmor = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Medium Armor');
-  Proficiency fortitude = proficiencies.singleWhere( (item) => item.proficiency_type == 'SAT' && item.key_ability == 'CON');
-  Proficiency reflex = proficiencies.singleWhere( (item) => item.proficiency_type == 'SAT' && item.key_ability == 'DEX');
-  Proficiency will = proficiencies.singleWhere( (item) => item.proficiency_type == 'SAT' && item.key_ability == 'WIS');
+Future<Widget> generateArmorSaves(Character character) async {
+  List<Proficiency> proficiencies = await Proficiency.getProficiencies(character.path_class.proficiencies);
+  Proficiency lightArmor = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Light Armor', orElse: () => Proficiency());
+  Proficiency unarmored = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Unarmored Defense', orElse: () => Proficiency());
+  Proficiency heavyArmor = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Heavy Armor', orElse: () => Proficiency());
+  Proficiency mediumArmor = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Medium Armor', orElse: () => Proficiency());
+  Proficiency fortitude = proficiencies.singleWhere( (item) => item.proficiency_type == 'SAT' && item.key_ability == 'CON', orElse: () => Proficiency());
+  Proficiency reflex = proficiencies.singleWhere( (item) => item.proficiency_type == 'SAT' && item.key_ability == 'DEX', orElse: () => Proficiency());
+  Proficiency will = proficiencies.singleWhere( (item) => item.proficiency_type == 'SAT' && item.key_ability == 'WIS', orElse: () => Proficiency());
   
 
   return buildArmorSaves(

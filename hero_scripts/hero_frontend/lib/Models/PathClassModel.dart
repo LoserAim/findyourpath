@@ -65,6 +65,27 @@ class Proficiency {
         'key_ability': key_ability,
         'rank ': rank,
       };
+  static Future<Proficiency> getProficiency(int id) async => Proficiency.fromMappedJson(jsonDecode(await APIservice.getProficiencyById(id)));
+
+  static Future<Proficiency> getClassDCProficiency(List<int> ids) async {
+    List<Proficiency> proficiencies = List();
+    for (int i = 0; i < ids.length; i++) {
+      proficiencies.add(await Proficiency.getProficiency(ids[i]));
+    };
+    Proficiency classDC = Proficiency();
+    if(proficiencies.length > 0)
+      classDC = proficiencies.firstWhere((item) => item.proficiency_type == 'CDC', orElse: () => Proficiency(name: 'FAILURE'));
+
+      
+    return classDC;
+  }
+  static Future<List<Proficiency>> getProficiencies(List<int> ids) async {
+    List<Proficiency> itemList = List();
+    for (int i = 0; i < ids.length; i++) {
+      itemList.add(await Proficiency.getProficiency(ids[i]));
+    };
+    return itemList;
+  }
 }
 
 class Path_Class {

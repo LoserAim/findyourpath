@@ -105,7 +105,6 @@ class Ancestry {
         'book': book,
         'pgnum': pgnum,
       };
-
 Ancestry.getAncestry(int id) {
     APIservice.getAncestryById(id).then((responseBody) {
       var res = jsonDecode(responseBody);

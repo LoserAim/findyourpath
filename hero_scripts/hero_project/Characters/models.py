@@ -37,6 +37,7 @@ class Character(models.Model):
     heritage = models.ForeignKey(Amodels.Heritage, related_name="character_heritage", on_delete=models.CASCADE, null=True)
     archetype = models.ForeignKey(PCmodels.PathClassArchetype, related_name="character_class_archetype", on_delete=models.CASCADE, null=True)
     classFeats = models.ManyToManyField(Fmodels.Feat, related_name="character_class_feats", blank=True)
+    proficiencies = models.ManyToManyField(PCmodels.Proficiency, related_name="character_proficienies", blank=True)
     ancestryFeats = models.ManyToManyField(Fmodels.Feat, related_name="character_ancestry_feats", blank=True)
     skillFeats = models.ManyToManyField(Fmodels.Feat, related_name="character_skill_feats", blank=True)
     generalFeats = models.ManyToManyField(Fmodels.Feat, related_name="character_general_feats", blank=True)

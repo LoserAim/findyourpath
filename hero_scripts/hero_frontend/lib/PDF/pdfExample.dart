@@ -786,10 +786,10 @@ Widget buildLabeledNumberBox(
                     : height - fixedLabelHeight,
                 child: Expanded(
                     child: Align(
-                        alignment: Alignment.topCenter,
+                        alignment: Alignment.center,
                         child: Text(number ?? '',
                             style: TextStyle(
-                                fontSize: fontSize, color: PdfColors.black)))))
+                                fontSize: fontSize ?? 10.0, color: PdfColors.black)))))
           ])));
 }
 
@@ -854,6 +854,7 @@ Widget buildSmallCheckbox({bool enabled}) {
 
 Widget buildSavingThrow(
     {String label,
+    String totalMod,
     String ability,
     String modifer,
     String profNum,
@@ -868,7 +869,7 @@ Widget buildSavingThrow(
         label: label ?? '',
         noBox: true,
         fontSize: 10.0),
-    buildNumberBox(),
+    buildNumberBox(number: (int.parse(totalMod) > 0 ? ('+' + totalMod) : totalMod) ?? ''),
     Padding(
         padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
         child: Row(children: <Widget>[
@@ -972,7 +973,7 @@ Widget buildHPPerception({
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    buildNumberBox(number: perTotal ?? ''),
+                    buildNumberBox(number: (int.parse(perTotal) > 0 ? ('+' + perTotal) : perTotal)  ?? ''),
                     Container(
                         height: 18.0,
                         width: 6.0,
@@ -1133,6 +1134,7 @@ Widget buildArmorSaves({
           buildSavingThrow(
             label: 'Fortitude',
             ability: 'CON',
+            totalMod: forNum ?? '',
             modifer: forCon ?? '',
             profNum: forNumProf ?? '',
             prof: forProf ?? 0,
@@ -1149,6 +1151,7 @@ Widget buildArmorSaves({
           buildSavingThrow(
             label: 'Reflex',
             ability: 'DEX',
+            totalMod: refNum ?? '',
             modifer: refDex ?? '',
             profNum: refNumProf ?? '',
             prof: refProf ?? 0,
@@ -1165,6 +1168,7 @@ Widget buildArmorSaves({
           buildSavingThrow(
             label: 'WILL',
             ability: 'WIS',
+            totalMod: wilNum ?? '',
             modifer: wilWis ?? '',
             profNum: wilNumProf ?? '',
             prof: wilProf ?? 0,

@@ -30,19 +30,16 @@ class Feat{
       'book' :book,
     };
    
-  Feat.getFeat(int id){
-    APIservice.getFeatById(id).then((responseBody) {
-      var res = jsonDecode(responseBody);
-      Feat temp = Feat.fromMappedJson(res);
-      this.id = temp.id;
-      this.name = temp.name;
-      this.description = temp.description;
-      this.level = temp.level;
-      this.pgnum = temp.pgnum;
-      this.book = temp.book;
 
-    });
+  static Future<Feat> getFeat(int id) async => Feat.fromMappedJson(jsonDecode(await APIservice.getFeatById(id)));
+  static Future<Feat> getClassFeature(int id) async => Feat.fromMappedJson(jsonDecode(await APIservice.getClassFeatureById(id)));
+
+
+  static Future<List<Feat>> getClassFeatures(List<int> ids) async {
+    List<Feat> itemList = List();
+    for (int i = 0; i < ids.length; i++) {
+      itemList.add(await Feat.getClassFeature(ids[i]));
+    };
+    return itemList;
   }
-
-
 }

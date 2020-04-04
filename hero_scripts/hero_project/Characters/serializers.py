@@ -53,6 +53,7 @@ class CharacterFullSerializer(serializers.ModelSerializer):
             'wisdom',
             'charisma',
             'name',
+            'proficiencies',
             'playerName',
             'path_class',
             'ancestry',
@@ -70,6 +71,10 @@ class CharacterFullSerializer(serializers.ModelSerializer):
         if data['classFeats'] != None:
             data['classFeats'] = Fserializers.FeatSerializer(
                 Fmodels.Feat.objects.filter(pk__in=data['classFeats']),
+                many=True).data
+        if data['proficiencies'] != None:
+            data['proficiencies'] = PCserializers.ProficiencySerializer(
+                PCmodels.Proficiency.objects.filter(pk__in=data['proficiencies']),
                 many=True).data
         if data['ancestryFeats'] != None:
             data['ancestryFeats'] = Fserializers.FeatSerializer(

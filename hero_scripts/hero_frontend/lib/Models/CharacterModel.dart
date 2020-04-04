@@ -62,7 +62,7 @@ class Character {
     this.playerName,
     this.path_class,
     this.deity,
-    this.alignment,    
+    this.alignment,
     this.ancestry,
     this.heritage,
     this.archetype,
@@ -82,39 +82,40 @@ class Character {
     });
   }
   Character.fromMappedJson(Map<String, dynamic> json)
-      : strength=Ability(tempScore:json['strength']) ?? Ability(),
-      dexterity=Ability(tempScore:json['dexterity']) ?? Ability(),
-      constitution=Ability(tempScore:json['constitution']) ?? Ability(),
-      intelligence=Ability(tempScore:json['intelligence']) ?? Ability(),
-      wisdom=Ability(tempScore:json['wisdom']) ?? Ability(),
-      charisma=Ability(tempScore:json['charisma']) ?? Ability(),
-      name=json['name'] ?? '',
-      playerName=json['playerName'] ?? '',
-      deity=json['deity'] ?? '',
-      alignment=json['alignment'] ?? '',      
-      path_class=Path_Class.fromMappedJson(json['path_class'][0]) ?? Path_Class(),
-      ancestry=Ancestry.fromMappedJson(json['ancestry']) ?? Ancestry(),
-      heritage= Heritage.fromMappedJson(json['heritage']) ?? Heritage(),
-      archetype=Archetype.fromMappedJson(json['archetype']) ?? Archetype(),
-      classFeats=json['classFeats']
+      : strength = Ability(tempScore: json['strength']) ?? Ability(),
+        dexterity = Ability(tempScore: json['dexterity']) ?? Ability(),
+        constitution = Ability(tempScore: json['constitution']) ?? Ability(),
+        intelligence = Ability(tempScore: json['intelligence']) ?? Ability(),
+        wisdom = Ability(tempScore: json['wisdom']) ?? Ability(),
+        charisma = Ability(tempScore: json['charisma']) ?? Ability(),
+        name = json['name'] ?? '',
+        playerName = json['playerName'] ?? '',
+        deity = json['deity'] ?? '',
+        alignment = json['alignment'] ?? '',
+        path_class =
+            Path_Class.fromMappedJson(json['path_class'][0]) ?? Path_Class(),
+        ancestry = Ancestry.fromMappedJson(json['ancestry']) ?? Ancestry(),
+        heritage = Heritage.fromMappedJson(json['heritage']) ?? Heritage(),
+        archetype = Archetype.fromMappedJson(json['archetype']) ?? Archetype(),
+        classFeats = json['classFeats']
             .map((feat) => Feat.fromMappedJson(feat))
             .cast<Feat>()
             .toList(),
-      ancestryFeats=json['ancestryFeats']
+        ancestryFeats = json['ancestryFeats']
             .map((feat) => Feat.fromMappedJson(feat))
             .cast<Feat>()
             .toList(),
-      skillFeats=json['skillFeats']
+        skillFeats = json['skillFeats']
             .map((feat) => Feat.fromMappedJson(feat))
             .cast<Feat>()
             .toList(),
-      generalFeats=json['generalFeats']
+        generalFeats = json['generalFeats']
             .map((feat) => Feat.fromMappedJson(feat))
             .cast<Feat>()
             .toList(),
-      level = json['level'] ?? 1,
-      hit_points=json['hit_points'] ?? 0,
-      experience=json['experience'] ?? 0;
+        level = json['level'] ?? 1,
+        hit_points = json['hit_points'] ?? 0,
+        experience = json['experience'] ?? 0;
 
   Map<String, dynamic> toJson() => {
         'strength': strength.score,
@@ -126,7 +127,7 @@ class Character {
         'name': name,
         'playerName': playerName,
         'deity': deity,
-        'alignment': alignment,        
+        'alignment': alignment,
         'path_class': [path_class.id],
         'ancestry': ancestry.id,
         'heritage': heritage.id,
@@ -140,60 +141,21 @@ class Character {
         'experience': experience,
       };
 
-  static _getIdsFromFeats(List<Feat> feats){
-    if(feats == null)
-      return List<Feat>();
+  static _getIdsFromFeats(List<Feat> feats) {
+    if (feats == null) return List<Feat>();
     List<int> itemList = List();
-    feats.forEach((item){
+    feats.forEach((item) {
       itemList.add(item.id);
     });
     return itemList;
   }
- 
-  Proficiency getClassDCProficiency() {
-    List<Proficiency> itemList =List();
-    Future.wait(this.path_class.proficiencies.map((itemId) async {
-      itemList.add(await APIservice.getProficiencyById(itemId).then((responseBody) {
-        var res = jsonDecode(responseBody);
-        return Proficiency.fromMappedJson(res);
-      }));
-      print(itemList);
-    }))
-    ;
-    itemList.forEach((item) {
-      if (item.key_ability == this.path_class.key_ability && item.proficiency_type == 'CDC')
-        return item;
-      return null;
-    });
-  }
-
-  List<Proficiency> getProficiencies() {
-    List<Proficiency> proficiencies = List();
-    this.path_class.proficiencies.forEach((itemId) {
-      APIservice.getProficiencyById(itemId).then((responseBody) {
-        var res = jsonDecode(responseBody);
-        proficiencies.add(Proficiency.fromMappedJson(res));
-      });
-    });
-    return proficiencies;
-  }
-  
-  List<Feat> getClassFeatures() {
-    List<Feat> itemList = List();
-    this.path_class.features.forEach((itemId) {
-
-        itemList.add(Feat.getFeat(itemId));
-
-    });
-    return itemList;
-  }
-
-
-
-
 
   Future<List<int>> generatePDF() async {
     final Document pdf = Document();
+    final Widget abilityScoresInfo = await generateAbilityScores(this);
+    final Widget armorSaves = await generateArmorSaves(this);
+    final Widget hPPerception = await generateHPPerception(this);
+    final Widget featsAndFeatures = await generateFeatsAndFeatures(this);
     pdf.addPage(MultiPage(
         pageFormat: PdfPageFormat.letter.copyWith(
             marginRight: 0.25 * PdfPageFormat.inch,
@@ -218,13 +180,12 @@ class Character {
                   children: <Widget>[
                     Padding(
                         padding: EdgeInsets.only(right: 5.0),
-                        child: generateAbilityScores(this
-                        )),
+                        child: abilityScoresInfo),
                     Padding(
                         padding: EdgeInsets.only(right: 5.0),
-                        child: generateArmorSaves(this
-                        )),
-                    generateHPPerception(this)
+                        child: armorSaves),
+                    // Perception below
+                    hPPerception
                   ]),
               Container(height: 2.0),
               Row(
@@ -252,7 +213,7 @@ class Character {
                       .copyWith(color: PdfColors.grey)));
         },
         build: (Context context) => <Widget>[
-              generateFeatsAndFeatures(this),
+              featsAndFeatures,
             ]));
     return pdf.save();
   }

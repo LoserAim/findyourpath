@@ -57,6 +57,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
         stream: bloc.ancestry,
         builder: (context, snapshot) {
           if (!snapshot.hasData) return Loading_Container_Widget();
+          
           return CardSettings.sectioned(
             children: <CardSettingsSection>[
               CardSettingsSection(
