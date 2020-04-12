@@ -1,45 +1,29 @@
-import 'package:card_settings/card_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/FeatListProvider.dart';
-import 'package:hero_frontend/Models/FeatModel.dart';
-import 'package:hero_frontend/Settings/TextFormat.dart';
-import 'package:hero_frontend/Widgets/Generics/GenericCardWidget.dart';
-import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
 
-class Feat_Card_Widget extends StatelessWidget {
-  final int itemId;
-  Feat_Card_Widget({this.itemId});
-
+class Generic_Info_Card_Widget extends StatelessWidget {
+  final item;
+  final stream;
+  final addToStream;
+  Generic_Info_Card_Widget({this.item, this.stream, this.addToStream});
   @override
   Widget build(BuildContext context) {
-    final bloc = Feat_List_Provider.of(context);
-    return StreamBuilder(
-      stream: bloc.items,
-      builder: (BuildContext context,
-          AsyncSnapshot<Map<int, Future<Feat>>> snapshot) {
-        if (!snapshot.hasData) return Loading_Container_Widget();
-        return FutureBuilder(
-          future: snapshot.data[itemId],
-          builder: (BuildContext context, AsyncSnapshot<Feat> itemSnapshot) {
-            if (!itemSnapshot.hasData) return Loading_Container_Widget();
-
-            return Card(
+    return Card(
               elevation: 8.0,
               margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
               child: StreamBuilder(
-                  stream: bloc.chosenFeats,
+                  stream: stream,
                   builder:
-                      (context, AsyncSnapshot<List<Feat>> chosenFeatSnapshot) {
+                      (context, AsyncSnapshot chosenItems) {
                     BoxDecoration decoration = BoxDecoration();
                     Color color = Colors.orangeAccent;
-                    if (!chosenFeatSnapshot.hasData) {
+                    if (!chosenItems.hasData) {
                       color = Theme.of(context).textTheme.display2.color;
                       decoration = BoxDecoration(
                         border: Border.all(
                             color: Theme.of(context).primaryColor, width: 1.0),
                       );
-                    } else if (chosenFeatSnapshot.data
-                        .contains(itemSnapshot.data)) {
+                    } else if (chosenItems.data
+                        .contains(item)) {
                       decoration =
                           BoxDecoration(color: Theme.of(context).primaryColor);
                       color = Theme.of(context).textTheme.display1.color;
@@ -55,23 +39,23 @@ class Feat_Card_Widget extends StatelessWidget {
                       decoration: decoration,
                       child: ListTile(
                         onTap: () {
-                          chosenFeatSnapshot.data.contains(itemSnapshot.data)
-                              ? chosenFeatSnapshot.data
-                                  .remove(itemSnapshot.data)
-                              : chosenFeatSnapshot.data.add(itemSnapshot.data);
-                          bloc.changeChosenFeats(chosenFeatSnapshot.data);
+                          chosenItems.data.contains(item)
+                              ? chosenItems.data
+                                  .remove(item)
+                              : chosenItems.data.add(item);
+                          addToStream(chosenItems.data);
                         },
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
                         title: Text(
-                          "${itemSnapshot.data.level} ${itemSnapshot.data.name}",
+                          "${item.level} ${item.name}",
                           style: TextStyle(
                               color: color, fontWeight: FontWeight.bold),
                         ),
                         subtitle: Row(
                           children: <Widget>[
                             Expanded(
-                                child: Text("${itemSnapshot.data.description}",
+                                child: Text("${item.description}",
                                     style: TextStyle(color: color)))
                           ],
                         ),
@@ -79,9 +63,5 @@ class Feat_Card_Widget extends StatelessWidget {
                     );
                   }),
             );
-          },
-        );
-      },
-    );
   }
 }

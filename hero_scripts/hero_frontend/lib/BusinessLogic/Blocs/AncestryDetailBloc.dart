@@ -9,11 +9,7 @@ import 'package:rxdart/rxdart.dart';
 
 class Ancestry_Detail_Bloc extends Object with Validators{
 
-  final _id                 = BehaviorSubject<int>();
-  final _hitPoints          = BehaviorSubject<int>();
-  final _speed              = BehaviorSubject<int>();
-  final _size               = BehaviorSubject<String>();
-  final _name               = BehaviorSubject<String>();
+
   final _abilityBoosts      = BehaviorSubject<List<String>>();
   final _abilityFlaws       = BehaviorSubject<List<String>>();
   final _languages          = BehaviorSubject<List<String>>();
@@ -29,17 +25,15 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   final _specialAbilitiesOptions = BehaviorSubject<List<String>>();
   final _freeBoosts = BehaviorSubject<int>();
   final _chosenFreeBoosts      = BehaviorSubject<List<String>>();
+  final _chosenFeats      = BehaviorSubject<List<Feat>>();
 
   List<String> get returnChosenAbilityBoosts => _chosenFreeBoosts.stream.value;
   List<String> get returnCurrentAbilityBoosts => _abilityBoosts.stream.value;
   Heritage get returnCurrentHeritage => _chosenHeritage.stream.value;
   Ancestry get returnCurrentAncestry => _ancestry.stream.value;
+  List<Feat> get returnChosenFeats => _chosenFeats.stream.value;
   Function(List<String>)    get changeTraitsOptions => _traitsOptions.sink.add;
   Function(List<String>)    get changeSpecialAbilitiesOptions => _specialAbilitiesOptions.sink.add;
-  Function(int)             get changeHitPoints => _hitPoints.sink.add;
-  Function(int)             get changeSpeed => _speed.sink.add;
-  Function(String)          get changeSize => _size.sink.add;
-  Function(String)          get changeName => _name.sink.add;
   Function(List<String>)    get changeAbilityBoosts => _abilityBoosts.sink.add;
   Function(List<String>)    get changeAbilityFlaws => _abilityFlaws.sink.add;
   Function(List<String>)    get changeLanguages => _languages.sink.add;
@@ -48,6 +42,7 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   Function(List<Heritage>)  get changeHeritages => _heritages.sink.add;
   Function(Heritage)        get changeChosenHeritage => _chosenHeritage.sink.add;
   Function(List<Feat>)      get changeFeats => _feats.sink.add;
+  Function(List<Feat>)      get changeChosenFeats => _chosenFeats.sink.add;
   Function(Ancestry)        get changeAncestry => _ancestry.sink.add;
   Function(String)          get changBook => _book.sink.add;
   Function(int)             get changePgnum => _pgnum.sink.add;
@@ -55,10 +50,6 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   Function(List<String>)    get changeChosenFreeBoosts => _chosenFreeBoosts.sink.add;
   
 
-
-  Stream<int> get hitPoints => _hitPoints.stream.transform(validateHitPoints);
-  Stream<String> get size => _size.stream.transform(validateSize);
-  Stream<String> get name => _name.stream.transform(validateName);
   Stream<List<String>> get abilityBoosts => _abilityBoosts.stream.transform(validateAbilityBoosts);
   Stream<List<String>> get abilityFlaws => _abilityFlaws.stream.transform(validateAbilityFlaws);
   Stream<List<String>> get languages => _languages.stream.transform(validateLanguages);
@@ -67,6 +58,7 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   Stream<List<Heritage>> get heritages => _heritages.stream.transform(validateHeritages);
   Stream<Heritage> get chosenHeritage => _chosenHeritage.stream.transform(validateHeritage);
   Stream<List<Feat>> get feats => _feats.stream.transform(validateFeats);
+  Stream<List<Feat>> get chosenFeats => _chosenFeats.stream.transform(validateFeats);
   Stream<Ancestry> get ancestry => _ancestry.stream.transform(validateAncestry);
   Stream<List<String>> get traitsOptions => _traitsOptions.stream.transform(validateSpecialAbilities);
   Stream<List<String>> get specialAbilitiesOptions => _specialAbilitiesOptions.stream.transform(validateSpecialAbilities);
@@ -104,9 +96,7 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     final List<String> traits = await getTraitsNamesList();
     final List<String> specials = await getSpecialAbilitiesOptionsList();
     final Heritage heritagChoice = Heritage();
-    changeHitPoints(item.hit_points);
-    changeSize(item.size);
-    changeName(item.name);
+    changeChosenFeats(List<Feat>());
     changeAbilityBoosts(item.ability_boosts);
     changeAbilityFlaws(item.ability_flaws);
     changeLanguages(item.languages);
@@ -125,10 +115,6 @@ class Ancestry_Detail_Bloc extends Object with Validators{
   }
 
   dispose() {
-    _id.close();
-    _hitPoints.close();
-    _size.close();
-    _name.close();
     _abilityBoosts.close();
     _abilityFlaws.close();
     _languages.close();
@@ -142,7 +128,6 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     _ancestry.close();
     _specialAbilitiesOptions.close();
     _traitsOptions.close();
-    _speed.close();
     _chosenFreeBoosts.close();
     _freeBoosts.close();
   }
@@ -261,13 +246,7 @@ class Validators {
   );
   final validateFeats = StreamTransformer<List<Feat>, List<Feat>>.fromHandlers(
     handleData: (feats, sink) {
-      if(feats.length <= 0)
-      {
-        sink.addError("Feats cannot be blank!");
-      }
-      else {
-        sink.add(feats);
-      }
+      sink.add(feats);
     }
   );
 

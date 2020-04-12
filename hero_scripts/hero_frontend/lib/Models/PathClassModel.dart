@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:hero_frontend/Models/FeatModel.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 
 class Archetype {
@@ -65,27 +66,6 @@ class Proficiency {
         'key_ability': key_ability,
         'rank ': rank,
       };
-  static Future<Proficiency> getProficiency(int id) async => Proficiency.fromMappedJson(jsonDecode(await APIservice.getProficiencyById(id)));
-
-  static Future<Proficiency> getClassDCProficiency(List<int> ids) async {
-    List<Proficiency> proficiencies = List();
-    for (int i = 0; i < ids.length; i++) {
-      proficiencies.add(await Proficiency.getProficiency(ids[i]));
-    };
-    Proficiency classDC = Proficiency();
-    if(proficiencies.length > 0)
-      classDC = proficiencies.firstWhere((item) => item.proficiency_type == 'CDC', orElse: () => Proficiency(name: 'FAILURE'));
-
-      
-    return classDC;
-  }
-  static Future<List<Proficiency>> getProficiencies(List<int> ids) async {
-    List<Proficiency> itemList = List();
-    for (int i = 0; i < ids.length; i++) {
-      itemList.add(await Proficiency.getProficiency(ids[i]));
-    };
-    return itemList;
-  }
 }
 
 class Path_Class {
@@ -93,11 +73,11 @@ class Path_Class {
   int hit_points;
   String name;
   String key_ability;
-  List<int> proficiencies;
-  List<int> archetypes;
-  List<int> features;
+  List<Proficiency> proficiencies;
+  List<Archetype> archetypes;
+  List<Feat> features;
   int additional_skills;
-  List<int> class_feats;
+  List<Feat> class_feats;
   int pgnum;
   String book;
   Path_Class(
@@ -117,11 +97,23 @@ class Path_Class {
         hit_points = json['hit_points'],
         name = json['name'],
         key_ability = json['key_ability'],
-        proficiencies = json['proficiencies'].cast<int>(),
-        archetypes = json['archetypes'].cast<int>(),
-        features = json['features'].cast<int>(),
+        proficiencies = json['proficiencies']
+            .map((proficiency) => Proficiency.fromMappedJson(proficiency))
+            .cast<Proficiency>()
+            .toList(),
+        archetypes = json['archetypes']
+            .map((archetype) => Archetype.fromMappedJson(archetype))
+            .cast<Archetype>()
+            .toList(),
+        features = json['features']
+            .map((feature) => Feat.fromMappedJson(feature))
+            .cast<Feat>()
+            .toList(),
         additional_skills = json['additional_skills'],
-        class_feats = json['class_feats'].cast<int>(),
+        class_feats = json['class_feats']
+            .map((classfeat) => Feat.fromMappedJson(classfeat))
+            .cast<Feat>()
+            .toList(),
         pgnum = json['pgnum'],
         book = json['book'];
 

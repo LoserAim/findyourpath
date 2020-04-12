@@ -28,7 +28,7 @@ Future<Widget> generateAbilityScores(Character character) async {
   };
 
   
-  Proficiency classDC = await Proficiency.getClassDCProficiency(character.path_class.proficiencies);
+  Proficiency classDC = character.path_class.proficiencies.firstWhere((item) => item.proficiency_type == 'CDC', orElse: () => Proficiency(name: 'FAILURE'));
   int keyability = abilitymodifiers[classDC.key_ability ?? 'N/A'];
   int prof = rank[classDC.rank ?? 0];
   int profrank = (prof/2).floor();
@@ -152,7 +152,7 @@ Widget generateSkillsAndLanguages(Character character) {
 }
 
 Future<Widget> generateHPPerception(Character character) async {
-  List<Proficiency> proficiencies = await Proficiency.getProficiencies(character.path_class.proficiencies);
+  List<Proficiency> proficiencies = character.path_class.proficiencies;
   Proficiency perception = proficiencies.singleWhere((item) => item.proficiency_type == 'PER' && item.key_ability == 'WIS');
   return buildHPPerception(
     hpMax: (character.ancestry.hit_points + character.path_class.hit_points + character.constitution.modifier).toString(),
@@ -175,7 +175,7 @@ Future<Widget> generateFeatsAndFeatures(Character character) async{
 
   //Strings should only have the max length of 48
   const int _maxStringLength = 48;
-  List<Feat> itemlist = await Feat.getClassFeatures(character.path_class.features);
+  List<Feat> itemlist = character.path_class.features;
 
   List<Feat> classFeatures = itemlist.where((item) => item.level <= character.level && (item.name != 'Ancestry and Background' || item.name != 'Initial Proficiencies')).toList();
   List<String> classinfo = new List<String>.generate(20, (int index) => '');
@@ -310,7 +310,7 @@ Future<Widget> generateFeatsAndFeatures(Character character) async{
 }
 
 Future<Widget> generateArmorSaves(Character character) async {
-  List<Proficiency> proficiencies = await Proficiency.getProficiencies(character.path_class.proficiencies);
+  List<Proficiency> proficiencies = character.path_class.proficiencies;
   Proficiency lightArmor = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Light Armor', orElse: () => Proficiency());
   Proficiency unarmored = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Unarmored Defense', orElse: () => Proficiency());
   Proficiency heavyArmor = proficiencies.singleWhere( (item) => item.proficiency_type == 'ARC' && item.name == 'Heavy Armor', orElse: () => Proficiency());

@@ -52,7 +52,7 @@ class Ancestry_Detail_Page extends StatelessWidget {
                 onPressed: () async {
                   final Ancestry itemAncestry = bloc.returnCurrentAncestry;
                   final List<Feat> itemFeats =
-                      feat_bloc.returnCurrentChosenFeats;
+                      bloc.returnChosenFeats;
                   final Heritage itemHeritage = bloc.returnCurrentHeritage;
                   final List<String> itemAboosts = (itemAncestry != null)
                       ? bloc.returnChosenAbilityBoosts

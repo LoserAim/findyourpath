@@ -12,14 +12,13 @@ class Class_Feature_Page extends StatelessWidget {
           label: "Class Features",
         ),
         StreamBuilder(
-          stream: bloc.classFeatures,
+          stream: bloc.pathClass,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData)
               return CircularProgressIndicator();
             else {
               List<Widget> features = List();
-
-              snapshot.data.forEach((item) {
+              snapshot.data.features.forEach((item) {
                 if (item.level == 1) {
                   features.add(CardSettingsField(
                     label: item.name,

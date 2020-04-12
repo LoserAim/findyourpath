@@ -168,7 +168,6 @@ class Ancestry_Detail_Widget extends StatelessWidget {
                     icon: Icon(Icons.accessibility),
                     label: 'Size',
                     initialValue: _sizeDict[snapshot.data.size],
-                    onChanged: bloc.changeSize,
                     options: _sizeOptions,
                   ),
                   CardSettingsField(

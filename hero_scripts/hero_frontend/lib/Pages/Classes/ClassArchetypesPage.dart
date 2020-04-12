@@ -11,38 +11,28 @@ class Class_Archetypes_Page extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = Class_Provider.of(context);
     return CardSettings(
-        children: <Widget>[
-          CardSettingsField(
-            label: "Available Archetypes",
-            contentOnNewLine: true,
-            content: StreamBuilder(
-              stream: bloc.archetypesIds,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<int>> snapshot) {
-                if (!snapshot.hasData){
-                  bloc.reloadArchetypesIds(bloc.returnPathClass.archetypes);
-                  return CircularProgressIndicator();
-                } 
-                List<Widget> choices = List();
+      children: <Widget>[
 
-                snapshot.data.forEach((id) {
-                  bloc.fetchArchetype(id);
-                  choices.add(
-                    
-                    Archetypes_Card_Widget(
-                      id: id,
-                    ),
-                  );
-                });
+        CardSettingsField(
+          label: "Available Archetypes",
+          contentOnNewLine: true,
+          content: StreamBuilder(
+            stream: bloc.pathClass,
+            builder:
+                (BuildContext context, AsyncSnapshot<Path_Class> snapshot) {
+              if (!snapshot.hasData) return CircularProgressIndicator();
 
-                return Wrap(
-                  children: choices,
-                );
-              },
-            ),
+              return ListView.builder(
+                  itemCount: snapshot.data.archetypes.length,
+                  itemBuilder: (context, i) {
+                    return Archetypes_Card_Widget(
+                      item: snapshot.data.archetypes[i],
+                    );
+                  });
+            },
           ),
-        ],
-      );
-    
+        ),
+      ],
+    );
   }
 }

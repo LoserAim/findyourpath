@@ -58,8 +58,7 @@ class Class_Tabs_Page extends StatelessWidget {
               floatingActionButton: new FloatingActionButton(
                 onPressed: () async {
                   final Path_Class itemClass = classBloc.returnPathClass;
-                  final List<Feat> itemFeats =
-                      featBloc.returnCurrentChosenFeats;
+                  final List<Feat> itemFeats = classBloc.returnChosenFeats;
                   final Archetype itemArchetype =  classBloc.returnChosenArchetype;
                   final List<String> itemCboosts = (itemClass.key_ability != null)
                       ? [_modifierChoices[itemClass.key_ability]]
