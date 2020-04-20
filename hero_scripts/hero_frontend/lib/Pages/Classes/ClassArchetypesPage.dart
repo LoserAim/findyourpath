@@ -23,6 +23,9 @@ class Class_Archetypes_Page extends StatelessWidget {
               if (!snapshot.hasData) return CircularProgressIndicator();
 
               return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
                   itemCount: snapshot.data.archetypes.length,
                   itemBuilder: (context, i) {
                     return Archetypes_Card_Widget(

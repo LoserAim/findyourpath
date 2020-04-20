@@ -23,11 +23,12 @@ class Class_Feats_Page extends StatelessWidget {
           shrinkWrap: true,
           itemCount: snapshot.data.class_feats.length,
           itemBuilder: (BuildContext context, int index) {
-            return Generic_Info_Card_Widget(
-              item: snapshot.data.class_feats[index],
-              stream: classbloc.chosenFeats,
-              addToStream: classbloc.changeChosenFeats,
-            );
+            if (snapshot.data.class_feats[index].level == 1)
+              return Generic_Info_Card_Widget(
+                item: snapshot.data.class_feats[index],
+                stream: classbloc.chosenFeats,
+                addToStream: classbloc.changeChosenFeats,
+              );
           },
         );
       },

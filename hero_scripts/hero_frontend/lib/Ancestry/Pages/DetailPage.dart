@@ -1,16 +1,11 @@
-import 'dart:convert';
 
 import 'package:card_settings/card_settings.dart';
 import 'package:card_settings/widgets/card_settings_panel.dart';
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
-import 'package:hero_frontend/Models/AncestryModel.dart';
-import 'package:hero_frontend/Services/apihandler.dart';
-import 'package:hero_frontend/Widgets/Ancestry/HeritageCardWidget.dart';
-import 'package:hero_frontend/Widgets/Generics/GenericCardWidget.dart';
+import 'package:hero_frontend/Ancestry/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
 
-class Ancestry_Detail_Widget extends StatelessWidget {
+class AncestryDetailPage extends StatelessWidget {
   final Map<String, String> _sizeDict = {
     "T": "Tiny",
     "S": "Small",
@@ -52,7 +47,7 @@ class Ancestry_Detail_Widget extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    final bloc = Ancestry_Detail_Provider.of(context);
+    final bloc = AncestryDetailProvider.of(context);
     return StreamBuilder(
         stream: bloc.ancestry,
         builder: (context, snapshot) {

@@ -126,20 +126,20 @@ class Character_Creator_Page extends StatelessWidget {
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
-          Character character = Character();
-          character.name = bloc.returnName;
-          character.deity = bloc.returnDeity;
-          character.playerName = bloc.returnPlayerName;
-          character.alignment = _alignments[bloc.returnAlignment];
-          character.ancestryFeats = bloc.returnCurrentAncestryFeats;
-          character.ancestry = bloc.returnCurrentAncestry;
-          character.heritage = bloc.returnCurrentHeritage;
-          character.archetype = bloc.returnCurrentArchetype;
-          character.classFeats = bloc.returnCurrentClassFeats;
-          character.path_class = bloc.returnCurrentClass;
-          character = _createAbilityScores(context, character);
-          character.hit_points = bloc.returnCurrentClass.hit_points + bloc.returnCurrentAncestry.hit_points + character.constitution.modifier;
-          character.experience = 0;
+          Character character = _createCharacter(context, bloc);
+          // character.name = bloc.returnName;
+          // character.deity = bloc.returnDeity;
+          // character.playerName = bloc.returnPlayerName;
+          // character.alignment = _alignments[bloc.returnAlignment];
+          // character.ancestryFeats = bloc.returnCurrentAncestryFeats;
+          // character.ancestry = bloc.returnCurrentAncestry;
+          // character.heritage = bloc.returnCurrentHeritage;
+          // character.archetype = bloc.returnCurrentArchetype;
+          // character.classFeats = bloc.returnCurrentClassFeats;
+          // character.path_class = bloc.returnCurrentClass;
+          // character = _createAbilityScores(context, character);
+          // character.hit_points = bloc.returnCurrentClass.hit_points + bloc.returnCurrentAncestry.hit_points + character.constitution.modifier;
+          // character.experience = 0;
           APIservice.postCharacter(character);
           Navigator.pop(context);
         },
@@ -151,6 +151,24 @@ class Character_Creator_Page extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _createCharacter(context, bloc) {
+    Character character = Character();
+    character.name = bloc.returnName;
+    character.deity = bloc.returnDeity;
+    character.playerName = bloc.returnPlayerName;
+    character.alignment = _alignments[bloc.returnAlignment];
+    character.ancestryFeats = bloc.returnCurrentAncestryFeats;
+    character.ancestry = bloc.returnCurrentAncestry;
+    character.heritage = bloc.returnCurrentHeritage;
+    character.archetype = bloc.returnCurrentArchetype;
+    character.classFeats = bloc.returnCurrentClassFeats;
+    character.path_class = bloc.returnCurrentClass;
+    character = _createAbilityScores(context, character);
+    character.hit_points = bloc.returnCurrentClass.hit_points + bloc.returnCurrentAncestry.hit_points + character.constitution.modifier;
+    character.experience = 0;
+    return character;  
   }
 
   _createAbilityScores(BuildContext context, Character character) {

@@ -67,13 +67,13 @@ class Class_Detail_Widget extends StatelessWidget {
               CardSettingsSection(children: <Widget>[
                 CardSettingsHeader(label: "Initial Proficiencies"),
                 StreamBuilder(
-                  stream: bloc.proficiencies,
+                  stream: bloc.pathClass,
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<Proficiency>> snapshot) {
-                    if (snapshot.hasData && snapshot.data.length > 0) {
+                      AsyncSnapshot<Path_Class> snapshot) {
+                    if (snapshot.hasData && snapshot.data.proficiencies.length > 0) {
                       List<Widget> profs = List();
                       List<List<Proficiency>> test = List();
-                      List<Proficiency> items = snapshot.data;
+                      List<Proficiency> items = snapshot.data.proficiencies;
                       items.sort((a, b) =>
                           a.proficiency_type.compareTo(b.proficiency_type));
                       _proficiency_type.forEach((k, v) {

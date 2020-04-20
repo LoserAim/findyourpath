@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
-import 'package:hero_frontend/Models/AncestryModel.dart';
+import 'package:hero_frontend/Ancestry/Models/Heritage.dart';
+import 'package:hero_frontend/Ancestry/Providers/AncestryDetailProvider.dart';
 
-class Heritage_Card_Widget extends StatelessWidget {
+
+class HeritageCardWidget extends StatelessWidget {
   final item;
-  Heritage_Card_Widget({this.item});
+  HeritageCardWidget({this.item});
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Ancestry_Detail_Provider.of(context);
+    final bloc = AncestryDetailProvider.of(context);
     return Card(
         elevation: 8.0,
         margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),

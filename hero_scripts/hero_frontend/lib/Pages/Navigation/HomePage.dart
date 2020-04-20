@@ -5,6 +5,7 @@ import 'package:hero_frontend/Widgets/Character/CharacterCardWidget.dart';
 class Home_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    int httpRequest = 0;
     final bloc = Character_Provider.of(context);
            // bloc.fetchTopIds();
     return Scaffold(
@@ -29,9 +30,14 @@ class Home_Page extends StatelessWidget {
           StreamBuilder(
             stream: bloc.topIds,
             builder: (BuildContext context, AsyncSnapshot<List<int>> snapshot) {
-              if (!snapshot.hasData){
+              if (!snapshot.hasData && httpRequest < 10){
+                httpRequest++;
                 bloc.fetchTopIds();
                 return Center(child: CircularProgressIndicator());}
+              else if(httpRequest > 9)
+              {
+                return Center(child: Text('Unable to load data from server'));
+              }
               return ListView.builder(
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
@@ -52,7 +58,6 @@ class Home_Page extends StatelessWidget {
           Navigator.pushNamed(context, '/Characters');
         },
         backgroundColor: Colors.brown,
-
         tooltip: 'Going up',
         child: new Icon(Icons.add, color: Theme.of(context).textTheme.display1.color,),
       ),

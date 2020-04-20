@@ -55,10 +55,10 @@ class Class_Bloc extends Object with Validators {
 
 
 
-
   fetchData(int id) async {
     final Path_Class item = await getClassById(id);
     changePathClass(item);
+    changeChosenFeats(List<Feat>());
   }
 
   fetchTopIds() async {
@@ -104,11 +104,9 @@ class Validators {
   final validateClassFeatures =
       StreamTransformer<List<Feat>, List<Feat>>.fromHandlers(
           handleData: (item, sink) {
-    if (item == null) {
-      sink.addError('item cannot be null!');
-    } else {
+
       sink.add(item);
-    }
+
   });
   final validateProficiencies =
       StreamTransformer<List<Proficiency>, List<Proficiency>>.fromHandlers(

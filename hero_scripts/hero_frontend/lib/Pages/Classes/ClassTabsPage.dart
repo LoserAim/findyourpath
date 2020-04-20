@@ -90,10 +90,10 @@ class Class_Tabs_Page extends StatelessWidget {
                     await characterBloc.changeChosenArchetype(itemArchetype);
                     await characterBloc.changeChosenClass(itemClass);
                     await characterBloc.changeChosenClassFeats(itemFeats);
-                    Future.delayed(Duration.zero, () {
-                      Navigator.popUntil(
+
+                    Navigator.popUntil(
                           context, ModalRoute.withName('/Characters'));
-                    });
+
                   }
                 },
                 backgroundColor: Theme.of(context).primaryColor,

@@ -1,20 +1,19 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
+import 'package:hero_frontend/Ancestry/Models/Ancestry.dart';
+import 'package:hero_frontend/Ancestry/Providers/AncestryListProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/CharacterProvider.dart';
-import 'package:hero_frontend/Models/AncestryModel.dart';
-import 'package:hero_frontend/Settings/TextFormat.dart';
 import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
 
-class Ancestry_Card_Widget extends StatelessWidget {
+class AncestryCardWidget extends StatelessWidget {
   final int itemId;
   final Map<String, String> _sizeDict = { "T":"Tiny", "S":"Small", "M":"Medium", "L":"Large", "H":"Huge"};
-  Ancestry_Card_Widget({this.itemId});
+  AncestryCardWidget({this.itemId});
   @override
   Widget build(BuildContext context) {
     final charater_bloc = Character_Provider.of(context);
-    final bloc = Ancestry_List_Provider.of(context);
+    final bloc = AncestryListProvider.of(context);
     return StreamBuilder(
       stream: bloc.items,
       builder: (BuildContext context,

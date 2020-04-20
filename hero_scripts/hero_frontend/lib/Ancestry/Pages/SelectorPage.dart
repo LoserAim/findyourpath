@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/AncestryListProvider.dart';
+import 'package:hero_frontend/Ancestry/Providers/AncestryListProvider.dart';
+import 'package:hero_frontend/Ancestry/Widgets/CardWidget.dart';
 import 'package:hero_frontend/Settings/TextFormat.dart';
-import 'package:hero_frontend/Widgets/Ancestry/AncestryCardWidget.dart';
 import 'package:hero_frontend/Widgets/Generics/RefreshWidget.dart';
 
 class AncestrySelectorPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Ancestry_List_Provider.of(context);
+    final bloc = AncestryListProvider.of(context);
     return new Scaffold(
       appBar: new AppBar(
         title: Align(
@@ -47,7 +47,7 @@ class _AncestrySelectorPageState extends State<AncestrySelectorPage> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   bloc.fetchItem(snapshot.data[index]);
-                  return Ancestry_Card_Widget(
+                  return AncestryCardWidget(
                     itemId: snapshot.data[index],
                   );
                 },

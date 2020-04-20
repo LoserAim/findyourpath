@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:hero_frontend/BusinessLogic/Blocs/CharacterBloc.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/AncestryDetailProvider.dart';
+import 'package:hero_frontend/Ancestry/Models/Ancestry.dart';
+import 'package:hero_frontend/Ancestry/Models/Heritage.dart';
+import 'package:hero_frontend/Ancestry/Pages/DetailPage.dart';
+import 'package:hero_frontend/Ancestry/Pages/FeatsPage.dart';
+import 'package:hero_frontend/Ancestry/Pages/HeritagePage.dart';
+import 'package:hero_frontend/Ancestry/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/CharacterProvider.dart';
 import 'package:hero_frontend/BusinessLogic/Providers/FeatListProvider.dart';
-import 'package:hero_frontend/Models/AncestryModel.dart';
 import 'package:hero_frontend/Models/FeatModel.dart';
-import 'package:hero_frontend/Pages/Ancestry/AncestryFeatsPage.dart';
-import 'package:hero_frontend/Pages/Ancestry/AncestryHeritagePage.dart';
-import 'package:hero_frontend/Widgets/Ancestry/AncestryDetailWidget.dart';
 
-class Ancestry_Detail_Page extends StatelessWidget {
+class AncestryTabsPage extends StatelessWidget {
   final int itemId;
-  Ancestry_Detail_Page({this.itemId});
+  AncestryTabsPage({this.itemId});
   @override
   Widget build(BuildContext context) {
     final character_bloc = Character_Provider.of(context);
     final feat_bloc = Feat_List_Provider.of(context);
-    final bloc = Ancestry_Detail_Provider.of(context);
+    final bloc = AncestryDetailProvider.of(context);
     return StreamBuilder(
       stream: bloc.ancestry,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -43,9 +43,9 @@ class Ancestry_Detail_Page extends StatelessWidget {
               ),
               body: TabBarView(
                 children: [
-                  Ancestry_Detail_Widget(),
-                  Ancestry_Heritage_Page(),
-                  Ancestry_Feats_Page(),
+                  AncestryDetailPage(),
+                  AncestryHeritagePage(),
+                  AncestryFeatsPage(),
                 ],
               ),
               floatingActionButton: new FloatingActionButton(
