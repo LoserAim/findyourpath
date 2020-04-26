@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/Ancestry/Models/Ancestry.dart';
 import 'package:hero_frontend/Ancestry/Providers/AncestryDetailProvider.dart';
-import 'package:hero_frontend/Widgets/Generics/GenericInfoCardWidget.dart';
+import 'package:hero_frontend/Widgets/GenericInfoCardWidget.dart';
 
 class AncestryFeatsPage extends StatelessWidget {
    @override
@@ -25,7 +25,7 @@ class AncestryFeatsPage extends StatelessWidget {
                 itemCount: snapshot.data.feats.length,
                 itemBuilder: (BuildContext context, int index) {
                   if (snapshot.data.feats[index].level == 1)
-                    return Generic_Info_Card_Widget(
+                    return GenericInfoCardWidget(
                       item: snapshot.data.feats[index],
                       stream: ancestrybloc.chosenFeats,
                       addToStream: ancestrybloc.changeChosenFeats,

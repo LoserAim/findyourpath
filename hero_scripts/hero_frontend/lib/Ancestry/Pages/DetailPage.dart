@@ -3,7 +3,7 @@ import 'package:card_settings/card_settings.dart';
 import 'package:card_settings/widgets/card_settings_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/Ancestry/Providers/AncestryDetailProvider.dart';
-import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
+import 'package:hero_frontend/Widgets/LoadingContainerWidget.dart';
 
 class AncestryDetailPage extends StatelessWidget {
   final Map<String, String> _sizeDict = {
@@ -51,7 +51,7 @@ class AncestryDetailPage extends StatelessWidget {
     return StreamBuilder(
         stream: bloc.ancestry,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Loading_Container_Widget();
+          if (!snapshot.hasData) return LoadingContainerWidget();
           
           return CardSettings.sectioned(
             children: <CardSettingsSection>[

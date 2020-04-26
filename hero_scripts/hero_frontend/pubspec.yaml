@@ -23,6 +23,7 @@ dependencies:
   path_provider: ^1.6.5
   filex: ^0.2.2
   folder_picker: ^0.3.0
+  shimmer: ^1.1.1
   flutter:
     sdk: flutter
 

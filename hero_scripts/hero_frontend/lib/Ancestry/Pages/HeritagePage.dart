@@ -6,7 +6,7 @@ import 'package:hero_frontend/Ancestry/Providers/AncestryDetailProvider.dart';
 import 'package:hero_frontend/Ancestry/Widgets/HeritageCardWidget.dart';
 
 
-class AncestryHeritagePage extends StatelessWidget {
+class HeritageSelectorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = AncestryDetailProvider.of(context);

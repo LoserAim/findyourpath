@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-
-
-import 'package:hero_frontend/Models/AncestryModel.dart';
-import 'package:hero_frontend/Models/FeatModel.dart';
+import 'package:hero_frontend/Ancestry/Models/Ancestry.dart';
+import 'package:hero_frontend/Ancestry/Models/Heritage.dart';
+import 'package:hero_frontend/Feat/Models/Feat.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 import 'package:rxdart/rxdart.dart';
 
-class Ancestry_Detail_Bloc extends Object with Validators{
+class AncestryDetailBloc extends Object with Validators{
 
 
   final _abilityBoosts      = BehaviorSubject<List<String>>();
@@ -130,6 +129,7 @@ class Ancestry_Detail_Bloc extends Object with Validators{
     _traitsOptions.close();
     _chosenFreeBoosts.close();
     _freeBoosts.close();
+    _chosenFeats.close();
   }
 }
 

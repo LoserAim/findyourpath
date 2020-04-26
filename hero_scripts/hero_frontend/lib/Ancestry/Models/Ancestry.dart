@@ -1,32 +1,8 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:hero_frontend/Models/FeatModel.dart';
+import 'package:hero_frontend/Feat/Models/Feat.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
-import 'package:hero_frontend/Settings/TextFormat.dart';
 
-class Heritage {
-  int id;
-  String name;
-  String description;
-
-  Heritage({this.id, this.name, this.description});
-  Heritage.fromMappedJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        description = json['description'];
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'description': description,
-      };
-  Heritage.getHeritage(int id) {
-    APIservice.getAncestryById(id).then((responseBody) {
-      var res = jsonDecode(responseBody);
-      return Heritage.fromMappedJson(res);
-    });
-  }
-}
+import 'Heritage.dart';
 
 class Ancestry {
   int id;

@@ -5,17 +5,15 @@ import 'package:hero_frontend/Ancestry/Pages/DetailPage.dart';
 import 'package:hero_frontend/Ancestry/Pages/FeatsPage.dart';
 import 'package:hero_frontend/Ancestry/Pages/HeritagePage.dart';
 import 'package:hero_frontend/Ancestry/Providers/AncestryDetailProvider.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/CharacterProvider.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/FeatListProvider.dart';
-import 'package:hero_frontend/Models/FeatModel.dart';
+import 'package:hero_frontend/Character/Providers/CharacterProvider.dart';
+import 'package:hero_frontend/Feat/Models/Feat.dart';
 
 class AncestryTabsPage extends StatelessWidget {
   final int itemId;
   AncestryTabsPage({this.itemId});
   @override
   Widget build(BuildContext context) {
-    final character_bloc = Character_Provider.of(context);
-    final feat_bloc = Feat_List_Provider.of(context);
+    final characterBloc = CharacterProvider.of(context);
     final bloc = AncestryDetailProvider.of(context);
     return StreamBuilder(
       stream: bloc.ancestry,
@@ -44,7 +42,7 @@ class AncestryTabsPage extends StatelessWidget {
               body: TabBarView(
                 children: [
                   AncestryDetailPage(),
-                  AncestryHeritagePage(),
+                  HeritageSelectorPage(),
                   AncestryFeatsPage(),
                 ],
               ),
@@ -85,11 +83,11 @@ class AncestryTabsPage extends StatelessWidget {
                           );
                         });
                   else {
-                    await character_bloc.changeChosenABoosts(itemAboosts);
-                    await character_bloc.changeChosenAFlaws(itemAFlaws);
-                    await character_bloc.changeChosenAncestry(itemAncestry);
-                    await character_bloc.changeChosenHeritage(itemHeritage);
-                    await character_bloc.changeChosenAncestryFeats(itemFeats);
+                    await characterBloc.changeChosenABoosts(itemAboosts);
+                    await characterBloc.changeChosenAFlaws(itemAFlaws);
+                    await characterBloc.changeChosenAncestry(itemAncestry);
+                    await characterBloc.changeChosenHeritage(itemHeritage);
+                    await characterBloc.changeChosenAncestryFeats(itemFeats);
                     Future.delayed(Duration.zero, () {
                       Navigator.popUntil(
                           context, ModalRoute.withName('/Characters'));

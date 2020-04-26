@@ -1,5 +1,5 @@
-import 'package:hero_frontend/Models/CharacterModel.dart';
-import 'package:hero_frontend/Models/PathClassModel.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:hero_frontend/Character/Models/Character.dart';
 import 'package:hero_frontend/Services/ngroklink.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -24,6 +24,7 @@ class APIservice {
   static Future<String> getCharacterByIdFull(int id) async {
     String url = djangoURL + 'characters/list/' + id.toString() +'/getFull/';
     http.Response response = await http.get(Uri.encodeFull(url));
+    debugPrint(response.statusCode.toString());
     return response.body;
   }
   static Future<String> postCharacter(Character character) async {

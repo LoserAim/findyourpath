@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:hero_frontend/Ancestry/Models/Ancestry.dart';
 import 'package:hero_frontend/Ancestry/Providers/AncestryListProvider.dart';
-import 'package:hero_frontend/BusinessLogic/Providers/CharacterProvider.dart';
-import 'package:hero_frontend/Widgets/Generics/LoadingContainerWidget.dart';
+import 'package:hero_frontend/Character/Providers/CharacterProvider.dart';
+import 'package:hero_frontend/Widgets/LoadingContainerWidget.dart';
 
 class AncestryCardWidget extends StatelessWidget {
   final int itemId;
@@ -12,18 +12,18 @@ class AncestryCardWidget extends StatelessWidget {
   AncestryCardWidget({this.itemId});
   @override
   Widget build(BuildContext context) {
-    final charater_bloc = Character_Provider.of(context);
+    final charaterBloc = CharacterProvider.of(context);
     final bloc = AncestryListProvider.of(context);
     return StreamBuilder(
       stream: bloc.items,
       builder: (BuildContext context,
           AsyncSnapshot<Map<int, Future<Ancestry>>> snapshot) {
-        if (!snapshot.hasData) return Loading_Container_Widget();
+        if (!snapshot.hasData) return LoadingContainerWidget();
         return FutureBuilder(
           future: snapshot.data[itemId],
           builder:
               (BuildContext context, AsyncSnapshot<Ancestry> itemSnapshot) {
-            if (!itemSnapshot.hasData) return Loading_Container_Widget();
+            if (!itemSnapshot.hasData) return LoadingContainerWidget();
 
             return Card(
                 elevation: 8.0,
@@ -33,7 +33,7 @@ class AncestryCardWidget extends StatelessWidget {
                   decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                   child: ListTile(
                       onTap: () {
-                        charater_bloc.changeChosenAncestry(itemSnapshot.data);
+                        charaterBloc.changeChosenAncestry(itemSnapshot.data);
                         Navigator.pushNamed(context, '/Ancestries/${itemSnapshot.data.id.toString()}');
                         },
                       contentPadding: EdgeInsets.symmetric(

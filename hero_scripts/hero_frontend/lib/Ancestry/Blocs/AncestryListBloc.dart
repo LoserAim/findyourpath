@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:hero_frontend/Models/AncestryModel.dart';
+import 'package:hero_frontend/Ancestry/Models/Ancestry.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hero_frontend/Services/apihandler.dart';
 
-class Ancestry_List_Bloc {
+class AncestryListBloc {
   final _topIds = PublishSubject<List<int>>();
   final _itemsOutput = BehaviorSubject<Map<int, Future<Ancestry>>>();
   final _itemsFetcher = PublishSubject<int>();
@@ -16,7 +15,7 @@ class Ancestry_List_Bloc {
   Function(int) get fetchItem => _itemsFetcher.sink.add;
 
   //STUB Constructor
-  Ancestry_List_Bloc() {
+  AncestryListBloc() {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 
