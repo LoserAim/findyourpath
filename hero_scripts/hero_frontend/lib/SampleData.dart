@@ -1,7 +1,10 @@
-import 'package:hero_frontend/Models/AncestryModel.dart';
-import 'package:hero_frontend/Models/FeatModel.dart';
+import 'package:hero_frontend/Ancestry/Models/Ancestry.dart';
+import 'package:hero_frontend/Ancestry/Models/Heritage.dart';
+import 'package:hero_frontend/Feat/Models/Feat.dart';
 
-class Sample_Data {
+
+class SampleData {
+
   static List<Ancestry> ancestryList = [
     Ancestry(
         id: 1,

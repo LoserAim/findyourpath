@@ -17,9 +17,13 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  rxdart: ^0.20.0
+  rxdart: ^0.22.2
   card_settings: ^1.5.3
   pdf: ^1.5.0
+  path_provider: ^1.6.5
+  filex: ^0.2.2
+  folder_picker: ^0.3.0
+  shimmer: ^1.1.1
   flutter:
     sdk: flutter
 

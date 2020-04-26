@@ -4,7 +4,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'list', views.CharacterViewSet, base_name='Character')
-router.register(r'abilityscores', views.AbilityScoresViewSet, base_name='AbilityScores')
+
 
 
 
